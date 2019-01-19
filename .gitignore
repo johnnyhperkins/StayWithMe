@@ -17,6 +17,9 @@
 /storage/*
 !/storage/.keep
 
+/app/assets/javascripts/bundle.js
+/app/assets/javascripts/bundle.js.map
+
 /node_modules
 /yarn-error.log
 
