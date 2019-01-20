@@ -1,20 +1,35 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
+import ReactModal from 'react-modal';
+import SignUpForm from '../session/signup_form'
+import LoginForm from '../session/login_form'
 
 import { logout } from '../../actions/sessions';
 
 class NavBar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      signUpOpen: false,
+      loginOpen: false
+    }
+  }
+
+  handleToggleModal = () => {
+    this.setState({loginOpen: !this.state.loginOpen})
+  }
 
   render() {
     const { session, logout } = this.props;
     return (
+      <>
       <nav>
         { isEmpty(session) ? 
         <>
-          <Link to='/signup'>Sign Up</Link>
-          <Link to='/login'>Log In</Link>
+          <NavLink to='/signup'>Sign Up</NavLink>
+          <span onClick={this.handleToggleModal} >Log In</span>
         </>
         : 
         (
@@ -25,6 +40,12 @@ class NavBar extends Component {
         )
         }
       </nav>
+      <ReactModal 
+        isOpen={this.state.loginOpen}
+        onRequestClose={this.handleToggleModal}> 
+        <LoginForm />
+      </ReactModal>
+      </>
     )
   }
 }
