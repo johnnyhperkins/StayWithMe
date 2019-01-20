@@ -17,7 +17,9 @@ class SignUpForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.signup(this.state).then( () => this.props.history.push('/'));
+    this.props.signup(this.state).then( () => {
+      this.props.closeModal('signUpOpen');
+    });
   }
 
   componentDidMount() {

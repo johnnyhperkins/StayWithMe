@@ -16,7 +16,9 @@ class LoginForm extends Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    this.props.login(this.state).then( () => this.props.history.push('/'));
+    this.props.login(this.state).then( () => {
+      this.props.closeModal('loginOpen');
+    });
   }
 
   componentDidMount() {
