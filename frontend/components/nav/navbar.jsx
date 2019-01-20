@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
 import ReactModal from 'react-modal';
-import SignUpForm from '../session/signup_form'
-import LoginForm from '../session/login_form'
+import SignUpFormContainer from '../session/signup_form_container'
+import LoginFormContainer from '../session/login_form_container'
 
 import { logout } from '../../actions/sessions';
 
@@ -40,11 +40,11 @@ class NavBar extends Component {
       </nav>
       <ReactModal isOpen={this.state.loginOpen}
                   onRequestClose={() => this.closeModal('loginOpen')}> 
-        <LoginForm closeModal={this.closeModal} />
+        <LoginFormContainer closeModal={() => this.closeModal('loginOpen')} />
       </ReactModal>
       <ReactModal isOpen={this.state.signUpOpen}
                   onRequestClose={() => this.closeModal('signUpOpen')}> 
-        <SignUpForm closeModal={this.closeModal} />
+        <SignUpFormContainer closeModal={() => this.closeModal('signUpOpen')} />
       </ReactModal>
       </>
     )

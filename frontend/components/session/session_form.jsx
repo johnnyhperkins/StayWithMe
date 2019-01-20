@@ -1,24 +1,17 @@
 import React, { Component } from 'react';
 import isEmpty from 'lodash/isEmpty';
 
-import { connect } from 'react-redux';
-
-import { signup, receiveSessionErrors } from '../../actions/sessions';
-
-class SignUpForm extends Component {
+class SessionForm extends Component {
   constructor(props) {
     super(props);
-    this.state = { 
-      username:'', 
-      email: '', 
-      password: '' 
-    }
+    this.state = this.props.user
   }
 
   handleSubmit = (e) => {
+    const {closeModal, action} = this.props;
     e.preventDefault();
-    this.props.signup(this.state).then( () => {
-      this.props.closeModal('signUpOpen');
+    action(this.state).then( () => {
+      closeModal();
     });
   }
 
@@ -28,7 +21,7 @@ class SignUpForm extends Component {
 
   render() {
     const { username, password } = this.state;
-    const { errors } = this.props;
+    const { errors, formType } = this.props;
     return (
       <form onSubmit={this.handleSubmit} autoComplete="new-password">
         { !isEmpty(errors) && (
@@ -39,7 +32,7 @@ class SignUpForm extends Component {
             </>
             ) 
         }
-        <h1>Sign Up</h1>
+        <h1>{formType}</h1>
         <label>Username
           <input 
             autoComplete="off"
@@ -48,7 +41,7 @@ class SignUpForm extends Component {
             onChange={e => this.setState({username: e.target.value})} 
             />
         </label>
-        
+        { formType === "Sign Up" &&
         <label>Email
           <input 
             autoComplete="off"
@@ -57,7 +50,7 @@ class SignUpForm extends Component {
             onChange={e => this.setState({email: e.target.value})}
             />
         </label> 
-
+        }
         <label>Password
           <input 
             autoComplete="off"
@@ -66,19 +59,10 @@ class SignUpForm extends Component {
             onChange={e => this.setState({password: e.target.value})}   
             />
         </label>
-        <input type="submit" value="Sign Up" />
+        <input type="submit" value={formType} />
       </form>
     )
   }
 }
 
-const msp = state => ({
-    errors: state.errors.session
-})
-
-const mdp = (dispatch) => ({
-  signup: user => dispatch(signup(user)),
-  receiveSessionErrors: (errors) => dispatch(receiveSessionErrors(errors))
-})
-
-export default connect(msp,mdp)(SignUpForm);
+export default SessionForm
