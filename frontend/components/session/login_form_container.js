@@ -8,7 +8,8 @@ import SessionForm from './session_form';
 const msp = (state) => ({
   errors: state.errors.session,
   formType: "Log In",
-  user: {username: '', password: ''}
+  user: {username: '', password: ''},
+  userExists: null,
 })
 
 const mdp = (dispatch) => ({

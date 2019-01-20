@@ -9,6 +9,23 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def user_exists
+    if params[:username] && params[:email]
+      userName = User.find_by(username: params[:username])
+      userEmail = User.find_by(email: params[:email])
+      res = {
+        username: false,
+        email: false
+      }
+
+      userName && res['username'] = true
+      userEmail && res['email'] = true
+
+      return render json: res 
+
+    end
+  end
+
   private 
   
   def user_params

@@ -1,5 +1,4 @@
 export const login = (user) => {
-  
   return $.ajax({
     url: '/api/session',
     method: "POST",
@@ -19,5 +18,13 @@ export const signup = (user) => {
     url: '/api/users',
     method: "POST",
     data: {user}
+  })
+}
+
+export const userExists = (params) => {
+  return $.ajax({
+    url: `/api/users/search`,
+    method: "POST",
+    data: { username: params.username, email: params.email },
   })
 }

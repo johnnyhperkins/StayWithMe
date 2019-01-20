@@ -4,7 +4,10 @@ import isEmpty from 'lodash/isEmpty';
 class SessionForm extends Component {
   constructor(props) {
     super(props);
-    this.state = this.props.user
+    this.state = {
+      user: this.props.user,
+      errors: ''
+    }
   }
 
   handleSubmit = (e) => {
@@ -16,11 +19,28 @@ class SessionForm extends Component {
   }
 
   componentDidMount() {
-    this.props.receiveSessionErrors({});
+    this.props.receiveSessionErrors([]);
+  }
+
+  checkExists = () => {
+    if(formType == "Log In") return;
+    const { userExists, formType, receiveSessionErrors} = this.props;
+    const { username, email } = this.state.user;
+    return userExists({username, email}).then(res => {
+      let updateErrors = ["Sorry, that username is already taken", "Sorry, that email is already taken"]
+      if(!res.username) {
+        updateErrors = updateErrors.filter(e => e !== "Sorry, that username is already taken")
+      } 
+      if(!res.email) {
+        updateErrors = updateErrors.filter(e => e !== "Sorry, that email is already taken")
+      }
+      receiveSessionErrors(updateErrors);
+
+    })
   }
 
   render() {
-    const { username, password } = this.state;
+    const { username, password } = this.state.user;
     const { errors, formType } = this.props;
     return (
       <form onSubmit={this.handleSubmit} autoComplete="new-password">
@@ -37,8 +57,15 @@ class SessionForm extends Component {
           <input 
             autoComplete="off"
             type="text" 
+            name="username"
             value={username} 
-            onChange={e => this.setState({username: e.target.value})} 
+            onChange={e => this.setState({
+              user: {
+                ...this.state.user,
+                username: e.target.value
+              }
+            })} 
+            onBlur={this.checkExists}
             />
         </label>
         { formType === "Sign Up" &&
@@ -46,8 +73,15 @@ class SessionForm extends Component {
           <input 
             autoComplete="off"
             type="text" 
-            value={this.state.email} 
-            onChange={e => this.setState({email: e.target.value})}
+            name="email"
+            value={this.state.user.email} 
+            onChange={e => this.setState({
+              user: {
+                ...this.state.user,
+                email: e.target.value
+              }
+            })} 
+            onBlur={this.checkExists}
             />
         </label> 
         }
@@ -56,7 +90,12 @@ class SessionForm extends Component {
             autoComplete="off"
             type="password" 
             value={password} 
-            onChange={e => this.setState({password: e.target.value})}   
+            onChange={e => this.setState({
+              user: {
+                ...this.state.user,
+                password: e.target.value
+              }
+            })} 
             />
         </label>
         <input type="submit" value={formType} />
