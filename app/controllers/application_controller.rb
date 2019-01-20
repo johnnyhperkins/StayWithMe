@@ -1,21 +1,30 @@
 class ApplicationController < ActionController::Base
-  helper_methods :logged_in?, :current_user
+  helper_method :logged_in?, :current_user
 
   def logged_in?
     !!current_user
   end
 
   def current_user
+    return nil unless session[:session_token]
     @current_user ||= User.find_by_session_token(session[:session_token])
   end
 
   def login(user)
-    session[:session_token] = user.reset_token!
+    user.reset_token!
+    session[:session_token] = user.session_token
     @current_user = user
   end
 
   def logout
-    user.reset_token!
+    current_user.reset_token!
     session[:session_token] = nil
+    @current_user = nil
+  end
+
+  def require_logged_in
+    unless current_user
+      render json: ['You must be logged in to do that'], status: 409
+    end
   end
 end
