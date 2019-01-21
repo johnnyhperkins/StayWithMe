@@ -1,14 +1,17 @@
 // Colors
 $dark-gray: #333;
+$light-black: rgb(72, 72, 72);
 $gray: #666;
 $light-gray: #999;
+$teal-blue: rgb(0,132,137);
 $light-blue:#0084BD;
 $dark-blue:#364051;
 $off-white:#f7f7f7;
 
+
 // Spacing
 
-$s-size: 1rem;
+$s-size: 1.1rem;
 $m-size: 1.6rem;
 $l-size: 3.2rem;
 $xl-size: 4.8rem;
@@ -16,4 +19,5 @@ $desktop-breakpoint: 45rem;
 
 // Font sizes
 $font-size-large: 1.8rem;
+$font-size-m: 1.6rem;
 $font-size-small: 1.4rem;

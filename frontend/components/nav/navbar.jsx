@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import isEmpty from 'lodash/isEmpty';
-import ReactModal from 'react-modal';
-import SignUpFormContainer from '../session/signup_form_container'
-import LoginFormContainer from '../session/login_form_container'
+import Modal from 'react-modal';
+import SignUpFormContainer from '../session/signup_form_container';
+import LoginFormContainer from '../session/login_form_container';
+import Logo from '../../static_assets/logo';
+import SearchIcon from '../../static_assets/search_icon';
 
 import { logout } from '../../actions/sessions';
 
@@ -12,7 +14,8 @@ class NavBar extends Component {
     super(props);
     this.state = {
       signUpOpen: false,
-      loginOpen: false
+      loginOpen: false,
+      seachText: ''
     }
   }
 
@@ -23,29 +26,53 @@ class NavBar extends Component {
     const { session, logout } = this.props;
     return (
       <>
-      <nav>
-        { isEmpty(session) ? 
-        <>
-          <span onClick={() => this.openModal('signUpOpen')} >Sign Up</span>
-          <span onClick={() => this.openModal('loginOpen')} >Log In</span>
-        </>
-        : 
-        (
+      <nav className="fixed-top-nav flex-container">
+        <section className="search-wrapper flex-container">
+          <Logo />
+          <div className="search-input-wrapper">
+            <SearchIcon />
+            <input type="text" 
+              className="search-input" 
+              value={this.state.searchText} 
+              onChange={(e) => this.setState({searchText: e.target.value})}
+              placeholder={`Try "Manhattan"`}
+            />
+          </div>
+        </section>
+        <section className="session-menu flex-container">
+          <button className="button--navlink">Become a Host</button>
+          { isEmpty(session) ? 
+          <>
+          <button className="button--navlink" onClick={() => this.openModal('signUpOpen')} >Sign Up</button>
+          <button className="button--navlink" onClick={() => this.openModal('loginOpen')} >Log In</button>
+          </> : ( 
           <>
           <p>Welcome {session.username}</p>
-          <span onClick={logout}>Log Out</span>
-          </>
-        )
-        }
+          <button className="button--navlink" onClick={logout}>Log Out</button>
+          </> )}
+        </section>
       </nav>
-      <ReactModal isOpen={this.state.loginOpen}
-                  onRequestClose={() => this.closeModal('loginOpen')}> 
+
+      <Modal isOpen={this.state.loginOpen}
+             onRequestClose={() => this.closeModal('loginOpen')}
+             className="modal"
+             overlayClassName="Overlay"> 
+             <span 
+             className="button--close" 
+             onClick={() => this.closeModal('loginOpen')}>&times;</span> 
         <LoginFormContainer closeModal={() => this.closeModal('loginOpen')} />
-      </ReactModal>
-      <ReactModal isOpen={this.state.signUpOpen}
-                  onRequestClose={() => this.closeModal('signUpOpen')}> 
+      </Modal>
+
+      <Modal isOpen={this.state.signUpOpen}
+             onRequestClose={() => this.closeModal('signUpOpen')}
+             className="modal"
+             overlayClassName="Overlay">
+             <span 
+              className="button--close" 
+              onClick={() => this.closeModal('signUpOpen')}>&times;</span> 
         <SignUpFormContainer closeModal={() => this.closeModal('signUpOpen')} />
-      </ReactModal>
+      </Modal>
+      
       </>
     )
   }

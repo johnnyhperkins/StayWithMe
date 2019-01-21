@@ -13,7 +13,7 @@ class SessionForm extends Component {
   handleSubmit = (e) => {
     const {closeModal, action} = this.props;
     e.preventDefault();
-    action(this.state).then( () => {
+    action(this.state.user).then( () => {
       closeModal();
     });
   }
@@ -23,8 +23,10 @@ class SessionForm extends Component {
   }
 
   checkExists = () => {
+    const {formType } = this.props;
     if(formType == "Log In") return;
-    const { userExists, formType, receiveSessionErrors} = this.props;
+
+    const { userExists, receiveSessionErrors} = this.props;
     const { username, email } = this.state.user;
     return userExists({username, email}).then(res => {
       let updateErrors = ["Sorry, that username is already taken", "Sorry, that email is already taken"]
@@ -52,53 +54,58 @@ class SessionForm extends Component {
             </>
             ) 
         }
-        <h1>{formType}</h1>
-        <label>Username
-          <input 
-            autoComplete="off"
-            type="text" 
-            name="username"
-            value={username} 
-            onChange={e => this.setState({
-              user: {
-                ...this.state.user,
-                username: e.target.value
-              }
-            })} 
-            onBlur={this.checkExists}
-            />
-        </label>
+        <h4>{formType}</h4>
         { formType === "Sign Up" &&
-        <label>Email
-          <input 
-            autoComplete="off"
-            type="text" 
-            name="email"
-            value={this.state.user.email} 
-            onChange={e => this.setState({
-              user: {
-                ...this.state.user,
-                email: e.target.value
-              }
-            })} 
-            onBlur={this.checkExists}
-            />
-        </label> 
+        
+        <input 
+          className="text-input"
+          autoComplete="off"
+          type="text" 
+          placeholder="Email"
+          name="email"
+          value={this.state.user.email} 
+          onChange={e => this.setState({
+            user: {
+              ...this.state.user,
+              email: e.target.value
+            }
+          })} 
+          onBlur={this.checkExists}
+          />
         }
-        <label>Password
-          <input 
-            autoComplete="off"
-            type="password" 
-            value={password} 
-            onChange={e => this.setState({
-              user: {
-                ...this.state.user,
-                password: e.target.value
-              }
-            })} 
-            />
-        </label>
-        <input type="submit" value={formType} />
+        <input 
+          className="text-input"
+          autoComplete="off"
+          type="text" 
+          name="username"
+          placeholder="Username"
+          value={username} 
+          onChange={e => this.setState({
+            user: {
+              ...this.state.user,
+              username: e.target.value
+            }
+          })} 
+          onBlur={this.checkExists}
+          />
+        <input 
+          className="text-input"
+          autoComplete="off"
+          type="password" 
+          value={password} 
+          placeholder="Password"
+          onChange={e => this.setState({
+            user: {
+              ...this.state.user,
+              password: e.target.value
+            }
+          })} 
+          />
+        <input 
+        type="submit" 
+        value={formType} 
+          className="button--submit"
+        />
       </form>
     )
   }
