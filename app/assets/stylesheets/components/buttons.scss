@@ -24,7 +24,7 @@
 
 .button--close {
     font-size: 4rem;
-    font-weight: 100;
+    font-weight: 200;
     line-height: 0;
     color: $light-gray;
     cursor: pointer;
@@ -49,7 +49,9 @@
 
 .button--link {
     background:none;
-    padding:none;
+    padding:0;
+    border:none;
+    color: $teal-blue;
 }
 
 .button--submit {
@@ -58,4 +60,5 @@
     background: rgb(255, 90, 95);
     font-weight: 600;
     color:#fff;
+    margin-top: 1.6rem;
 }

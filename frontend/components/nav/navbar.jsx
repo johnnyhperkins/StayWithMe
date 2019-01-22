@@ -22,6 +22,16 @@ class NavBar extends Component {
   openModal = (modal) => this.setState({[modal]: true})
   closeModal = (modal) => this.setState({[modal]: false})
 
+  handleGoogleSignIn() {
+    function onSignIn(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      console.log('Name: ' + profile.getName());
+      console.log('Image URL: ' + profile.getImageUrl());
+      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    }
+  }
+
   render() {
     const { session, logout } = this.props;
     return (
@@ -47,6 +57,7 @@ class NavBar extends Component {
           <button className="button--navlink" onClick={() => this.openModal('loginOpen')} >Log In</button>
           </> : ( 
           <>
+          <img className="profile-thumb" src={session.profile_thumb} />
           <p>Welcome {session.username}</p>
           <button className="button--navlink" onClick={logout}>Log Out</button>
           </> )}
@@ -60,6 +71,7 @@ class NavBar extends Component {
              <span 
              className="button--close" 
              onClick={() => this.closeModal('loginOpen')}>&times;</span> 
+             <div className="g-signin2" data-onsuccess="onSignIn"></div>
         <LoginFormContainer closeModal={() => this.closeModal('loginOpen')} />
       </Modal>
 
@@ -70,6 +82,7 @@ class NavBar extends Component {
              <span 
               className="button--close" 
               onClick={() => this.closeModal('signUpOpen')}>&times;</span> 
+              <div className="g-signin2" data-onsuccess="onSignIn"></div>
         <SignUpFormContainer closeModal={() => this.closeModal('signUpOpen')} />
       </Modal>
       

@@ -40,20 +40,29 @@ class SessionForm extends Component {
 
     })
   }
+  facebookAuth = () => {
+    console.log('Facebook auth');
+  }
+
+  googleAuth = () => {
+    console.log('Google Auth');
+  }
+  demoLogin = () => {
+    const {closeModal, action} = this.props;
+    return action({username:"Demo Account", password:"12312312"}).then( () => {
+      closeModal();
+    });
+  }
 
   render() {
     const { username, password } = this.state.user;
     const { errors, formType } = this.props;
     return (
       <form onSubmit={this.handleSubmit} autoComplete="new-password">
-        { !isEmpty(errors) && (
-            <>
-            <ul className="session-errors">
-              {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
-            </>
-            ) 
-        }
+        <p className="center">Sign up with <button onClick={this.facebookAuth} className="button--link">Facebook</button> or <button onClick={this.googleAuth} className="button--link">Google</button></p>
+        <p className="center hr-with-text">Or</p>
+
+
         <h4>{formType}</h4>
         { formType === "Sign Up" &&
         
@@ -101,11 +110,21 @@ class SessionForm extends Component {
             }
           })} 
           />
+          { !isEmpty(errors) && (
+            <>
+            <ul className="session-errors">
+              {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+            </ul>
+            </>
+            ) 
+        }
         <input 
         type="submit" 
         value={formType} 
           className="button--submit"
         />
+        {formType === "Log In" && <button className="button--submit teal--blue__background" onClick={this.demoLogin}>Use Demo Account</button>}
+        
       </form>
     )
   }

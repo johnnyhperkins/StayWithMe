@@ -4,3 +4,23 @@
   justify-content: space-between;
 }
 
+.center {
+  text-align:center;
+}
+
+.teal--blue {
+  color:$teal-blue;
+}
+
+.teal--blue__background {
+  background-color:$teal-blue!important;
+}
+
+// $dark-gray: #333;
+// $light-black: rgb(72, 72, 72);
+// $gray: #666;
+// $light-gray: #999;
+// $teal-blue: rgb(0,132,137);
+// $light-blue:#0084BD;
+// $dark-blue:#364051;
+// $off-white:#f7f7f7;
