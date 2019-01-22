@@ -73,7 +73,7 @@ class NavBar extends Component {
           <button className="button--navlink" onClick={logout}>Log Out</button>
           {session.profile_thumb == 'default' ? <BlankUser /> : <img src={session.profile_thumb} className="profile-thumb" />}
 
-          <ProfileMenu />
+          {/* <ProfileMenu /> */}
           </> )}
         </section>
       </nav>
