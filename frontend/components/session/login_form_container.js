@@ -4,12 +4,11 @@ import { login, receiveSessionErrors } from '../../actions/sessions';
 
 import SessionForm from './session_form';
 
-
 const msp = (state) => ({
   errors: state.errors.session,
   formType: "Log In",
   user: { username: '', password: '' },
-  userExists: () => console.log('login form'),
+  userExists: () => null,
 })
 
 const mdp = (dispatch) => ({

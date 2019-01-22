@@ -57,8 +57,16 @@
 .button--submit {
     @extend .button;
     width: 100%;
-    background: rgb(255, 90, 95);
+    background: $red;
     font-weight: 600;
     color:#fff;
     margin-top: 1.6rem;
+}
+
+.default-user-icon {
+    margin: 0 1.6rem;
+    // border:1px solid $light-gray;
+    // padding: 1px 9px;
+    border-radius: 50%;
+    font-size: 2.2rem;
 }

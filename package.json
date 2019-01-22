@@ -29,7 +29,9 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --mode=development -w"
+    "start": "./node_modules/.bin/webpack --mode=production",
+    "postinstall": "./node_modules/.bin/webpack --mode=production",
+    "webpack": "webpack --mode=development -w"
   },
   "repository": {
     "type": "git",
@@ -45,5 +47,9 @@
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.2.3",
     "redux-devtools-extension": "^2.13.7"
+  },
+  "engines" : {
+    "npm": "6.4.1",
+    "node": "8.9.4"
   }
 }

@@ -41,11 +41,11 @@ class SessionForm extends Component {
     })
   }
   facebookAuth = () => {
-    console.log('Facebook auth');
+    // console.log('Facebook auth');
   }
 
   googleAuth = () => {
-    console.log('Google Auth');
+    // console.log('Google Auth');
   }
   demoLogin = () => {
     const {closeModal, action} = this.props;
@@ -58,9 +58,15 @@ class SessionForm extends Component {
     const { username, password } = this.state.user;
     const { errors, formType } = this.props;
     return (
+      <>
+      <p className="center">{formType} with <button onClick={this.facebookAuth} className="button--link">Facebook</button> or <button onClick={this.googleAuth} 
+        className="button--link">Google</button>
+      </p>
+      
+      <p className="center hr-with-text">Or</p>
+      
       <form onSubmit={this.handleSubmit} autoComplete="new-password">
-        <p className="center">Sign up with <button onClick={this.facebookAuth} className="button--link">Facebook</button> or <button onClick={this.googleAuth} className="button--link">Google</button></p>
-        <p className="center hr-with-text">Or</p>
+        
 
 
         <h4>{formType}</h4>
@@ -123,9 +129,17 @@ class SessionForm extends Component {
         value={formType} 
           className="button--submit"
         />
-        {formType === "Log In" && <button className="button--submit teal--blue__background" onClick={this.demoLogin}>Use Demo Account</button>}
-        
       </form>
+      
+      {formType === "Log In" && 
+        <button className="button--submit teal--blue__background" onClick={this.demoLogin}>Use Demo Account</button>}
+      {formType === "Sign In" ? 
+        <p>Already have a StayWithMe account? <button className="button--link" 
+                                                      onClick={this.props.switch}>Log In</button>
+        </p> : 
+        <button className="button--link" onClick={this.props.switch}>Create new account</button>
+      }
+      </>
     )
   }
 }

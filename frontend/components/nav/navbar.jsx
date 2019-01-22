@@ -6,6 +6,8 @@ import SignUpFormContainer from '../session/signup_form_container';
 import LoginFormContainer from '../session/login_form_container';
 import Logo from '../../static_assets/logo';
 import SearchIcon from '../../static_assets/search_icon';
+import BlankUser from '../../static_assets/user-solid';
+import ProfileMenu from './profile_menu';
 
 import { logout } from '../../actions/sessions';
 
@@ -22,13 +24,21 @@ class NavBar extends Component {
   openModal = (modal) => this.setState({[modal]: true})
   closeModal = (modal) => this.setState({[modal]: false})
 
+  switchSignUpLogin = () => {
+    
+    this.setState({
+      signUpOpen: !this.state.signUpOpen,
+      loginOpen: !this.state.loginOpen,
+    })
+  }
+
   handleGoogleSignIn() {
     function onSignIn(googleUser) {
       var profile = googleUser.getBasicProfile();
-      console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      console.log('Name: ' + profile.getName());
-      console.log('Image URL: ' + profile.getImageUrl());
-      console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+      // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+      // console.log('Name: ' + profile.getName());
+      // console.log('Image URL: ' + profile.getImageUrl());
+      // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
     }
   }
 
@@ -57,9 +67,13 @@ class NavBar extends Component {
           <button className="button--navlink" onClick={() => this.openModal('loginOpen')} >Log In</button>
           </> : ( 
           <>
-          <img className="profile-thumb" src={session.profile_thumb} />
-          <p>Welcome {session.username}</p>
+          
+          {/* <p>Welcome {session.username}</p> */}
+          
           <button className="button--navlink" onClick={logout}>Log Out</button>
+          {session.profile_thumb == 'default' ? <BlankUser /> : <img src={session.profile_thumb} className="profile-thumb" />}
+
+          <ProfileMenu />
           </> )}
         </section>
       </nav>
@@ -67,23 +81,30 @@ class NavBar extends Component {
       <Modal isOpen={this.state.loginOpen}
              onRequestClose={() => this.closeModal('loginOpen')}
              className="modal"
-             overlayClassName="Overlay"> 
+             overlayClassName="Overlay"
+             switch={this.switchSignUpLogin}
+             > 
+             
              <span 
              className="button--close" 
              onClick={() => this.closeModal('loginOpen')}>&times;</span> 
+
              <div className="g-signin2" data-onsuccess="onSignIn"></div>
-        <LoginFormContainer closeModal={() => this.closeModal('loginOpen')} />
+        <LoginFormContainer switch={this.switchSignUpLogin} closeModal={() => this.closeModal('loginOpen')} />
       </Modal>
 
       <Modal isOpen={this.state.signUpOpen}
              onRequestClose={() => this.closeModal('signUpOpen')}
              className="modal"
-             overlayClassName="Overlay">
+             overlayClassName="Overlay"
+            >
+
              <span 
               className="button--close" 
-              onClick={() => this.closeModal('signUpOpen')}>&times;</span> 
+              onClick={() => this.closeModal('signUpOpen')}>&times;</span>
+
               <div className="g-signin2" data-onsuccess="onSignIn"></div>
-        <SignUpFormContainer closeModal={() => this.closeModal('signUpOpen')} />
+        <SignUpFormContainer switch={this.switchSignUpLogin} closeModal={() => this.closeModal('signUpOpen')} />
       </Modal>
       
       </>
