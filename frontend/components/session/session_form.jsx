@@ -129,7 +129,7 @@ class SessionForm extends Component {
       </form>
       <div className="modal--footer">
         {formType === "Log In" && 
-          <button className="button--submit teal--blue__background" onClick={this.demoLogin}>Use Demo Account</button>}
+          <button className="button--submit background--teal-blue" onClick={this.demoLogin}>Use Demo Account</button>}
         {formType === "Sign Up" ? 
           <p>Already have a StayWithMe account? <button className="button--link" 
                                                         onClick={() => this.props.switch('Log In')}>Log In</button>

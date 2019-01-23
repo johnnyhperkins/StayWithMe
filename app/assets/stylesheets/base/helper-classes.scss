@@ -4,14 +4,22 @@
   justify-content: space-between;
 }
 
+.flex-container--no-justify {
+  @extend .flex-container;
+  justify-content: initial;
+}
+
 .center {
   text-align:center;
 }
+.text--white {
+  color:#fff!important;
+}
 
-.teal--blue {
+.text--teal-blue {
   color:$teal-blue;
 }
 
-.teal--blue__background {
+.background--teal-blue {
   background-color:$teal-blue!important;
 }

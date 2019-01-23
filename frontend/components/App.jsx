@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom'
 
 import LoginFormContainer from './session/login_form_container';
-import Home from './home';
+import Home from './splash/home';
 import NavBar from './nav/navbar';
 import {AuthRoute, ProtectedRoute} from '../util/route_utils';
 

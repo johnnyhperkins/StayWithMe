@@ -6,8 +6,7 @@ import SignUpFormContainer from '../session/signup_form_container';
 import LoginFormContainer from '../session/login_form_container';
 import Logo from '../../static_assets/logo';
 import SearchIcon from '../../static_assets/search_icon';
-import BlankUser from '../../static_assets/user-solid';
-import ProfileMenu from './profile_menu';
+import Menu from './menu';
 import { changeFormType } from '../../actions/ui';
 
 import { logout } from '../../actions/sessions';
@@ -19,13 +18,12 @@ class NavBar extends Component {
       signUpOpen: false,
       loginOpen: false,
       seachText: '',
-      menuOpen: false
+      
     }
   }
 
   openModal = (modal) => this.setState({[modal]: true})
   closeModal = (modal) => this.setState({[modal]: false})
-  toggleMenu = () => this.setState({menuOpen: !this.state.menuOpen})
 
   switchSignUpLogin = (formType) => {
     let switchFormType = formType == "Log In" ? "Sign Up" : "Log In";
@@ -48,41 +46,35 @@ class NavBar extends Component {
 
   render() {
     const { session, logout } = this.props;
+    const loggedIn = !isEmpty(session);
     return (
       <>
       <nav className="fixed-top-nav flex-container">
         <section className="search-wrapper flex-container">
-          <Logo />
+          <Logo loggedIn={loggedIn} />
           <div className="search-input-wrapper">
-            <SearchIcon />
-            <input type="text" 
-              className="search-input" 
-              value={this.state.searchText} 
-              onChange={(e) => this.setState({searchText: e.target.value})}
-              placeholder={`Try "Manhattan"`}
-            />
+            
+            {loggedIn && 
+              <>
+                <SearchIcon />
+                <input type="text" 
+                  className="search-input" 
+                  value={this.state.searchText} 
+                  onChange={(e) => this.setState({searchText: e.target.value})}
+                  placeholder={`Try "Manhattan"`}
+                />
+              </>
+            }
+            
           </div>
         </section>
         <section className="session-menu flex-container">
-          <button className="button--navlink">Become a Host</button>
-          { isEmpty(session) ? 
-          <>
-          <button className="button--navlink" onClick={() => this.openModal('signUpOpen')} >Sign Up</button>
-          <button className="button--navlink" onClick={() => this.openModal('loginOpen')} >Log In</button>
-          </> : ( 
-          <>
-          
-          <div className="profile-wrapper" onClick={this.toggleMenu}>
-
-            {session.profile_thumb == 'default' ? <BlankUser /> : <img src={session.profile_thumb} className="profile-thumb" />}
-
-            {this.state.menuOpen && <ProfileMenu session={session} logout={logout} />}
-            
-          </div>
-
-
-          
-          </> )}
+          <Menu 
+            loggedIn={loggedIn} 
+            openModal={this.openModal} 
+            session={session}
+            logout={logout}
+            />
         </section>
       </nav>
 

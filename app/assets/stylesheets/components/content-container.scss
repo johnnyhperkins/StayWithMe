@@ -1,5 +1,10 @@
 .content-container {
-    margin: 0 auto;
-    padding:0 $m-size;
-    max-width:80rem;
+    margin: $l-size 0;
+}
+
+.explore-block-img {
+    background: url('homes-thumb.jpg');
+    background-size: cover;
+    width: 96px;
+    height: 72px;
 }
