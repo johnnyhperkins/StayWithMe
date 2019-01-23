@@ -10,10 +10,116 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_21_145814) do
+ActiveRecord::Schema.define(version: 2019_01_23_165840) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.bigint "byte_size", null: false
+    t.string "checksum", null: false
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "amenities", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_amenities_on_name"
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "listing_id", null: false
+    t.integer "guest_count", null: false
+    t.string "status", default: "PENDING", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["end_date"], name: "index_bookings_on_end_date"
+    t.index ["listing_id"], name: "index_bookings_on_listing_id"
+    t.index ["start_date"], name: "index_bookings_on_start_date"
+    t.index ["status"], name: "index_bookings_on_status"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
+
+  create_table "home_types", force: :cascade do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_home_types_on_name"
+  end
+
+  create_table "listing_amenities", id: false, force: :cascade do |t|
+    t.bigint "listing_id", null: false
+    t.bigint "amenity_id", null: false
+    t.index ["amenity_id"], name: "index_listing_amenities_on_amenity_id"
+    t.index ["listing_id"], name: "index_listing_amenities_on_listing_id"
+  end
+
+  create_table "listing_availabilities", force: :cascade do |t|
+    t.integer "listing_id", null: false
+    t.datetime "start_date", null: false
+    t.datetime "end_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["end_date"], name: "index_listing_availabilities_on_end_date"
+    t.index ["listing_id"], name: "index_listing_availabilities_on_listing_id"
+    t.index ["start_date"], name: "index_listing_availabilities_on_start_date"
+  end
+
+  create_table "listings", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.string "title", null: false
+    t.string "thumb_img"
+    t.text "address", null: false
+    t.float "lat", null: false
+    t.float "lng", null: false
+    t.integer "price", null: false
+    t.integer "home_type_id", null: false
+    t.text "description", null: false
+    t.integer "max_guests", null: false
+    t.string "images", array: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["address"], name: "index_listings_on_address"
+    t.index ["description"], name: "index_listings_on_description"
+    t.index ["home_type_id"], name: "index_listings_on_home_type_id"
+    t.index ["lat"], name: "index_listings_on_lat"
+    t.index ["lng"], name: "index_listings_on_lng"
+    t.index ["max_guests"], name: "index_listings_on_max_guests"
+    t.index ["price"], name: "index_listings_on_price"
+    t.index ["title"], name: "index_listings_on_title"
+    t.index ["user_id"], name: "index_listings_on_user_id"
+  end
+
+  create_table "reviews", force: :cascade do |t|
+    t.integer "user_id", null: false
+    t.integer "listing_id", null: false
+    t.integer "rating", null: false
+    t.text "review_body", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_reviews_on_listing_id"
+    t.index ["rating"], name: "index_reviews_on_rating"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username", null: false
@@ -28,4 +134,5 @@ ActiveRecord::Schema.define(version: 2019_01_21_145814) do
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
 end

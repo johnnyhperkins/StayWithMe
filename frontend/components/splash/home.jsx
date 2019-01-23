@@ -12,7 +12,7 @@ class Home extends Component {
         <h3>Explore StayWithMe</h3>
         <div className="content-container flex-container--no-justify explore-wrapper">
           <div className="explore-block-img"></div>
-          {/* <img src={'homes-thumb.jpg'} /> */}
+          <img src={'homes-thumb.jpg'} />
           
           <h5>Homes</h5>
         </div>

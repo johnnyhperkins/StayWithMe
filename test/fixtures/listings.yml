@@ -1,0 +1,47 @@
+# == Schema Information
+#
+# Table name: listings
+#
+#  id           :bigint(8)        not null, primary key
+#  user_id      :integer          not null
+#  title        :string           not null
+#  thumb_img    :string
+#  address      :text             not null
+#  lat          :float            not null
+#  lng          :float            not null
+#  price        :integer          not null
+#  home_type_id :integer          not null
+#  description  :text             not null
+#  max_guests   :integer          not null
+#  images       :string           is an Array
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  title: MyString
+  thumb_img: MyString
+  address: MyText
+  lat: 1.5
+  lng: 1.5
+  price: 1
+  home_type_id: 1
+  description: MyText
+  max_guests: 1
+  images: 
+
+two:
+  user_id: 1
+  title: MyString
+  thumb_img: MyString
+  address: MyText
+  lat: 1.5
+  lng: 1.5
+  price: 1
+  home_type_id: 1
+  description: MyText
+  max_guests: 1
+  images: 
