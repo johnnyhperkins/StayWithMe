@@ -12,11 +12,6 @@
     cursor: pointer;
 }
 
-.button--secondary {
-    @extend .button;
-    background: $light-gray;
-}
-
 .button--inline {
     margin-left:$s-size;
     cursor: pointer;
@@ -29,6 +24,7 @@
     color: $light-gray;
     cursor: pointer;
     display:inline-block;
+    font-family: 'Circular Std Book', 'Helvetica Neue', Arial, sans-serif
 }
 
 .button--navlink {
@@ -39,7 +35,7 @@
     border-bottom: 2px solid transparent;
     padding: 0 1.65rem;
     border-radius: 0;
-    font-size: $font-size-small;
+    font-size: $font-small;
 }
   
 .button--navlink:hover {

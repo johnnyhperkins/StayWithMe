@@ -8,6 +8,7 @@ import Logo from '../../static_assets/logo';
 import SearchIcon from '../../static_assets/search_icon';
 import BlankUser from '../../static_assets/user-solid';
 import ProfileMenu from './profile_menu';
+import { changeFormType } from '../../actions/ui';
 
 import { logout } from '../../actions/sessions';
 
@@ -17,15 +18,18 @@ class NavBar extends Component {
     this.state = {
       signUpOpen: false,
       loginOpen: false,
-      seachText: ''
+      seachText: '',
+      menuOpen: false
     }
   }
 
   openModal = (modal) => this.setState({[modal]: true})
   closeModal = (modal) => this.setState({[modal]: false})
+  toggleMenu = () => this.setState({menuOpen: !this.state.menuOpen})
 
-  switchSignUpLogin = () => {
-    
+  switchSignUpLogin = (formType) => {
+    let switchFormType = formType == "Log In" ? "Sign Up" : "Log In";
+    this.props.changeFormType(switchFormType);
     this.setState({
       signUpOpen: !this.state.signUpOpen,
       loginOpen: !this.state.loginOpen,
@@ -68,12 +72,16 @@ class NavBar extends Component {
           </> : ( 
           <>
           
-          {/* <p>Welcome {session.username}</p> */}
-          
-          <button className="button--navlink" onClick={logout}>Log Out</button>
-          {session.profile_thumb == 'default' ? <BlankUser /> : <img src={session.profile_thumb} className="profile-thumb" />}
+          <div className="profile-wrapper" onClick={this.toggleMenu}>
 
-          {/* <ProfileMenu /> */}
+            {session.profile_thumb == 'default' ? <BlankUser /> : <img src={session.profile_thumb} className="profile-thumb" />}
+
+            {this.state.menuOpen && <ProfileMenu session={session} logout={logout} />}
+            
+          </div>
+
+
+          
           </> )}
         </section>
       </nav>
@@ -117,7 +125,8 @@ const msp = (state) => ({
 })
 
 const mdp = (dispatch) => ({
-  logout: () => dispatch(logout())
+  logout: () => dispatch(logout()),
+  changeFormType: (formType) => dispatch(changeFormType(formType))
 })
 
 export default connect(msp, mdp)(NavBar)

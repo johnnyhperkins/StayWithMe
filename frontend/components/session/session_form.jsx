@@ -67,9 +67,6 @@ class SessionForm extends Component {
       
       <form onSubmit={this.handleSubmit} autoComplete="new-password">
         
-
-
-        <h4>{formType}</h4>
         { formType === "Sign Up" &&
         
         <input 
@@ -130,15 +127,16 @@ class SessionForm extends Component {
           className="button--submit"
         />
       </form>
-      
-      {formType === "Log In" && 
-        <button className="button--submit teal--blue__background" onClick={this.demoLogin}>Use Demo Account</button>}
-      {formType === "Sign In" ? 
-        <p>Already have a StayWithMe account? <button className="button--link" 
-                                                      onClick={this.props.switch}>Log In</button>
-        </p> : 
-        <button className="button--link" onClick={this.props.switch}>Create new account</button>
-      }
+      <div className="modal--footer">
+        {formType === "Log In" && 
+          <button className="button--submit teal--blue__background" onClick={this.demoLogin}>Use Demo Account</button>}
+        {formType === "Sign Up" ? 
+          <p>Already have a StayWithMe account? <button className="button--link" 
+                                                        onClick={() => this.props.switch('Log In')}>Log In</button>
+          </p> : 
+          <button className="button--link" onClick={() => this.props.switch('Sign Up')}>Create new account</button>
+        }
+      </div>
       </>
     )
   }

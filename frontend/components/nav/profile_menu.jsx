@@ -1,14 +1,11 @@
 import React from 'react';
 
-const ProfileMenu = () => {
+const ProfileMenu = ({logout, session}) => {
   return (
-    <ul className="drop-down">
-      <li>
-        <ul>
-          <li>Menu Item 1</li>
-          <li>Menu Item 2</li>
-        </ul>
-      </li>
+    <ul className="drop-down-wrapper">
+      <li>Welcome {session.username}</li>
+      <li onClick={logout}>Log Out</li>
+      <li>Edit Profile</li>
     </ul>
   )
 }

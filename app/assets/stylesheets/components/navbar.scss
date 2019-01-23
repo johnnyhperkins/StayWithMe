@@ -68,6 +68,34 @@
   transition: 0.25s color;
 }
 
-.dropdown-menu {
+.profile-wrapper {
+  position:relative;
+}
+
+.drop-down-wrapper {
+  list-style:none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  right: 4px;
+  top: 80px;
+  z-index: 10;
+  width: 280px;
+  padding:0 1.6rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px;
   
 }
+
+
+.drop-down-wrapper li {
+  padding: 1.6rem 0;
+  border-bottom: 1px solid rgb(228,228,228);
+  font-size: $font-small;
+  color: $light-gray;
+  cursor:pointer;
+}
+
+.drop-down-wrapper li:hover {
+  border-bottom: 1px solid #333;
+}
+
