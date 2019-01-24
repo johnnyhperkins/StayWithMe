@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import NavBar from '../nav/navbar';
 import 'react-dates/initialize';
 import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
-// import 'react-dates/lib/css/_datepicker.css';
 import moment from 'moment';
 import SearchIcon from '../../static_assets/search_icon';
 
@@ -16,35 +15,84 @@ class HomeLoggedOut extends Component {
       location: '',
       startDate: '',
       endDate: '',
-      num_guests: 0,
+      numGuests: 1,
       focusedInput: 'startDate',
       calendarFocused: null,
       selectedInput: 1,
-      openDatePicker: false
+      openDatePicker: false,
+      openGuestSelect: false,
+      errors: ''
     } 
   }
 
-  componentDidUpdate() {
-    // const {startDate, endDate } = this.state;
-    // if(!!startDate && !!endDate) this.setState({openDatePicker: false})
-  }
-  search = () => {
-    // TO DO implement search functionality
-    console.log('perform search');
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutsideDatePicker);
+    document.addEventListener('mousedown', this.handleClickOutsideGuestSelector);
   }
 
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutsideDatePicker);
+    document.removeEventListener('mousedown', this.handleClickOutsideGuestSelector)
+  }
+
+  handleClickOutsideDatePicker = (event) => {
+    if (this.DatePickerRef && !this.DatePickerRef.contains(event.target)) {
+      this.setState({openDatePicker: false})
+    }
+  }
+
+  setDatePickerRef = (node) => {
+    this.DatePickerRef = node;
+  }
+
+  handleClickOutsideGuestSelector = (event) => {
+    if (this.GuestSelectorRef && !this.GuestSelectorRef.contains(event.target)) {
+      this.setState({openGuestSelect: false}) 
+    }
+  }
+
+  setGuestSelectorRef = (node) => {
+    this.GuestSelectorRef = node;
+  }
+  
+  search = () => {
+    // TO DO implement search functionality
+    console.log('perform search', this.state);
+  }
+
+  
+
   onFocusChange = (focusedInput) => {
-    const {startDate, endDate } = this.state;
-    // console.log(!!startDate && !!endDate);
+    let { startDate } = this.state;
     this.setState({
       focusedInput: !focusedInput ? 'startDate' : focusedInput,
-    }, (prevState) => {
-      console.log(prevState);
-      console.log((!!startDate && !!endDate));
+    }, () => {
+      if(!!startDate && !!this.state.endDate) {
+        if(startDate < this.state.endDate) {
+          this.setState({openDatePicker:false, errors:''}, () => this.guestSelect.focus())
+        } 
+      }
     });
   }
+
+  handleNumGuestChange(add) {
+    let { numGuests } = this.state;
+    return () => {
+      if( numGuests > 0 ) {
+        if(add) {
+          this.setState({numGuests: ++numGuests})
+        } else if(numGuests > 1) {
+          this.setState({numGuests: --numGuests})
+        }  
+      }
+    }
+  }
+
+  handleOpenDatePicker = () => {
+    this.setState({openDatePicker: !this.state.openDatePicker, openGuestSelect: false})
+  }
   render() {
-    const { startDate, endDate } = this.state;
+    const { startDate, endDate, numGuests, openGuestSelect, location, errors } = this.state;
     const startDateString = startDate && startDate.format('ddd, MMM Do');
     const endDateString = endDate && endDate.format('ddd, MMM Do');
 
@@ -58,16 +106,20 @@ class HomeLoggedOut extends Component {
               <div className="search-input-wrapper">
                 <label>
                   <p>City, Address, Landmark</p>
-                  <input type="text" placeholder="Manhattan, NY" onChange={(e) => this.setState({'location': e.target.value})}/>
+                  <input 
+                    type="text" 
+                    placeholder="Manhattan, NY" 
+                    value={location}
+                    onChange={(e) => this.setState({'location': e.target.value})}/>
                 </label>
               </div>
-              <div className="date-input-wrapper">
+              <div className="date-input-wrapper" ref={this.setDatePickerRef}>
                 <div className="date-picker-table">
                   <div className="date-picker-table-cell">
                     <label>
                       <p>Check In</p>
                       <input 
-                        onClick={() => this.setState({openDatePicker: !this.state.openDatePicker})} 
+                        onClick={this.handleOpenDatePicker} 
                         type="text" 
                         name="start date" 
                         value={startDateString} 
@@ -84,37 +136,53 @@ class HomeLoggedOut extends Component {
                         value={endDateString} 
                         placeholder="mm/dd/yyyy"
                         readOnly
-                        onClick={() => this.setState({openDatePicker: !this.state.openDatePicker})}
+                        onClick={this.handleOpenDatePicker}
                          />
                     </label>
                   </div>
                   {this.state.openDatePicker && 
-                    <>
-                    <DayPickerRangeController
-                      startDate={this.state.startDate}
-                      noBorder={true}
-                      endDate={this.state.endDate}
-                      isOutsideRange={day => isInclusivelyAfterDay(today, day)}
-                      onOutsideClick={DayPickerRangeController.onOutsideClick} noNavButtons
-                      enableOutsideDays={false}
-                      numberOfMonths={2}
-                      onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
-                      onNextMonthClick={DayPickerRangeController.onNextMonthClick}
-                      
-                      onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} 
-                      focusedInput={this.state.focusedInput} 
-                      onFocusChange={this.onFocusChange} 
-                    />
-                    
-                    </>
+                    <div className="range-controller-wrapper">
+                      <span>{errors && errors}</span>
+                      <DayPickerRangeController
+                        startDate={this.state.startDate}
+                        noBorder={true}
+                        endDate={this.state.endDate}
+                        isOutsideRange={day => isInclusivelyAfterDay(today, day)}
+                        onOutsideClick={DayPickerRangeController.onOutsideClick}
+                        enableOutsideDays={false}
+                        numberOfMonths={2}
+                        onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
+                        onNextMonthClick={DayPickerRangeController.onNextMonthClick}
+                        onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })} 
+                        focusedInput={this.state.focusedInput} 
+                        onFocusChange={this.onFocusChange} 
+                      />
+
+                    </div>
                   }
                 </div>
               </div>
-              <div className="guest-input-wrapper">
+              <div 
+                className="guest-input-wrapper"
+                ref={this.setGuestSelectorRef} >
                 <label>
                 <p>Guests</p>
-                <input type="number" placeholder="1 guest" value={this.state.numGuests} onChange={(e) => this.setState({numGuests: e.target.value})}/>
+                <input 
+                  type="text" 
+                  placeholder="1 guest" 
+                  value={`${numGuests} guest${numGuests > 1 ? 's' : ''}`} 
+                  ref={(input) => this.guestSelect = input}
+                  readOnly       
+                  onFocus={() => this.setState({openGuestSelect: !openGuestSelect, openDatePicker:false})}
+                  />
                 </label>
+                {openGuestSelect && 
+                <div className='guest-select-container flex-container' >
+                  <p>Adults</p>
+                  <button className={`button add-subtract sub ${numGuests == 1 ? 'disabled' :''}`} onClick={this.handleNumGuestChange(false)}></button>
+                  <span className="guest-count">{numGuests}</span>
+                  <button className="button add-subtract add" onClick={this.handleNumGuestChange(true)}></button>
+                </div>}
               </div>
             </div>
             <div className="search-icon-wrapper">

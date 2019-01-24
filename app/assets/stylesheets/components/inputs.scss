@@ -6,7 +6,7 @@
     border:1px solid #cacccd;
     height: 46px;
     padding: $s-size;
-    font-size: $font-size-m;
+    font-size: $font-m;
     font-weight: 600;
     border-radius: 4px;
     display:block;
@@ -33,7 +33,7 @@ textarea:focus {
 
 .home-splash-container input {
     border:none;
-    font-size: $font-size-large;
+    font-size: $font-l;
     color: $light-gray
 }
 
@@ -48,7 +48,6 @@ textarea:focus {
     display: flex;
     align-items: center;
     width:100%;
-    padding: 0 20px;
     box-shadow: 0 10px 36px rgba(0,0,0,0.65) !important
 }
 
@@ -64,6 +63,7 @@ textarea:focus {
 
 .search-inputs .search-input-wrapper {
     border-right:1px solid #ebebeb;
+    padding-left: 20px;
 }
 
 .search-inputs {
@@ -81,11 +81,28 @@ textarea:focus {
 .guest-input-wrapper {
     padding-left: 20px;
     border-left: 1px solid #ebebeb;
+    position:relative;
+    
+}
+
+.guest-select-container {
+    position: absolute;
+    background: #fff;
+    top: 79px;
+    left: 0;
+    padding: 20px;
+    box-shadow: 0 10px 36px rgba(0,0,0,0.65) !important;
+    border-radius: 0 0 5px 5px;
+    width: 100%;
+}
+
+.guest-count {
+    width: 30px;
+    text-align:center;
 }
 
 .date-input-wrapper {
     width: 40%;
-    // padding-left:20px;
 }
 
 .search-icon-wrapper {

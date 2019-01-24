@@ -6,7 +6,7 @@
     font-weight:300;
     padding:$s-size;
     line-height:1;
-    font-size: $font-size-m;
+    font-size: $font-m;
     text-decoration:none;
     border-radius: .4rem;
     cursor: pointer;
@@ -35,7 +35,7 @@
     border-bottom: 2px solid transparent;
     padding: 0 1.65rem;
     border-radius: 0;
-    font-size: $font-small;
+    font-size: $font-s;
 }
   
 .button--navlink:hover {
@@ -61,8 +61,6 @@
 
 .default-user-icon {
     margin: 0 1.6rem;
-    // border:1px solid $light-gray;
-    // padding: 1px 9px;
     border-radius: 50%;
     font-size: 2.2rem;
 }
@@ -74,4 +72,40 @@
 
 .logged-out .button--navlink:hover {
     border-bottom-color: #fff;
+}
+
+.add-subtract {
+    width: 32px;
+    height: 32px;
+    color: $teal-blue;
+    border: 1px solid $teal-blue;
+    border-radius: 50%;
+    font-size: $font-m;
+    position: relative;
+}
+
+.add-subtract, 
+.guest-count {
+    margin-left: 10px;
+}
+
+.add-subtract.add:before {
+    content: '+';
+    position: absolute;
+    display: block;
+    top: 6px;
+    right: 10px;
+}
+
+.add-subtract.sub:before {
+    content: '-';
+    position: absolute;
+    display: block;
+    top: 6px;
+    right: 11px;
+}
+
+.add-subtract.disabled {
+    border: 1px solid rgba( $teal-blue, .3 );
+    color: rgba( $teal-blue, .3 )
 }
