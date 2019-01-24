@@ -8,31 +8,35 @@ html {
 
 body {
     color: $dark-gray;
-    font-family: 'Circular Std Medium','Helvetica Neue', Arial, sans-serif;
+    font-family: 'Circular Std Book','Helvetica Neue', Arial, sans-serif;
     font-size:$m-size;
     line-height:1.6;
 }
 
-main {
-    position: relative;
-    top: 80px;
-    padding-left: 80px;
-    padding-right: 80px;
-    margin:0 auto;
-    width: 100%;
-}
+// main {
+//     position: relative;
+//     top: 80px;
+//     padding-left: 80px;
+//     padding-right: 80px;
+//     margin:0 auto;
+//     width: 100%;
+// }
 
 h1, h2, h3 {
     color:$light-black;
 }
 
 h1 {
-    font-size: $l-size;
+    font-size: 5rem;
 }
 
 h3 {
     font-size: 2.4rem;
-    padding:$m-size 0;
+    padding:$m-size 0 0 0;
+}
+
+h4 {
+    font-size:17px;
 }
 
 button, a, .button {

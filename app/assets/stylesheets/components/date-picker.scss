@@ -1,0 +1,42 @@
+.date-picker-table {
+  display:flex;
+  position: relative;
+}
+
+.DayPicker {
+  position: absolute;
+  top: 63px;
+  left: 0;
+  padding: 24px 0;
+  z-index: 10;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 14px 36px 2px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  white-space: normal;
+  display: inline-block;
+  max-height: calc(100vh - 152px);
+  border-radius: 0px 0px 5px 5px;
+  // padding: 24px 20px;
+  background: rgb(255, 255, 255);
+}
+
+.date-picker-table label button {
+  border:none;
+  font-size: $font-size-large;
+  padding:0;
+  color: $light-gray;
+}
+
+.date-picker-table-cell:first-child {
+  border-right: 1px solid #ebebeb;
+  padding-right: 20px;
+}
+
+.date-picker-table-cell {
+  padding-left:20px;
+}
+
+
+.DayPickerKeyboardShortcuts_buttonReset {
+  display:none;
+}

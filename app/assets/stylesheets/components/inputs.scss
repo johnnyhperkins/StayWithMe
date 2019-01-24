@@ -30,3 +30,68 @@ textarea:focus {
     @extend .text-input;
     height: 10rem;
 }
+
+.home-splash-container input {
+    border:none;
+    font-size: $font-size-large;
+    color: $light-gray
+}
+
+.search-inputs, 
+.search-icon-wrapper {
+    height:78px;
+    border-radius:5px;
+}
+
+.search-inputs {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    width:100%;
+    padding: 0 20px;
+    box-shadow: 0 10px 36px rgba(0,0,0,0.65) !important
+}
+
+.search-inputs input:focus {
+    border:0;    
+}
+
+.search-inputs label p {
+    text-transform:uppercase;
+    margin:0 0 2px 0;
+    font-size: $font-xs;
+}
+
+.search-inputs .search-input-wrapper {
+    border-right:1px solid #ebebeb;
+}
+
+.search-inputs {
+    display:table;
+}
+
+.date-input-wrapper,
+.search-inputs .search-input-wrapper,
+.guest-input-wrapper {
+    display:table-cell;
+    vertical-align: middle;
+    width:30%;
+}
+
+.guest-input-wrapper {
+    padding-left: 20px;
+    border-left: 1px solid #ebebeb;
+}
+
+.date-input-wrapper {
+    width: 40%;
+    // padding-left:20px;
+}
+
+.search-icon-wrapper {
+    background: $red;
+    padding: 23px;
+    margin-left: 12px;
+    width:76px;
+    box-shadow: 0 10px 36px rgba(0,0,0,0.65) !important
+}

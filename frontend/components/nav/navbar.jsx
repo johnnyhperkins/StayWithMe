@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import isEmpty from 'lodash/isEmpty';
 import Modal from 'react-modal';
 import SignUpFormContainer from '../session/signup_form_container';
 import LoginFormContainer from '../session/login_form_container';
@@ -45,18 +44,18 @@ class NavBar extends Component {
   }
 
   render() {
-    const { session, logout } = this.props;
-    const loggedIn = !isEmpty(session);
+    const { session, logout, loggedIn } = this.props;
+    const classes = loggedIn ? 'fixed-top-nav flex-container' : 'top-nav logged-out flex-container';
     return (
       <>
-      <nav className="fixed-top-nav flex-container">
+      <nav className={classes}>
         <section className="search-wrapper flex-container">
           <Logo loggedIn={loggedIn} />
           <div className="search-input-wrapper">
             
             {loggedIn && 
               <>
-                <SearchIcon />
+                <SearchIcon options={{'height':'18px','width':'18px', 'fill':'#333'}} />
                 <input type="text" 
                   className="search-input" 
                   value={this.state.searchText} 
@@ -113,7 +112,8 @@ class NavBar extends Component {
 }
 
 const msp = (state) => ({
-  session: state.session
+  session: state.session,
+  loggedIn: Boolean(state.session.id)
 })
 
 const mdp = (dispatch) => ({

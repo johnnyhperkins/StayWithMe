@@ -66,3 +66,12 @@
     border-radius: 50%;
     font-size: 2.2rem;
 }
+
+.logged-out .button--navlink {
+    color:#fff!important;
+    background-color:transparent;
+}
+
+.logged-out .button--navlink:hover {
+    border-bottom-color: #fff;
+}

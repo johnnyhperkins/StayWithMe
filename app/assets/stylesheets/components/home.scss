@@ -1,0 +1,25 @@
+.explore-wrapper img {
+  width:96px;
+  height:auto;
+}
+
+.explore-wrapper h4 {
+  margin: 14px 16px;
+}
+
+.explore-container {
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: 3px;
+  width: 33%;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px;
+}
+
+.home-splash-container {
+  background: url(logged-out-splash.jpg);
+  background-size: cover;
+  min-height: 100vh;
+}
+
+.home-splash-container .content-container {
+  top:0;
+}

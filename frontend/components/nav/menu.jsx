@@ -13,11 +13,9 @@ class Menu extends Component {
 
   render() {
     const {logout, loggedIn, openModal, session } = this.props
-    const btnClasses = loggedIn ? 'button--navlink' : 'text--white button--navlink';
-    console.log(loggedIn);
     return (
       <>
-        <button className={btnClasses}>Become a Host</button>
+        <button className='button--navlink'>Become a Host</button>
           { loggedIn ? 
             
             <div className="profile-wrapper" onClick={this.toggleMenu}>
@@ -32,12 +30,12 @@ class Menu extends Component {
             <>
   
             <button 
-              className={btnClasses} 
+              className='button--navlink'
               onClick={() => openModal('signUpOpen')} >
               Sign Up
             </button>
             <button 
-              className={btnClasses} 
+              className='button--navlink'
               onClick={() => openModal('loginOpen')} >
               Log In
             </button>

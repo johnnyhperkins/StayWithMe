@@ -21,7 +21,7 @@ const msp = state => {
 }
 
 const mdp = (dispatch) => {
-    dispatch(changeFormType('Sign Up'))
+    dispatch(changeFormType('Sign Up')) // TO DO: need to change this
     return {
     action: user => dispatch(signup(user)),
     receiveSessionErrors: (errors) => dispatch(receiveSessionErrors(errors)),
