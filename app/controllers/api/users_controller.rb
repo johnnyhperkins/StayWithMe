@@ -8,6 +8,12 @@ class Api::UsersController < ApplicationController
       render json: @user.errors.full_messages, status: 409
     end
   end
+  
+  def index
+    if current_user.id == params[:user_id]
+      @listings = current_user.listings
+    end
+  end
 
   def user_exists
     if params[:username] && params[:email]

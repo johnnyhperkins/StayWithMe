@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
 import SignUpFormContainer from '../session/signup_form_container';
 import LoginFormContainer from '../session/login_form_container';
@@ -50,7 +51,7 @@ class NavBar extends Component {
       <>
       <nav className={classes}>
         <section className="search-wrapper flex-container">
-          <Logo loggedIn={loggedIn} />
+          <Link to="/"><Logo loggedIn={loggedIn} /></Link>
           <div className="search-input-wrapper">
             
             {loggedIn && 
@@ -64,7 +65,6 @@ class NavBar extends Component {
                 />
               </>
             }
-            
           </div>
         </section>
         <section className="session-menu flex-container">

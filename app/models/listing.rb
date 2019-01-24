@@ -22,10 +22,9 @@ class Listing < ApplicationRecord
   validates :user_id, :title, :address, :lat, :lng, :price,:home_type_id, :description, :max_guests, presence: true
 
   belongs_to :user
-  has_one :home_type_id
+  has_one :home_type
   has_many :reviews
   has_many :listing_availabilities
   has_many :listing_amenities
-
 
 end
