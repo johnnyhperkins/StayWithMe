@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import BlankUser from '../../static_assets/user-solid'
 import ProfileMenu from './profile_menu';
+import { NavLink } from 'react-router-dom';
 
 class Menu extends Component {
   constructor(props) {
@@ -16,19 +17,18 @@ class Menu extends Component {
     return (
       <>
         <button className='button--navlink'>Become a Host</button>
-          { loggedIn ? 
-            
+          { loggedIn ?
+            <>
+            <NavLink to="/listings/new" className="button--navlink">
+              Add Listing
+            </NavLink>
             <div className="profile-wrapper" onClick={this.toggleMenu}>
-  
               {session.profile_thumb == 'default' ? <BlankUser /> : <img src={session.profile_thumb} className="profile-thumb" />}
-  
               {this.state.menuOpen && <ProfileMenu session={session} logout={logout} />}
-              
             </div>
- 
+            </>
               :
             <>
-  
             <button 
               className='button--navlink'
               onClick={() => openModal('signUpOpen')} >
@@ -39,11 +39,8 @@ class Menu extends Component {
               onClick={() => openModal('loginOpen')} >
               Log In
             </button>
-  
             </> 
-            
-            
-            }
+          }
       </>
     )
   } 

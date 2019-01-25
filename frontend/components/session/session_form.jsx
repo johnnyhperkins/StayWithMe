@@ -47,6 +47,7 @@ class SessionForm extends Component {
   googleAuth = () => {
     // console.log('Google Auth');
   }
+
   demoLogin = () => {
     const {closeModal, action} = this.props;
     return action({username:"Demo Account", password:"12312312"}).then( () => {
@@ -133,7 +134,8 @@ class SessionForm extends Component {
         {formType === "Sign Up" ? 
           <p>Already have a StayWithMe account? <button className="button--link" 
                                                         onClick={() => this.props.switch('Log In')}>Log In</button>
-          </p> : 
+          </p> 
+          : 
           <button className="button--link" onClick={() => this.props.switch('Sign Up')}>Create new account</button>
         }
       </div>

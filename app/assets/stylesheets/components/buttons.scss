@@ -17,6 +17,12 @@
     cursor: pointer;
 }
 
+.button--outlined {
+    @extend .button;
+    border: 1px solid $light-gray;
+    padding: 7px 24px;
+}
+
 .button--close {
     font-size: 4rem;
     font-weight: 200;
