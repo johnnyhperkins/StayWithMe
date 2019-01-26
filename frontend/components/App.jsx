@@ -3,6 +3,8 @@ import { Route, Switch, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import LoginFormContainer from './session/login_form_container';
 import NewListingContainer from './listings/new_listing_container';
+import Listing from './listings/listing_page';
+import ListingIndex from './listings/listings_index';
 import Home from './splash/home';
 import NavBar from './nav/navbar';
 import Dashboard from './users/dashboard';
@@ -21,6 +23,9 @@ const App = connect(state => ({
       <Switch>
         <Route exact path="/" component={Home} />    
         <AuthRoute exact path="/login" component={LoginFormContainer} />
+        <ProtectedRoute exact path="/listings/new" component={NewListingContainer} />
+        <Route exact path="/listings" component={ListingIndex} />
+        <Route exact path="/listings/:id" component={Listing} />
         <ProtectedRoute exact path="/listings/new" component={NewListingContainer} />
         <ProtectedRoute exact path="/users/:id/edit" component={Dashboard} />
         <ProtectedRoute exact path="/users/:id" component={Profile} />

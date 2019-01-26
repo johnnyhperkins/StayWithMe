@@ -1,8 +1,11 @@
-export const create = (listing) => {
+//Listings
+
+export const createListing = (listing) => {
   return $.ajax({
     url: '/api/listings',
     method: "POST",
-    data: { listing }
+    data: { listing },
+    error: (err) => console.log(err)
   })
 };
 
@@ -10,6 +13,7 @@ export const fetchListing = (id) => {
   return $.ajax({
     url: `/api/listings/${id}`,
     method: "GET",
+    error: (err) => console.log(err)
   })
 };
 
@@ -17,43 +21,53 @@ export const fetchListings = (query) => {
   return $.ajax({
     url: '/api/listings/',
     method: "GET",
-    data: query
+    data: query,
+    error: (err) => console.log(err)
   })
 };
 
-export const destroy = (id) => {
+// export const requestAllListings = (bounds) => {
+//   // console.log(bounds);
+//   return $.ajax({
+//     method: "GET",
+//     url: "/api/listings",
+//     data: {bounds},
+//     error: (err) => console.log(err),
+//   })
+// }
+
+export const destroyListing = (id) => {
   return $.ajax({
     url: `/api/listings/${id}`,
     method: "DELETE"
   })
 };
 
-export const update = (listing) => {
+export const updateListing = (listing) => {
   return $.ajax({
     url: `/api/listings/${listing.id}`,
     method: "PATCH",
-    data: { listing }
+    data: { listing },
+    error: (err) => console.log(err)
   })
 };
 
+//Amenities / Home Types
 
-// export const createBench = (bench) => {
-//   return $.ajax({
-//     method: "POST",
-//     url: "/api/benches",
-//     data: { bench },
-//     error: (err) => console.log(err)
-//   })
-// }
+export const fetchAmenities = () => {
+  return $.ajax({
+    url: '/api/amenities',
+    method: "GET",
+    error: (err) => console.log(err)
+  })
+};
 
+export const fetchHomeTypes = () => {
+  return $.ajax({
+    url: '/api/home_types',
+    method: "GET",
+    error: (err) => console.log(err)
+  })
+};
 
-// export const requestAllBenches = (bounds) => {
-//   // console.log(bounds);
-//   return $.ajax({
-//     method: "GET",
-//     url: "/api/benches",
-//     data: {bounds},
-//     error: (err) => console.log(err),
-//   })
-// }
 

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import NavBar from '../nav/navbar';
 import 'react-dates/initialize';
 import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
 import moment from 'moment';
@@ -18,7 +17,6 @@ class HomeLoggedOut extends Component {
       numGuests: 1,
       focusedInput: 'startDate',
       calendarFocused: null,
-      selectedInput: 1,
       openDatePicker: false,
       openGuestSelect: false,
       errors: ''

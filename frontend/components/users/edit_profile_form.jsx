@@ -25,6 +25,7 @@ class EditProfileForm extends Component {
     const { updateUser, receiveMessages } = this.props;
     updateUser(this.state.user).then(res => {
       // debugger;
+      // TO DO: Figure out how to change passwords!
       if(res) {
         receiveMessages(["Succesfully Updated"])
       }

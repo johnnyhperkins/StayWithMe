@@ -1,7 +1,4 @@
-# Shows an individual listing and maintains the state structure
+# Shows an individual listing 
 
-json.listings do
-  json.set! @listing.id do 
-    json.partial! "api/listings/listing", listing: @listing
-  end
-end
+json.partial! "api/listings/listing", listing: @listing
+

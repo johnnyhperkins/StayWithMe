@@ -6,16 +6,25 @@
 # GET /api/users/:user_id/listings - returns all listings for an individual user
 
 class Api::ListingsController < ApplicationController
-  before_action :require_logged_in, only: [:create, :destroy, ]
+  before_action :require_logged_in, only: [:create, :destroy]
 
   def create
     @listing = Listing.new(listing_params)
     @listing.user_id = current_user.id;
     if @listing.save
+      params[:listing][:amenity_ids].each do |amenity_id|
+        @listing.listing_amenities.create(amenity_id:amenity_id)
+      end
+      @listing.listing_availabilities.create(
+        start_date: params[:listing][:start_date], 
+        end_date: params[:listing][:start_date]
+      )
       render 'api/listings/show'
+
     else 
       render json: @listing.errors.full_messages, status: 409
     end
+    
   end
 
   def update 
