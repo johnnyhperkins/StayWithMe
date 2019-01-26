@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import HomeLoggedOut from './home_logged_out';
-import NavBar from '../nav/navbar';
+// import NavBar from '../nav/navbar';
 
 
 class Home extends Component {
@@ -10,7 +10,7 @@ class Home extends Component {
     const { loggedIn } = this.props;
     return (
       <>
-      {loggedIn ? <NavBar /> : <HomeLoggedOut />}
+      {!loggedIn && <HomeLoggedOut />}
       <section className={loggedIn ? "content-container" : "content-container content-container--logged-out"}>
         <h3>Explore StayWithMe</h3>
         <div className="flex-container--no-justify explore-wrapper">

@@ -9,8 +9,18 @@
 
 HomeType.destroy_all
 Listing.destroy_all
+Amenity.destroy_all
 
 home_type = HomeType.create(name: 'Apartment')
+HomeType.create(name: 'House')
+HomeType.create(name: 'Boat')
+HomeType.create(name: 'House Boat')
+
+Amenity.create(name: 'Air Conditioning')
+Amenity.create(name: 'Heat')
+Amenity.create(name: 'Dishwasher')
+Amenity.create(name: 'Cable TV')
+Amenity.create(name: 'Internet')
 
 
 listing = Listing.create!(user_id: 1, title: "My House", thumb_img: "https://s3.us-east-2.amazonaws.com/stay-with-me/homes-thumb.jpg", address: "102 Devoe St. Floor 2, Brooklyn NY 11211", lat: 40.713362, lng:-73.947158, price: 15000, home_type_id: home_type.id, description: "Testing Listing description", max_guests: 3, images: [])

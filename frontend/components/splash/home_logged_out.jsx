@@ -60,8 +60,6 @@ class HomeLoggedOut extends Component {
     console.log('perform search', this.state);
   }
 
-  
-
   onFocusChange = (focusedInput) => {
     let { startDate } = this.state;
     this.setState({
@@ -98,7 +96,6 @@ class HomeLoggedOut extends Component {
 
     return (
       <section className="home-splash-container">
-        <NavBar />
         <section className="content-container">
           <h1 className="text--white">Plan your next trip</h1>
           <div className="search-container flex-container">

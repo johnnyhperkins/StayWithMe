@@ -6,15 +6,14 @@ import { changeFormType } from '../../actions/ui';
 import SessionForm from './session_form';
 
 const msp = (state) => {
-  
   return {
   errors: state.errors.session,
   formType: state.ui.formType || "Log In",
   user: { username: '', password: '' },
-  userExists: () => null,
 }}
 
 const mdp = (dispatch) => {
+  // TO DO: Fix this
   dispatch(changeFormType('Log In'));
   return {
     action: user => dispatch(login(user)),

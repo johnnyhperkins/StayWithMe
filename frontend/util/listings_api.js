@@ -36,3 +36,24 @@ export const update = (listing) => {
   })
 };
 
+
+// export const createBench = (bench) => {
+//   return $.ajax({
+//     method: "POST",
+//     url: "/api/benches",
+//     data: { bench },
+//     error: (err) => console.log(err)
+//   })
+// }
+
+
+// export const requestAllBenches = (bounds) => {
+//   // console.log(bounds);
+//   return $.ajax({
+//     method: "GET",
+//     url: "/api/benches",
+//     data: {bounds},
+//     error: (err) => console.log(err),
+//   })
+// }
+

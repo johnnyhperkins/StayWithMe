@@ -4,7 +4,7 @@ export const RECEIVE_LISTINGS = 'RECEIVE_LISTINGS';
 export const REMOVE_LISTING = 'REMOVE_LISTING';
 
 
-export const create = listing => dispatch => {
+export const createListing = listing => dispatch => {
   return ApiListingsUtil.create(listing).then(listing => {
     return dispatch(receiveListing(listing));
   })
@@ -22,13 +22,13 @@ export const fetchListing = id => dispatch => {
   })
 };
 
-export const destroy = (id) => {
+export const destroyListing = (id) => {
   return ApiListingsUtil.destroy(id).then(listing => {
     return dispatch(removeListing(id));
   })
 }
 
-export const update = (listing) => {
+export const updateListing = (listing) => {
   return ApiListingsUtil.update(listing).then(listing => {
     return dispatch(receiveListing(listing));
   })

@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
-
 import { signup, receiveSessionErrors } from '../../actions/sessions';
-import { userExists } from '../../util/session_api';
 import SessionForm from './session_form';
 import { changeFormType } from '../../actions/ui';
 
@@ -16,7 +14,7 @@ const msp = state => {
         password: '', 
         profile_thumb: 'default' 
       },
-      userExists
+      
   }
 }
 
@@ -25,7 +23,6 @@ const mdp = (dispatch) => {
     return {
     action: user => dispatch(signup(user)),
     receiveSessionErrors: (errors) => dispatch(receiveSessionErrors(errors)),
-    checkUsernameExists: (username) => dispatch(checkUsernameExists(username))  
   }
 }
 

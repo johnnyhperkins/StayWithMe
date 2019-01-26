@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import isEmpty from 'lodash/isEmpty';
+import { userExists } from '../../util/session_api';
 
 class SessionForm extends Component {
   constructor(props) {
@@ -26,7 +27,7 @@ class SessionForm extends Component {
     const {formType } = this.props;
     if(formType == "Log In") return;
 
-    const { userExists, receiveSessionErrors} = this.props;
+    const { receiveSessionErrors} = this.props;
     const { username, email } = this.state.user;
     return userExists({username, email}).then(res => {
       let updateErrors = ["Sorry, that username is already taken", "Sorry, that email is already taken"]
@@ -46,6 +47,15 @@ class SessionForm extends Component {
 
   googleAuth = () => {
     // console.log('Google Auth');
+  }
+
+  handleInput = (e) => {
+    this.setState({
+      user: {
+        ...this.state.user,
+        [e.target.name]: e.target.value
+      }
+    })
   }
 
   demoLogin = () => {
@@ -77,12 +87,7 @@ class SessionForm extends Component {
           placeholder="Email"
           name="email"
           value={this.state.user.email} 
-          onChange={e => this.setState({
-            user: {
-              ...this.state.user,
-              email: e.target.value
-            }
-          })} 
+          onChange={this.handleInput} 
           onBlur={this.checkExists}
           />
         }
@@ -93,12 +98,7 @@ class SessionForm extends Component {
           name="username"
           placeholder="Username"
           value={username} 
-          onChange={e => this.setState({
-            user: {
-              ...this.state.user,
-              username: e.target.value
-            }
-          })} 
+          onChange={this.handleInput}
           onBlur={this.checkExists}
           />
         <input 
@@ -107,12 +107,8 @@ class SessionForm extends Component {
           type="password" 
           value={password} 
           placeholder="Password"
-          onChange={e => this.setState({
-            user: {
-              ...this.state.user,
-              password: e.target.value
-            }
-          })} 
+          name="password"
+          onChange={this.handleInput} 
           />
           { !isEmpty(errors) && (
             <>

@@ -7,7 +7,7 @@
     height: 46px;
     padding: $s-size;
     font-size: $font-m;
-    font-weight: 600;
+    font-weight: 300;
     border-radius: 4px;
     display:block;
     margin-bottom:$m-size;
@@ -26,10 +26,12 @@ textarea:focus {
     @extend .text-input;
 }
 
-.textarea {
+textarea {
     @extend .text-input;
     height: 10rem;
 }
+
+// Home Splash Container inputs
 
 .home-splash-container input {
     border:none;
@@ -82,7 +84,6 @@ textarea:focus {
     padding-left: 20px;
     border-left: 1px solid #ebebeb;
     position:relative;
-    
 }
 
 .guest-select-container {
@@ -112,3 +113,29 @@ textarea:focus {
     width:76px;
     box-shadow: 0 10px 36px rgba(0,0,0,0.65) !important
 }
+
+// Profile page inputs
+
+.text-input.text-input--profile {
+    display:inline-block;
+    width: 75%;
+    border-radius: 1px;
+    padding: .7rem 1rem;
+    margin-left: 1.3rem;
+    font-size: $font-s;
+    margin-bottom: 0;
+    line-height:0;
+    height:auto;
+}
+
+.profile-form-row {
+    display:flex;
+    justify-content: flex-end;
+    margin-bottom: 2.4rem;
+
+    label {
+        padding: 6px 0 6px 8px;
+        font-size: $font-s;
+    }
+}
+

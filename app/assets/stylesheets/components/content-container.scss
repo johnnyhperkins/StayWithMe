@@ -2,14 +2,20 @@
     margin: $l-size 0;
 }
 
-main .content-container {
+main {
+    position:relative;
+}
+
+main.logged-in {
+    top:11rem;
+}
+
+.content-container {
     position: relative;
-    top: 80px;
-    padding-left: 80px;
-    padding-right: 80px;
+    padding: 4rem 8rem;
     margin:0 auto;
     width: 100%;
-    min-height: 240px;
+    min-height: 24rem;
 }
 
 main .content-container--logged-out {
@@ -22,7 +28,7 @@ main .content-container--logged-out {
 }
 
 footer {
-    padding: 40px 80px;
+    padding: 4rem 8rem;
     border-top: 1px solid $off-white;
     margin-top: 40px;
 }
@@ -30,4 +36,37 @@ footer {
 footer p, footer a, {
     font-size: $font-xs;
     color: $light-gray;
+}
+
+.content-container.dashboard-container {
+    width: 108rem;
+    padding:0 2.4rem;
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+.edit-profile-container {
+    flex-grow:3;
+    margin-left: 2.4rem;
+    .form-wrapper {
+        padding: 20px;
+        border: 1px solid $off-white;
+        border-top-width: 0;
+    }
+}
+
+.edit-profile-container__header {
+    background:#edefed;
+    padding: 1.2rem 2rem;
+    border: 1px solid $off-white;
+    line-height: 1;
+}
+
+.dashboard-container aside {
+    width: 25%;
+
+    li {
+        padding: .6rem 0;
+        font-size: $font-m;
+    }
 }

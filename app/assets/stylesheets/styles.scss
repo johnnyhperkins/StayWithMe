@@ -1,62 +1,63 @@
 @font-face {
-  font-family: 'Circular Std Book';
-  font-style: normal;
-  font-weight: normal;
+  font-family: 'Circular';
+  font-style: initial;
+  font-weight: 300;
   src: local('Circular Std Book'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-Book.woff') format('woff');
   }
   
   @font-face {
-  font-family: 'Circular Std Book Italic';
-  font-style: normal;
-  font-weight: normal;
+  font-family: 'Circular';
+  font-style: italic;
+  font-weight: 300;
   src: local('Circular Std Book Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-BookItalic.woff') format('woff');
   }
   
   @font-face {
-  font-family: 'Circular Std Medium';
+  font-family: 'Circular';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 400;
   src: local('Circular Std Medium'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-Medium.woff') format('woff');
   }
   
   @font-face {
-  font-family: 'Circular Std Medium Italic';
-  font-style: normal;
-  font-weight: normal;
+  font-family: 'Circular';
+  font-style: italic;
+  font-weight: 400;
   src: local('Circular Std Medium Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-MediumItalic.woff') format('woff');
   }
   
   
   @font-face {
-  font-family: 'Circular Std Bold';
+  font-family: 'Circular';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 500;
   src: local('Circular Std Bold'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-Bold.woff') format('woff');
   }
   
   
   @font-face {
-  font-family: 'Circular Std Bold Italic';
-  font-style: normal;
-  font-weight: normal;
+  font-family: 'Circular';
+  font-style: italic;
+  font-weight: 500;
   src: local('Circular Std Bold Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-BoldItalic.woff') format('woff');
   }
   
   
   @font-face {
-  font-family: 'Circular Std Black';
+  font-family: 'Circular';
   font-style: normal;
-  font-weight: normal;
+  font-weight: 600;
   src: local('Circular Std Black'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-Black.woff') format('woff');
   }
   
   
   @font-face {
-  font-family: 'Circular Std Black Italic';
-  font-style: normal;
-  font-weight: normal;
+  font-family: 'Circular';
+  font-style: italic;
+  font-weight: 600;
   src: local('Circular Std Black Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-BlackItalic.woff') format('woff');
   }
+
 @import './base/normalize';
 @import './base/settings';
 @import './base/base';

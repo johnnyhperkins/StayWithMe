@@ -10,6 +10,25 @@ class Menu extends Component {
       menuOpen: false
     }
   }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutsideDropDown);  
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutsideDropDown);
+  }
+
+  handleClickOutsideDropDown = (event) => {
+    if (this.MenuDropDownRef && !this.MenuDropDownRef.contains(event.target)) {
+      this.setState({menuOpen: false})
+    }
+  }
+
+  setMenuDropDownRef = (node) => {
+    this.MenuDropDownRef = node;
+  }
+
   toggleMenu = () => this.setState({menuOpen: !this.state.menuOpen})
 
   render() {
@@ -22,7 +41,7 @@ class Menu extends Component {
             <NavLink to="/listings/new" className="button--navlink">
               Add Listing
             </NavLink>
-            <div className="profile-wrapper" onClick={this.toggleMenu}>
+            <div className="profile-wrapper" onClick={this.toggleMenu} ref={this.setMenuDropDownRef}>
               {session.profile_thumb == 'default' ? <BlankUser /> : <img src={session.profile_thumb} className="profile-thumb" />}
               {this.state.menuOpen && <ProfileMenu session={session} logout={logout} />}
             </div>

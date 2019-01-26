@@ -2,7 +2,7 @@
 
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import EditProfileForm from './edit_profile_form';
 
 class Dashboard extends Component {
@@ -11,19 +11,18 @@ class Dashboard extends Component {
   }
 
   render() {
+    const { session } = this.props;
     return (
 
-      <section className="dashboard-container flex-container">
-        <aside className="sidebar-menu">
+      <section className="dashboard-container content-container flex-container">
+        <aside>
           <ul>
-            <li><NavLink to={`/users/${session.id}/edit`}>Edit Profile</NavLink></li>
-            <li><NavLink to={`/users/${session.id}/reviews`}>Reviews</NavLink></li>
-            <li><NavLink className="button button--outlined">View Profile</NavLink></li>
+            <li><Link to={`/users/${session.id}/edit`}>Edit Profile</Link></li>
+            <li><Link to={`/users/${session.id}/reviews`}>Reviews</Link></li>
+            <li><Link to={`/users/${session.id}`} className="button button--outlined center">View Profile</Link></li>
           </ul>
         </aside>
-        <section className="profile-form">
-          <EditProfileForm />
-        </section>
+        <EditProfileForm userId={session.id} />
       </section>
     )
   }

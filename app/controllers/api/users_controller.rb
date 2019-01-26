@@ -15,6 +15,27 @@ class Api::UsersController < ApplicationController
     end
   end
 
+  def update
+    @user = User.find(params[:user][:id])
+    # debugger
+    if @user == current_user
+      if !params[:user][:password].nil?
+        if params.include?(:password) && params[:user][:password].length > 5
+          @user.password = params[:user][:password]
+        else
+          return render json: ['Password must be at least 6 characters'], status: 402
+        end
+      end
+      if @user.update_attributes(user_params)
+        render json: ['Successfully updated user profile'], status: 200
+      else
+        render json: @user.errors.full_messages, status: 409
+      end
+    else
+      render json: ['You do not have permission to update this user'], status: 409
+    end
+  end
+
   def user_exists
     if params[:username] && params[:email]
       userName = User.find_by(username: params[:username])
