@@ -38,33 +38,51 @@ footer p, footer a, {
     color: $light-gray;
 }
 
-.content-container.dashboard-container {
+.content-container--interior-page {
     width: 108rem;
     padding:0 2.4rem;
     justify-content: flex-start;
     align-items: baseline;
+    margin: 0 auto;
 }
 
-.edit-profile-container {
-    flex-grow:3;
-    margin-left: 2.4rem;
+.grid--75 {
+    width:75%;
     .form-wrapper {
         padding: 20px;
         border: 1px solid $off-white;
         border-top-width: 0;
     }
+    .listing-form {
+        border-top-width: 1px;
+    }
 }
 
-.edit-profile-container__header {
+.grid--50 {
+    width: 50%;
+}
+
+.grid--33 {
+    width: 33%;
+}
+
+.grid--25 {
+    width: 25%;
+}
+
+.grid--75__header {
     background:#edefed;
     padding: 1.2rem 2rem;
     border: 1px solid $off-white;
     line-height: 1;
 }
 
-.dashboard-container aside {
-    width: 25%;
+.flush-top {
+    margin-top:-3rem;
+}
 
+.content-container--interior-page aside {
+    width: 25%;
     li {
         padding: .6rem 0;
         font-size: $font-m;

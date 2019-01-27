@@ -1,6 +1,9 @@
-import { FORM_TYPE, RECEIVE_MESSAGES } from '../actions/ui';
+import { FORM_TYPE, RECEIVE_MESSAGES, START_LOADING_LISTING } from '../actions/ui';
+import { RECEIVE_LISTING } from '../actions/listings';
 
-const defaultState = {}
+const defaultState = {
+  listingLoading: true
+}
 
 const uiReducer = (state = defaultState, action) => {
   Object.freeze(state)
@@ -10,7 +13,17 @@ const uiReducer = (state = defaultState, action) => {
         ...state,
         formType: action.formType
       }
-      
+    
+    case START_LOADING_LISTING:
+      return {
+        ...state,
+        listingLoading: true
+      }
+    case RECEIVE_LISTING:
+      return {
+        ...state,
+        listingLoading: false
+    }
     case RECEIVE_MESSAGES: 
       return {
         ...state, 

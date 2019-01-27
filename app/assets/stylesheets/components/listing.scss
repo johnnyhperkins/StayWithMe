@@ -1,0 +1,19 @@
+.flex-container.image-header-container {
+  flex-wrap: nowrap; 
+  justify-content: flex-start;
+  align-items: end;
+}
+
+.left-half img {
+  min-width:100%;
+}
+
+.left-half,
+.right-half .square-image {
+  border: 1px solid $light-black;
+}
+
+.right-half {
+  display: flex;
+  flex-wrap: wrap;
+}

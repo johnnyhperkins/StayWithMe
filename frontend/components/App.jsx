@@ -8,7 +8,6 @@ import ListingIndex from './listings/listings_index';
 import Home from './splash/home';
 import NavBar from './nav/navbar';
 import Dashboard from './users/dashboard';
-import Profile from './users/profile';
 import {AuthRoute, ProtectedRoute} from '../util/route_utils';
 import Footer from './footer';
 
@@ -27,8 +26,7 @@ const App = connect(state => ({
         <Route exact path="/listings" component={ListingIndex} />
         <Route exact path="/listings/:id" component={Listing} />
         <ProtectedRoute exact path="/listings/new" component={NewListingContainer} />
-        <ProtectedRoute exact path="/users/:id/edit" component={Dashboard} />
-        <ProtectedRoute exact path="/users/:id" component={Profile} />
+        <ProtectedRoute path="/users/:id" component={Dashboard} />
       </Switch>
       <Route path="/" component={Footer} />
     </main>

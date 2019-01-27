@@ -8,16 +8,17 @@ class Profile extends Component {
   }
 
   render() {
+    const { user } = this.props;
     return (
-      <div>
-        <h1>Profile Page</h1>
-      </div>
+      <section className="content-container--interior-page flex-container">
+        <h2>{user.username} Profile</h2>
+      </section>
     )
   }
 }
 
-const msp = state => ({
-
+const msp = (state, props) => ({
+  user: state.entities.users[props.userId]
 })
 
 const mdp = dispatch => ({

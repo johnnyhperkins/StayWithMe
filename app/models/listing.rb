@@ -26,5 +26,6 @@ class Listing < ApplicationRecord
   has_many :reviews
   has_many :listing_availabilities
   has_many :listing_amenities
+  has_many_attached :photos
 
 end

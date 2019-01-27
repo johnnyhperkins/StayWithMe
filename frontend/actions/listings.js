@@ -3,8 +3,8 @@ export const RECEIVE_LISTING = 'RECEIVE_LISTING';
 export const RECEIVE_LISTINGS = 'RECEIVE_LISTINGS';
 export const REMOVE_LISTING = 'REMOVE_LISTING';
 
-export const RECEIVE_AMENITIES = 'RECEIVE_AMENITIES';
-export const RECEIVE_HOME_TYPES = 'RECEIVE_HOME_TYPES';
+export const RECEIVE_AMENITIES_AND_HOME_TYPES = 'RECEIVE_AMENITIES_AND_HOME_TYPES';
+// export const RECEIVE_HOME_TYPES = 'RECEIVE_HOME_TYPES';
 
 export const RECEIVE_LISTING_ERRORS = 'RECEIVE_LISTING_ERRORS';
 
@@ -30,14 +30,14 @@ export const fetchListing = id => dispatch => {
   (e) => dispatch(receiveListingErrors(e.responseJSON)))
 };
 
-export const destroyListing = (id) => {
+export const destroyListing = (id) => dispatch => {
   return ApiListingsUtil.destroyListing(id).then(listing => {
     return dispatch(removeListing(id));
   },
   (e) => dispatch(receiveListingErrors(e.responseJSON)))
 }
 
-export const updateListing = (listing) => {
+export const updateListing = (listing) => dispatch => {
   return ApiListingsUtil.updateListing(listing).then(listing => {
     return dispatch(receiveListing(listing));
   },
@@ -61,28 +61,29 @@ const removeListing = id => ({
 
 // Amenities / Home Types
 
-export const fetchAmenities = amenities => dispatch => {
-  return ApiListingsUtil.fetchAmenities(amenities).then(amenities => {
-    return dispatch(receiveAmenities(amenities));
+export const fetchAmenitiesAndHomeTypes = () => dispatch => {
+  return ApiListingsUtil.fetchAmenitiesAndHomeTypes().then(amenitiesAndHomeTypes => {
+    return dispatch(receiveAmenitiesAndHomeTypes(amenitiesAndHomeTypes));
   })
 };
 
-export const fetchHomeTypes = home_types => dispatch => {
-  return ApiListingsUtil.fetchHomeTypes(home_types).then(home_types => {
-    return dispatch(receiveHomeTypes(home_types));
-  })
-};
+// export const fetchHomeTypes = home_types => dispatch => {
+//   return ApiListingsUtil.fetchHomeTypes(home_types).then(home_types => {
+//     return dispatch(receiveHomeTypes(home_types));
+//   })
+// };
 
 
-const receiveAmenities = ({amenities}) => ({
-  type: RECEIVE_AMENITIES,
-  amenities
+const receiveAmenitiesAndHomeTypes = (amenitiesAndHomeTypes) => ({
+  type: RECEIVE_AMENITIES_AND_HOME_TYPES,
+  amenities: amenitiesAndHomeTypes.amenities,
+  home_types: amenitiesAndHomeTypes.home_types,
 })
 
-const receiveHomeTypes = ({home_types}) => ({
-  type: RECEIVE_HOME_TYPES,
-  home_types
-})
+// const receiveHomeTypes = ({home_types}) => ({
+//   type: RECEIVE_HOME_TYPES,
+//   home_types
+// })
 
 export const receiveListingErrors = (errors) => ({
   type: RECEIVE_LISTING_ERRORS,

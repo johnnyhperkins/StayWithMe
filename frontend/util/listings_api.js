@@ -4,7 +4,9 @@ export const createListing = (listing) => {
   return $.ajax({
     url: '/api/listings',
     method: "POST",
-    data: { listing },
+    data: listing,
+    contentType: false,
+    processData: false,
     error: (err) => console.log(err)
   })
 };
@@ -54,7 +56,7 @@ export const updateListing = (listing) => {
 
 //Amenities / Home Types
 
-export const fetchAmenities = () => {
+export const fetchAmenitiesAndHomeTypes = () => {
   return $.ajax({
     url: '/api/amenities',
     method: "GET",
@@ -69,5 +71,3 @@ export const fetchHomeTypes = () => {
     error: (err) => console.log(err)
   })
 };
-
-

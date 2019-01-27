@@ -9,10 +9,6 @@ export const listings = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_LISTINGS:
       return action.listings
-      // {
-      //   ...state,
-      //   ...action.listings
-      // }
     case RECEIVE_LISTING:
       return {
         ...state,

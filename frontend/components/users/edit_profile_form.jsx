@@ -1,3 +1,5 @@
+// TO DO: Figure out how to change passwords!
+
 import React, { Component } from 'react';
 import { userExists } from '../../util/session_api';
 import { receiveSessionErrors } from '../../actions/sessions';
@@ -24,8 +26,7 @@ class EditProfileForm extends Component {
   handleSubmit = (e) => {
     const { updateUser, receiveMessages } = this.props;
     updateUser(this.state.user).then(res => {
-      // debugger;
-      // TO DO: Figure out how to change passwords!
+      
       if(res) {
         receiveMessages(["Succesfully Updated"])
       }
@@ -66,8 +67,8 @@ class EditProfileForm extends Component {
     console.log(errors, messages);
     return (
       <>
-      <section className="edit-profile-container">
-        <div className="edit-profile-container__header">
+      <section className="grid--75 margin-left24">
+        <div className="grid--75__header">
           <p>Required</p>
         </div>
         <div className="form-wrapper">

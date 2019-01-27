@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import isEmpty from 'lodash/isEmpty';
 import { NavLink, Redirect } from 'react-router-dom';
+// import Reacts3Uploader from 'react-s3-uploader';
+import objectToFormData from 'object-to-formdata';
 import 'react-dates/initialize';
 import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
 import moment from 'moment';
@@ -12,6 +14,7 @@ const today = moment();
 // figure out how to get lat long from address
 // figure out auto populate of addresses on typing
 // figure out aws image attachments
+// figure out how to allow user to select which image they want to be the thumb image
 
 class ListingForm extends Component {
   constructor(props) {
@@ -21,11 +24,11 @@ class ListingForm extends Component {
       listing: {
         user_id,
         title: 'Testing', 
-        thumb_img: 'testing.jpg', 
+        thumb_img_idx: 1, 
         address: '103 test street', 
         lat: 0,
         lng: 0,
-        price: props.listing ? (props.listing.price / 100).toString() : '',
+        price: props.listing ? (props.listing.price / 100).toString() : '100',
         home_type_id: 1,
         description: 'Testing description',
         max_guests: '5',
@@ -33,18 +36,21 @@ class ListingForm extends Component {
         end_date: '',
         images: [],
         amenity_ids: [],
+        photos: []
       },
       focusedInput: 'startDate',
       calendarFocused: null,
       endDate: '',
       startDate: '',
+      imageFile: '',
+      imageUrl: '',
+      
     }
   }  
 
   componentDidMount() {
-    const { fetchAmenities, fetchHomeTypes } = this.props;
-    fetchAmenities();
-    fetchHomeTypes();
+    const { fetchAmenitiesAndHomeTypes } = this.props;
+    fetchAmenitiesAndHomeTypes();
   }
 
   onFocusChange = (focusedInput) => {
@@ -89,21 +95,36 @@ class ListingForm extends Component {
   }
 
   handleSubmit = () => {
-    return this.props.createListing(this.state.listing).then((res) => {
+    const { listing } = this.state;
+    const formData = objectToFormData(listing, null,null, 'listing');
+    return this.props.createListing(formData).then((res) => {
       this.props.history.push(`/listings/${res.listing.id}`)
     })
+  }
+
+  handlePhotoAttachement = (e) => {
+    const reader = new FileReader();
+    const file = e.currentTarget.files[0];
+    reader.onloadend = () => this.setState({ imageUrl: reader.result, imageFile: file});
+
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      this.setState({ imageUrl: "", imageFile: null });
+    }
   }
 
   render() {
     let { 
       startDate,
       endDate,
-      focusedInput
+      focusedInput,
+      imageUrl
     } = this.state;
 
     const { 
       title, 
-      thumb_img, 
+      thumb_img_idx, 
       address, 
       price, 
       home_type_id, 
@@ -116,52 +137,66 @@ class ListingForm extends Component {
     const startDateString = startDate && moment(startDate).format('ddd, MMM Do');
     const endDateString = endDate && moment(endDate).format('ddd, MMM Do');
     return (
-      <section className="content-container content-container--new-listing">
+      <section className="content-container grid--75">
         <h2>Lets get started listing your place.</h2>
-        <div className="form-wrapper">
+        <div className="form-wrapper listing-form">
         {/* {!isEmpty(messages) && messages.map((m, idx) => <p key={idx} >{m}</p>)} */}
-              <input 
+              <label>Title
+                <input 
+                  className="text-input"
+                  type="text" 
+                  placeholder="Title"
+                  name="title"
+                  value={title} 
+                  onChange={this.handleInput} 
+                  />
+              </label>
+
+              <label>Photos
+               <input 
+                type="file"
                 className="text-input"
-                type="text" 
-                placeholder="Title"
-                name="title"
-                value={title} 
-                onChange={this.handleInput} 
+                // name="thumb_img"
+                onChange={e => this.setState({ ...this.state, listing: {...this.state.listing, photos: e.target.files }})}
+                multiple
+                // onChange={this.handlePhotoAttachement}
                 />
-              <input 
-                className="text-input"
-                type="text" 
-                placeholder="Thumb Img"
-                name="thumb_img"
-                value={thumb_img} 
-                onChange={this.handleInput} 
+                { imageUrl && <img src={imageUrl} className="thumb-img" /> }
+              </label>
+
+              <label>Address
+                <input 
+                  className="text-input"
+                  type="text" 
+                  placeholder="Address"
+                  name="address"
+                  value={address} 
+                  onChange={this.handleInput} 
                 />
-              <input 
-                className="text-input"
-                type="text" 
-                placeholder="Address"
-                name="address"
-                value={address} 
-                onChange={this.handleInput} 
-                />
-              
-              <input 
-                className="text-input"
-                type="text" 
-                placeholder="Price"
-                name="price"
-                value={price} 
-                onChange={this.onPriceChange} 
+              </label>
+
+              <label>Price Per Night
+                <input 
+                  className="text-input"
+                  type="text" 
+                  placeholder="Price"
+                  name="price"
+                  value={price} 
+                  onChange={this.onPriceChange} 
                 /> 
+              </label>
+
               <label>Home Type
                 <select name="home_type_id" value={home_type_id} className="select" onChange={this.handleInput}>
                   <option value=''>Select Home Type</option>
                   {home_types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
                 </select>
               </label>
-
+              
               <label>Select Amenities
-                { amenities.map(amenity => <label key={amenity.id}>{amenity.name}<input onChange={this.handleAmenities} type="checkbox" value={amenity.id} key={amenity.id}/></label>) }
+                <div className="flex-container checkbox-wrapper">
+                  { amenities.map(amenity => <label key={amenity.id}>{amenity.name}<input className="checkbox" onChange={this.handleAmenities} type="checkbox" value={amenity.id} key={amenity.id}/></label>) }
+                  </div>
               </label>
               
               <textarea 
@@ -170,6 +205,7 @@ class ListingForm extends Component {
                 value={description} 
                 onChange={this.handleInput} 
                 >{description}</textarea>
+
               <label>Max Guests</label>
               <input 
                 className="text-input"
@@ -179,14 +215,7 @@ class ListingForm extends Component {
                 value={max_guests} 
                 onChange={this.handleInput} 
                 />
-              <input 
-                className="text-input"
-                type="text" 
-                placeholder="Images"
-                name="images"
-                value={images} 
-                onChange={this.handleInput} 
-                />
+
               <div className="flex-container--no-justify">
                 <label className="inline">
                   <p>Available From:</p>
@@ -198,7 +227,6 @@ class ListingForm extends Component {
                     placeholder="mm/dd/yyyy"
                     readOnly />
                 </label>
-              
                 <label>
                   <p>Until:</p>
                   <input 
@@ -211,7 +239,6 @@ class ListingForm extends Component {
                     />
                 </label>
               </div>
-                {/* <span>{errors && errors}</span> */}
               <DayPickerRangeController
                 startDate={startDate}
                 endDate={endDate}

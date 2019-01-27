@@ -2,8 +2,12 @@
 
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import EditProfileForm from './edit_profile_form';
+import UserListings from './user_listings';
+import UserReviews from './user_reviews';
+import DashboardSidebar from './dashboard_sidebar';
+import Profile from './profile';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -13,16 +17,22 @@ class Dashboard extends Component {
   render() {
     const { session } = this.props;
     return (
-
-      <section className="dashboard-container content-container flex-container">
-        <aside>
-          <ul>
-            <li><Link to={`/users/${session.id}/edit`}>Edit Profile</Link></li>
-            <li><Link to={`/users/${session.id}/reviews`}>Reviews</Link></li>
-            <li><Link to={`/users/${session.id}`} className="button button--outlined center">View Profile</Link></li>
-          </ul>
-        </aside>
-        <EditProfileForm userId={session.id} />
+      <section className="content-container--interior-page flex-container">
+        <Route 
+          path="/users/"
+          render={(props) => <DashboardSidebar userId={session.id} />} />
+        <Route 
+          path={`/users/${session.id}`} exact
+          render={(props) => <Profile userId={session.id} />} />
+        <Route 
+          path={`/users/${session.id}/reviews`} exact
+          render={(props) => <UserReviews userId={session.id} />} />
+        <Route 
+          path={`/users/${session.id}/edit`}
+          render={(props) => <EditProfileForm userId={session.id} />} />
+        <Route 
+          path={`/users/${session.id}/listings`} 
+          component={UserListings} />
       </section>
     )
   }
