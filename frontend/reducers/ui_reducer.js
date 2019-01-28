@@ -1,5 +1,5 @@
 import { FORM_TYPE, RECEIVE_MESSAGES, START_LOADING_LISTING } from '../actions/ui';
-import { RECEIVE_LISTING } from '../actions/listings';
+import { RECEIVE_LISTING, RECEIVE_LISTINGS } from '../actions/listings';
 
 const defaultState = {
   listingLoading: true
@@ -19,6 +19,7 @@ const uiReducer = (state = defaultState, action) => {
         ...state,
         listingLoading: true
       }
+    case RECEIVE_LISTINGS:
     case RECEIVE_LISTING:
       return {
         ...state,

@@ -5,6 +5,12 @@ import { NavLink, Redirect } from 'react-router-dom';
 import objectToFormData from 'object-to-formdata';
 import 'react-dates/initialize';
 import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  geocodeByPlaceId,
+  getLatLng,
+} from 'react-places-autocomplete';
+
 import moment from 'moment';
 
 const today = moment();
@@ -25,7 +31,7 @@ class ListingForm extends Component {
         user_id,
         title: 'Testing', 
         thumb_img_idx: 1, 
-        address: '103 test street', 
+        address: '', 
         lat: 0,
         lng: 0,
         price: props.listing ? (props.listing.price / 100).toString() : '100',
@@ -102,17 +108,37 @@ class ListingForm extends Component {
     })
   }
 
-  handlePhotoAttachement = (e) => {
-    const reader = new FileReader();
-    const file = e.currentTarget.files[0];
-    reader.onloadend = () => this.setState({ imageUrl: reader.result, imageFile: file});
+  handleChangeAddress = address => {
+    this.setState({ listing: {
+          ...this.state.listing,
+          address
+        } });
+  };
 
-    if (file) {
-      reader.readAsDataURL(file);
-    } else {
-      this.setState({ imageUrl: "", imageFile: null });
-    }
-  }
+  handleSelectAddress = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => this.setState({
+        listing: {
+          ...this.state.listing,
+          lng:parseFloat(latLng.lng),
+          lat:parseFloat(latLng.lat),
+          address
+      }}))
+      .catch(error => console.error('Error', error));
+  };
+
+  // handlePhotoAttachement = (e) => {
+  //   const reader = new FileReader();
+  //   const file = e.currentTarget.files[0];
+  //   reader.onloadend = () => this.setState({ imageUrl: reader.result, imageFile: file});
+
+  //   if (file) {
+  //     reader.readAsDataURL(file);
+  //   } else {
+  //     this.setState({ imageUrl: "", imageFile: null });
+  //   }
+  // }
 
   render() {
     let { 
@@ -164,16 +190,45 @@ class ListingForm extends Component {
                 { imageUrl && <img src={imageUrl} className="thumb-img" /> }
               </label>
 
-              <label>Address
-                <input 
-                  className="text-input"
-                  type="text" 
-                  placeholder="Address"
-                  name="address"
-                  value={address} 
-                  onChange={this.handleInput} 
-                />
-              </label>
+              <PlacesAutocomplete
+                value={address}
+                onChange={this.handleChangeAddress}
+                onSelect={this.handleSelectAddress}
+              >
+                {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                  <div className="autocomplete-dropdown-container">
+                    <label>Address
+                      <input
+                        {...getInputProps({
+                          placeholder: 'Find your address...',
+                          className: 'location-search-input text-input',
+                        })}
+                      />
+                      </label>
+                    <div className="autocomplete-dropdown">
+                      {loading && <div>Loading...</div>}
+                      {suggestions.map(suggestion => {
+                        const className = suggestion.active
+                          ? 'suggestion-item--active'
+                          : 'suggestion-item';
+                          const style = suggestion.active
+                          ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                          : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                        return (
+                          <div
+                            {...getSuggestionItemProps(suggestion, {
+                              className,
+                              style
+                            })}
+                          >
+                            <span><i className="fas fa-map-marker-alt"></i> {suggestion.description}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </PlacesAutocomplete>
 
               <label>Price Per Night
                 <input 

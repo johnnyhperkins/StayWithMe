@@ -58,6 +58,20 @@
   src: local('Circular Std Black Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-BlackItalic.woff') format('woff');
   }
 
+  @font-face {
+    font-family: 'Font';
+    font-style: italic;
+    font-weight: 600;
+    src: local('Circular Std Black Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-BlackItalic.woff') format('woff');
+    }
+
+    @font-face {
+      font-family: 'Font Awesome 5 Free';
+      font-style: normal;
+      font-weight: 900;
+      src: url("./fonts/fa/webfonts/fa-solid-900.woff");
+      src: url("./fonts/fa/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("./fonts/fa/webfonts/fa-solid-900.woff2") format("woff2"), url("./fonts/fa/webfonts/fa-solid-900.woff") format("woff"), url("./fonts/fa/webfonts/fa-solid-900.ttf") format("truetype"), url("./fonts/fa/webfonts/fa-solid-900.svg#fontawesome") format("svg"); }
+
 @import './base/normalize';
 @import './base/settings';
 @import './base/base';
@@ -78,7 +92,8 @@
 @import './components/date-picker';
 @import './components/listing';
 @import './fonts/fa/css/svg-with-js.min';
+@import './fonts/fa/css/solid.css';
 
-// @import './fonts/fa/css/all';
+@import './fonts/fa/css/all';
 // @import './fonts/fa/css/fontawesome.min';
 

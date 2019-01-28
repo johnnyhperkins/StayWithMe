@@ -87,6 +87,7 @@ class HomeLoggedOut extends Component {
   handleOpenDatePicker = () => {
     this.setState({openDatePicker: !this.state.openDatePicker, openGuestSelect: false})
   }
+  
   render() {
     const { startDate, endDate, numGuests, openGuestSelect, location, errors } = this.state;
     const startDateString = startDate && startDate.format('ddd, MMM Do');

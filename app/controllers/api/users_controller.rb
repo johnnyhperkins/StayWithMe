@@ -10,7 +10,7 @@ class Api::UsersController < ApplicationController
   end
   
   def index
-    if current_user.id == params[:user_id]
+    if current_user.id == params[:user_id].to_i
       @listings = current_user.listings
     end
   end

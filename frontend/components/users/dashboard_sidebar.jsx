@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const DashboardSidebar = ({userId}) => {
     return (
-      <aside>
+      <aside className="grid--25">
         <ul>
           <li><Link to={`/users/${userId}/edit`}>Edit Profile</Link></li>
           <li><Link to={`/users/${userId}/reviews`}>Reviews</Link></li>

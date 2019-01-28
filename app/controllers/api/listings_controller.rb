@@ -56,8 +56,8 @@ class Api::ListingsController < ApplicationController
   end
 
   def index
-    # query = 
-    # @listings = List
+    # query = params
+    # @listings = Listings.
   end
 
   def destroy

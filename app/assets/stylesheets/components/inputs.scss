@@ -19,13 +19,20 @@
     margin-right: 24px;
 }
 
+
 input[type=text]:focus,
 input[type=password]:focus,
 textarea:focus {
     outline: none;
-    border: 1px solid $teal-blue;
-    // background-color: rgb(232, 240, 254);
 }
+form {
+    input[type=text]:focus,
+    input[type=password]:focus,
+    textarea:focus {
+        border: 1px solid $teal-blue;
+    }
+}
+
 
 .select {
     @extend .text-input;

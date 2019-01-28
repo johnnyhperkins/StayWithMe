@@ -16,8 +16,15 @@ export const createListing = listing => dispatch => {
   (e) => dispatch(receiveListingErrors(e.responseJSON)))
 };
 
-export const fetchListings = listings => dispatch => {
-  return ApiListingsUtil.fetchListings(listings).then(listings => {
+export const fetchListings = query => dispatch => {
+  return ApiListingsUtil.fetchListings(query).then(listings => {
+    return dispatch(receiveListings(listings));
+  },
+  (e) => dispatch(receiveListingErrors(e.responseJSON)))
+};
+
+export const fetchUserListings = id => dispatch => {
+  return ApiListingsUtil.fetchUserListings(id).then(listings => {
     return dispatch(receiveListings(listings));
   },
   (e) => dispatch(receiveListingErrors(e.responseJSON)))

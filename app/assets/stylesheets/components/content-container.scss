@@ -44,6 +44,7 @@ footer p, footer a, {
     justify-content: flex-start;
     align-items: baseline;
     margin: 0 auto;
+    position: relative;
 }
 
 .grid--75 {
@@ -82,9 +83,40 @@ footer p, footer a, {
 }
 
 .content-container--interior-page aside {
-    width: 25%;
     li {
         padding: .6rem 0;
         font-size: $font-m;
     }
+}
+
+.autocomplete-dropdown-container {
+    position:relative;
+    background:#fff;
+}
+
+.suggestion-item {
+    background-color: '#ffffff'; 
+}
+
+.suggestion-item--active { 
+    background-color: '#fafafa'; 
+}
+.suggestion-item--active,
+.suggestion-item {
+    padding: 5px 20px;
+    cursor: 'pointer';
+}
+
+
+.autocomplete-dropdown {
+    background-color:#fff;
+    border: 1px solid $off-white;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 15px 46px -10px rgba(26, 26, 29, 0.3);
+    overflow: hidden;
+    padding: 15px 0;
+    -webkit-transition: background-color 200ms linear;
+    -moz-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+    position:absolute;
 }

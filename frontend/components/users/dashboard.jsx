@@ -4,6 +4,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import EditProfileForm from './edit_profile_form';
+import { fetchUserListings, fetchAmenitiesAndHomeTypes } from '../../actions/listings';
 import UserListings from './user_listings';
 import UserReviews from './user_reviews';
 import DashboardSidebar from './dashboard_sidebar';
@@ -13,37 +14,48 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
+  componentDidMount() {
+    this.props.fetchUserListings(this.props.session.id)
+    this.props.fetchAmenitiesAndHomeTypes();
+  }
 
   render() {
     const { session } = this.props;
+    
     return (
       <section className="content-container--interior-page flex-container">
         <Route 
           path="/users/"
-          render={(props) => <DashboardSidebar userId={session.id} />} />
+          render={() => <DashboardSidebar userId={session.id} />} />
         <Route 
           path={`/users/${session.id}`} exact
-          render={(props) => <Profile userId={session.id} />} />
+          render={() => <Profile userId={session.id} />} />
         <Route 
           path={`/users/${session.id}/reviews`} exact
-          render={(props) => <UserReviews userId={session.id} />} />
+          render={() => <UserReviews userId={session.id} />} />
         <Route 
           path={`/users/${session.id}/edit`}
-          render={(props) => <EditProfileForm userId={session.id} />} />
+          render={() => <EditProfileForm userId={session.id} />} />
         <Route 
           path={`/users/${session.id}/listings`} 
-          component={UserListings} />
+          render={() => <UserListings {...this.props} />}
+            />
       </section>
     )
   }
 }
 
 const msp = state => ({
-  session: state.session
+  session: state.session,
+  listings: Object.values(state.entities.listings),
+  listingLoading: state.ui.listingLoading,
+  amenities: state.entities.amenities,
+  home_types: state.entities.home_types
 })
 
 const mdp = dispatch => ({
-  
+  fetchUserListings: (id) => dispatch(fetchUserListings(id)),
+  fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes())
 })
 
 export default connect(msp,mdp)(Dashboard);

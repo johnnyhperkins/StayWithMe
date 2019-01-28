@@ -17,3 +17,74 @@
   display: flex;
   flex-wrap: wrap;
 }
+
+.listing-details-container {
+  max-width: 595px;
+  margin-top: 20px;
+}
+
+.floating-booking-container {
+  padding: 2.4rem;
+  border: 1px solid $off-white;
+  position: absolute;
+  top:2.4rem;
+  right:0;
+  min-width: 370px;
+  max-width: 370p;
+  .DateRangePickerInput,
+  .DateRangePicker {  
+    width:100%;
+  }
+  .DateRangePickerInput__withBorder {
+    border-color: $off-white;
+  }
+  .guest-input-wrapper {
+    margin-left:0;
+    display:block;
+    width: 100%;
+    padding-left: 0;
+    border:0;
+    margin-top:15px;
+    input {
+      border-radius:2px;
+      border-color: rgb(235, 235, 235);
+      font-size: 1.7rem;
+      color: $light-black;
+    }
+  }
+  .guest-select-container {
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px, rgba(0, 0, 0, 0.07) 0px 0px 0px 1px !important;
+    top: 66px;
+  }
+  .button--submit {
+    width: 100%;
+    margin-top: .8rem;
+  }
+  .tiny.bold {
+    font-weight: 400;
+  }
+}
+
+.fixed {
+  position: fixed;
+}
+
+#map {
+  width: 100%;
+  height: 350px;
+}
+
+// User listings list
+
+.user-listings li {
+  padding: 2.4rem 0;
+  border-bottom: 1px solid $off-white;
+}
+
+.user-listings li:first-child {
+  padding-top: 0;
+}
+
+.listing-details {
+  padding-left: 2.4rem;
+}

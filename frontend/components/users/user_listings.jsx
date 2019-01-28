@@ -1,22 +1,32 @@
 import React, { Component } from 'react';
+import ListingListItem from './listing_list_item';
+import Loading from '../misc/loading';
 
-class UserListings extends Component {
 
-  render() {
-    // const { listings } = this.props;
+const UserListings = ({listings, listingLoading, amenities, home_types}) => {
+    if(listingLoading) {
+      return <Loading />
+    }
     return (
       <>
-      <section className="grid--75">
+      <section className="grid--75 margin-left24">
         <div className="grid--75__header">
-          <p>Listings</p>
+          <p>Your Listings</p>
         </div>
         <div className="form-wrapper">
+          <ul className="user-listings">
+            {listings.map(listing => 
+            <ListingListItem 
+              amenities={amenities} 
+              home_types={home_types} 
+              key={listing.id} 
+              listing={listing} />)}
+          </ul>
         </div>
       </section>
       
       </>
     )
-  }
-}
+};
 
 export default UserListings
