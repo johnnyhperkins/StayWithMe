@@ -43,7 +43,7 @@ class ListingForm extends Component {
       calendarFocused: null,
       endDate: '',
       startDate: '',
-      selectedPhotosFiles: [] //PHOTO FILES
+      selectedPhotoFiles: [] //PHOTO FILES
       
     }
   } 
@@ -109,36 +109,22 @@ class ListingForm extends Component {
       }
     )
   }
-
   handleSubmit = () => {
-    const { listing, selectedPhotosFiles } = this.state;
-    
-    const action = this.props.createListing ? this.props.createListing : this.props.updateListing;
-    
-    if(this.props.formType == "Edit Listing") delete listing['photos'];
-
+    const { listing, selectedPhotoFiles } = this.state;
+    delete listing['photos'];
     const formData = objectToFormData(listing, null,null, 'listing');
-    // formData.append('extras[start_date]', listing.start_date);
-    // formData.append('extras[end_date]', listing.end_date);
-    // formData.delete('listing[start_date]');
-    // formData.delete('listing[end_date]');
-
-    if(selectedPhotosFiles.length) {
-      for(let i = 0; i < selectedPhotosFiles.length; i++) {
-        formData.append('listing[photos][]', selectedPhotosFiles[i]);
+    const action = this.props.createListing ? this.props.createListing : this.props.updateListing;
+    if (selectedPhotoFiles.length) {
+      for(let i = 0; i < selectedPhotoFiles.length; i++) {
+        formData.append('listing[photos][]', selectedPhotoFiles[i]);
       }
     }
-
-    // if(amenity_ids.length) {
-    //   for(let i = 0; i < amenity_ids.length; i++) {
-    //     formData.append('extras[amenity_ids][]', amenity_ids[i]);
-    //   }
-    // }
     
     return action(formData).then((res) => {
       this.props.history.push(`/listings/${res.listing.id}`)
     })
   }
+   
 
   handleChangeAddress = address => {
     this.setState({ listing: {
@@ -169,8 +155,6 @@ class ListingForm extends Component {
       startDate,
       endDate,
       focusedInput,
-      imageUrl,
-      selectedPhotosFiles
     } = this.state;
 
     const { 
@@ -183,7 +167,7 @@ class ListingForm extends Component {
       max_guests,
       photos
     } = this.state.listing;
-    // debugger
+    
     const { errors, home_types, amenities, formType } = this.props;
     const startDateString = startDate && moment(startDate).format('ddd, MMM Do');
     const endDateString = endDate && moment(endDate).format('ddd, MMM Do');
@@ -208,7 +192,7 @@ class ListingForm extends Component {
                <input 
                 type="file"
                 className="text-input"
-                onChange={e => this.setState({ selectedPhotosFiles: e.target.files })}
+                onChange={e => this.setState({ selectedPhotoFiles: e.target.files })}
                 multiple
                 />
                 {/* { imageUrl && <img src={imageUrl} className="thumb-img" /> } */}
