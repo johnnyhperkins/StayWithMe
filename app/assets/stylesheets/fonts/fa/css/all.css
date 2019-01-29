@@ -4213,8 +4213,8 @@ readers do not read off random characters that represent icons */
   font-family: 'Font Awesome 5 Free';
   font-style: normal;
   font-weight: 900;
-  src: url("../webfonts/fa-solid-900.eot");
-  src: url("../webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../webfonts/fa-solid-900.woff2") format("woff2"), url("../webfonts/fa-solid-900.woff") format("woff"), url("../webfonts/fa-solid-900.ttf") format("truetype"), url("../webfonts/fa-solid-900.svg#fontawesome") format("svg"); }
+  src: url("./fonts/fa/webfonts/fa-solid-900.woff");
+  src: url("./fonts/fa/webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("./fonts/fa/webfonts/fa-solid-900.woff2") format("woff2"), url("./fonts/fa/webfonts/fa-solid-900.woff") format("woff"), url("./fonts/fa/webfonts/fa-solid-900.ttf") format("truetype"), url("./fonts/fa/webfonts/fa-solid-900.svg#fontawesome") format("svg"); }
 
 .fa,
 .fas {

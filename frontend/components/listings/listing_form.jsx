@@ -36,14 +36,14 @@ class ListingForm extends Component {
         max_guests: '5',
         start_date: '',
         end_date: '',
-        photos: [],
+        photos: [], //photoUrls
         amenity_ids: [],
       },
       focusedInput: 'startDate',
       calendarFocused: null,
       endDate: '',
       startDate: '',
-      selectedPhotos: []
+      selectedPhotosFiles: [] //PHOTO FILES
       
     }
   } 
@@ -111,31 +111,29 @@ class ListingForm extends Component {
   }
 
   handleSubmit = () => {
-    const { listing, selectedPhotos } = this.state;
+    const { listing, selectedPhotosFiles } = this.state;
     
     const action = this.props.createListing ? this.props.createListing : this.props.updateListing;
-
-    const amenity_ids = listing.amenity_ids;
-    delete listing['amenity_ids'];
+    
     if(this.props.formType == "Edit Listing") delete listing['photos'];
 
     const formData = objectToFormData(listing, null,null, 'listing');
-    formData.append('extras[start_date]', listing.start_date);
-    formData.append('extras[end_date]', listing.end_date);
-    formData.delete('listing[start_date]');
-    formData.delete('listing[end_date]');
+    // formData.append('extras[start_date]', listing.start_date);
+    // formData.append('extras[end_date]', listing.end_date);
+    // formData.delete('listing[start_date]');
+    // formData.delete('listing[end_date]');
 
-    if(selectedPhotos.length) {
-      for(let i = 0; i < selectedPhotos.length; i++) {
-        formData.append('listing[photos][]', selectedPhotos[i]);
+    if(selectedPhotosFiles.length) {
+      for(let i = 0; i < selectedPhotosFiles.length; i++) {
+        formData.append('listing[photos][]', selectedPhotosFiles[i]);
       }
     }
 
-    if(amenity_ids.length) {
-      for(let i = 0; i < amenity_ids.length; i++) {
-        formData.append('extras[amenity_ids][]', amenity_ids[i]);
-      }
-    }
+    // if(amenity_ids.length) {
+    //   for(let i = 0; i < amenity_ids.length; i++) {
+    //     formData.append('extras[amenity_ids][]', amenity_ids[i]);
+    //   }
+    // }
     
     return action(formData).then((res) => {
       this.props.history.push(`/listings/${res.listing.id}`)
@@ -172,7 +170,7 @@ class ListingForm extends Component {
       endDate,
       focusedInput,
       imageUrl,
-      selectedPhotos
+      selectedPhotosFiles
     } = this.state;
 
     const { 
@@ -210,7 +208,7 @@ class ListingForm extends Component {
                <input 
                 type="file"
                 className="text-input"
-                onChange={e => this.setState({ selectedPhotos: e.target.files })}
+                onChange={e => this.setState({ selectedPhotosFiles: e.target.files })}
                 multiple
                 />
                 {/* { imageUrl && <img src={imageUrl} className="thumb-img" /> } */}
