@@ -60,6 +60,19 @@ footer p, footer a, {
     }
     .photos-container {
         flex-wrap: wrap;
+        margin: 25px 0 15px;
+        .listing-thumb {
+            min-width: 150px;
+            width: 150px;
+            max-height:120px;
+            height:120px;
+            margin-right: 5px;
+            margin-bottom:5px;
+            border: 1px solid $light-black;
+          }
+          .square-image {
+              min-height: 120px;
+          }
     }
 }
 

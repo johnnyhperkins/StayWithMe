@@ -10,8 +10,13 @@ class Profile extends Component {
   render() {
     const { user } = this.props;
     return (
-      <section className="content-container--interior-page flex-container">
-        <h2>{user.username} Profile</h2>
+      <section className="grid--75 margin-left24">
+        <div className="grid--75__header">
+          <p>Prolife</p>
+        </div>
+        <div className="form-wrapper">
+          <h1 className="font--300">Hi, I'm {user.username}</h1>
+        </div>
       </section>
     )
   }

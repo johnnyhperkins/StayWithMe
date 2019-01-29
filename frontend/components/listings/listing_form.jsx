@@ -162,6 +162,7 @@ class ListingForm extends Component {
       thumb_img_idx, 
       address, 
       price, 
+      amenity_ids,
       home_type_id, 
       description, 
       max_guests,
@@ -262,7 +263,12 @@ class ListingForm extends Component {
               
               <label>Select Amenities
                 <div className="flex-container checkbox-wrapper">
-                  { amenities.map(amenity => <label key={amenity.id}>{amenity.name}<input className="checkbox" onChange={this.handleAmenities} type="checkbox" value={amenity.id} key={amenity.id}/></label>) }
+                  { amenities.map(amenity => {
+                      return <label key={amenity.id}>{amenity.name}
+                        <input checked={amenity_ids.includes(amenity.id)} className="checkbox" onChange={this.handleAmenities} type="checkbox" value={amenity.id} key={amenity.id}/>
+                      </label>
+                    }) 
+                  }
                   </div>
               </label>
               
