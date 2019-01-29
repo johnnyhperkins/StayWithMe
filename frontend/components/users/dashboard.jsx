@@ -4,7 +4,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import EditProfileForm from './edit_profile_form';
-import { fetchUserListings, fetchAmenitiesAndHomeTypes } from '../../actions/listings';
+import { fetchUserListings, fetchAmenitiesAndHomeTypes, destroyListing } from '../../actions/listings';
 import UserListings from './user_listings';
 import UserReviews from './user_reviews';
 import DashboardSidebar from './dashboard_sidebar';
@@ -18,6 +18,7 @@ class Dashboard extends Component {
     this.props.fetchUserListings(this.props.session.id)
     this.props.fetchAmenitiesAndHomeTypes();
   }
+
 
   render() {
     const { session } = this.props;
@@ -55,7 +56,8 @@ const msp = state => ({
 
 const mdp = dispatch => ({
   fetchUserListings: (id) => dispatch(fetchUserListings(id)),
-  fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes())
+  fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes()),
+  destroyListing: (id) => dispatch(destroyListing(id))
 })
 
 export default connect(msp,mdp)(Dashboard);

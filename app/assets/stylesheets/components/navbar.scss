@@ -15,7 +15,6 @@
   display:flex;
   background:transparent;
   border-bottom:none;
-  
 }
 
 .top-nav.logged-out {
@@ -85,6 +84,27 @@
 
 .profile-wrapper {
   position:relative;
+  margin-right:8px;
+  .button--navlink__user-thumb {
+    height:8.6rem;
+    .profile-thumb {
+      min-width: 28px;
+      min-height: 28px;
+      background-size: cover;
+      border-radius: 50%;
+      position: relative;
+      border: 2px solid #e4e4e4;
+      margin: 0 8px 0 0;
+      cursor:pointer;
+      top: 30px;
+    }
+    
+    // .profile-thumb:hover {
+    //   transition: .1s ease-in-out all;
+    //   border-bottom: 2px solid #757575;
+    // }
+  }
+  
 }
 
 .drop-down-wrapper {
@@ -92,8 +112,8 @@
   margin: 0;
   padding: 0;
   position: absolute;
-  right: 4px;
-  top: 80px;
+  right: -4px;
+  top: 87px;
   background:#fff;
   z-index: 10;
   width: 280px;
@@ -112,4 +132,3 @@
 .drop-down-wrapper li:hover {
   border-bottom: 1px solid #333;
 }
-

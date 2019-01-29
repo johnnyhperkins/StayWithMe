@@ -8,6 +8,10 @@ import Logo from '../../static_assets/logo';
 import SearchIcon from '../../static_assets/search_icon';
 import Menu from './menu';
 import { changeFormType } from '../../actions/ui';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
 
 import { logout } from '../../actions/sessions';
 
@@ -17,7 +21,9 @@ class NavBar extends Component {
     this.state = {
       signUpOpen: false,
       loginOpen: false,
-      seachText: '',
+      address: '',
+      lng: 0,
+      lat: 0
       
     }
   }
@@ -44,8 +50,22 @@ class NavBar extends Component {
     }
   }
 
+  handleChangeAddress = address => this.setState({ address })
+
+  handleSelectAddress = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => this.setState({
+        lng:parseFloat(latLng.lng),
+        lat:parseFloat(latLng.lat),
+        address
+      }))
+      .catch(error => console.error('Error', error));
+  };
+
   render() {
     const { session, logout, loggedIn } = this.props;
+    const { address } = this.state;
     const classes = loggedIn ? 'fixed-top-nav flex-container' : 'top-nav logged-out flex-container';
     return (
       <>
@@ -57,12 +77,43 @@ class NavBar extends Component {
             {loggedIn && 
               <>
                 <SearchIcon options={{'height':'18px','width':'18px', 'fill':'#333'}} />
-                <input type="text" 
-                  className="search-input" 
-                  value={this.state.searchText} 
-                  onChange={(e) => this.setState({searchText: e.target.value})}
-                  placeholder={`Try "Manhattan"`}
-                />
+                <PlacesAutocomplete
+                  value={address}
+                  onChange={this.handleChangeAddress}
+                  onSelect={this.handleSelectAddress}
+                >
+                  {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                    <div className="autocomplete-dropdown-container">
+                      <input
+                        {...getInputProps({
+                          placeholder: 'Try "Manhattan"',
+                          className: 'location-search-input search-input',
+                        })}
+                      />
+                      <div className="autocomplete-dropdown">
+                        {loading && <div>Loading...</div>}
+                        {suggestions.map(suggestion => {
+                          const className = suggestion.active
+                            ? 'suggestion-item--active'
+                            : 'suggestion-item';
+                            const style = suggestion.active
+                            ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                            : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                          return (
+                            <div
+                              {...getSuggestionItemProps(suggestion, {
+                                className,
+                                style
+                              })}
+                            >
+                              <span><i className="fas fa-map-marker-alt"></i> {suggestion.description}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </PlacesAutocomplete>
               </>
             }
           </div>

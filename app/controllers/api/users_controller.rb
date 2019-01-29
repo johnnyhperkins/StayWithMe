@@ -1,4 +1,6 @@
 class Api::UsersController < ApplicationController
+  before_action :require_logged_in, only: [:index, :update]
+
   def create
     @user = User.new(user_params)
     if @user.save
@@ -17,7 +19,6 @@ class Api::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:user][:id])
-    # debugger
     if @user == current_user
       if !params[:user][:password].nil?
         if params.include?(:password) && params[:user][:password].length > 5
@@ -27,7 +28,7 @@ class Api::UsersController < ApplicationController
         end
       end
       if @user.update_attributes(user_params)
-        render json: ['Successfully updated user profile'], status: 200
+        render :show, status: 200
       else
         render json: @user.errors.full_messages, status: 409
       end
@@ -56,6 +57,6 @@ class Api::UsersController < ApplicationController
   private 
   
   def user_params
-    params.require(:user).permit(:username, :email, :password, :profile_thumb)
+    params.require(:user).permit(:username, :email, :password, :photo)
   end
 end

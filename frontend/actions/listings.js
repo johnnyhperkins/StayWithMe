@@ -38,7 +38,7 @@ export const fetchListing = id => dispatch => {
 };
 
 export const destroyListing = (id) => dispatch => {
-  return ApiListingsUtil.destroyListing(id).then(listing => {
+  return ApiListingsUtil.destroyListing(id).then(() => {
     return dispatch(removeListing(id));
   },
   (e) => dispatch(receiveListingErrors(e.responseJSON)))

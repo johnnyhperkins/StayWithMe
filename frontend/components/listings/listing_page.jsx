@@ -95,8 +95,8 @@ class Listing extends Component {
       home_type_id, 
       description,
       id,
-      user_id
-       
+      user_id,
+      photoUrls
     } = this.props.listing;
 
     let { 
@@ -106,26 +106,24 @@ class Listing extends Component {
       numGuests,
       openGuestSelect
     } = this.state;
-
+    const thumbIdx = 1;
     return (
       <>
       <section className="image-header-container flush-top flex-container">
-        <div className="left-half grid--50">
-          <img src="https://s3.us-east-2.amazonaws.com/stay-with-me/IMG_0938.jpg" alt=""/>
-        </div>
+        { photoUrls.filter((_,idx) => idx === thumbIdx)
+            .map(url => <div className="left-half hero-image grid--50" style={{backgroundImage: `url(${url})`}}></div>) }
         <div className="right-half grid--50">
-          <div className="square-image grid--50">
-            <img src="https://s3.us-east-2.amazonaws.com/stay-with-me/IMG_1638.jpg" alt=""/>
-          </div>
-          <div className="square-image grid--50">
-            <img src="https://s3.us-east-2.amazonaws.com/stay-with-me/IMG_0924.jpg" alt=""/>
-          </div>
-          <div className="square-image grid--50">
-            <img src="https://s3.us-east-2.amazonaws.com/stay-with-me/IMG_1637.jpg" alt=""/>
-          </div>
-          <div className="square-image grid--50">
-            <img src="https://s3.us-east-2.amazonaws.com/stay-with-me/IMG_0940.jpg" alt=""/>
-          </div>
+          { photoUrls.filter((_,idx) => idx !== thumbIdx)
+            .map((url, idx2) => {
+                if(idx2 < 4) {
+                  return  (
+                  <div className="square-image grid--50" style={{backgroundImage: `url(${url})`}}>
+                    {/* <img src={url} /> */}
+                  </div>
+                  )
+                }
+            })
+          }
         </div>
       </section>
       <section className="content-container--interior-page flex-container">

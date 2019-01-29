@@ -3,7 +3,7 @@ import ListingListItem from './listing_list_item';
 import Loading from '../misc/loading';
 
 
-const UserListings = ({listings, listingLoading, amenities, home_types}) => {
+const UserListings = ({listings, destroyListing, listingLoading, amenities, home_types}) => {
     if(listingLoading) {
       return <Loading />
     }
@@ -17,6 +17,7 @@ const UserListings = ({listings, listingLoading, amenities, home_types}) => {
           <ul className="user-listings">
             {listings.map(listing => 
             <ListingListItem 
+              destroyListing={destroyListing}
               amenities={amenities} 
               home_types={home_types} 
               key={listing.id} 

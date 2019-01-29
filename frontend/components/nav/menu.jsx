@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import BlankUser from '../../static_assets/user-solid'
+import { BlankUser } from '../../static_assets/user-solid'
 import ProfileMenu from './profile_menu';
 import { NavLink } from 'react-router-dom';
+import isUndefined from 'lodash/isUndefined';
 
 class Menu extends Component {
   constructor(props) {
@@ -42,7 +43,13 @@ class Menu extends Component {
               Add Listing
             </NavLink>
             <div className="profile-wrapper" onClick={this.toggleMenu} ref={this.setMenuDropDownRef}>
-              {session.profile_thumb == 'default' ? <BlankUser /> : <img src={session.profile_thumb} className="profile-thumb" />}
+              { session.photoUrl ? 
+                <div className="button--navlink button--navlink__user-thumb">
+                  <div className="profile-thumb" style={{backgroundImage: `url(${session.photoUrl})`}} /> 
+                </div>
+                : 
+                <BlankUser /> 
+              }
               {this.state.menuOpen && <ProfileMenu session={session} logout={logout} />}
             </div>
             </>

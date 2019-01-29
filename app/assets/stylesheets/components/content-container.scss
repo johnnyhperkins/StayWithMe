@@ -53,6 +53,7 @@ footer p, footer a, {
         padding: 20px;
         border: 1px solid $off-white;
         border-top-width: 0;
+        position:relative;
     }
     .listing-form {
         border-top-width: 1px;
@@ -103,8 +104,8 @@ footer p, footer a, {
 }
 .suggestion-item--active,
 .suggestion-item {
-    padding: 5px 20px;
-    cursor: 'pointer';
+    padding: 10px 20px;
+    cursor: pointer;
 }
 
 
@@ -114,9 +115,15 @@ footer p, footer a, {
     border-radius: 0 0 4px 4px;
     box-shadow: 0 15px 46px -10px rgba(26, 26, 29, 0.3);
     overflow: hidden;
-    padding: 15px 0;
     -webkit-transition: background-color 200ms linear;
     -moz-transition: background-color 200ms linear;
     transition: background-color 200ms linear;
     position:absolute;
+}
+
+.autocomplete-dropdown.autocomplete-dropdown--splash {
+    top: 40px;
+    width: 340px;
+    left: -20px;
+    font-size: 14px;
 }

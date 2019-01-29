@@ -4,6 +4,10 @@ import 'react-dates/initialize';
 import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
 import moment from 'moment';
 import SearchIcon from '../../static_assets/search_icon';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
 
 const today = moment();
 
@@ -11,7 +15,9 @@ class HomeLoggedOut extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      location: '',
+      address: '',
+      lng: 0,
+      lat: 0,
       startDate: '',
       endDate: '',
       numGuests: 1,
@@ -19,7 +25,7 @@ class HomeLoggedOut extends Component {
       calendarFocused: null,
       openDatePicker: false,
       openGuestSelect: false,
-      errors: ''
+      errors: '',
     } 
   }
 
@@ -58,6 +64,19 @@ class HomeLoggedOut extends Component {
     console.log('perform search', this.state);
   }
 
+  handleChangeAddress = address => this.setState({ address })
+
+  handleSelectAddress = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => this.setState({
+        lng:parseFloat(latLng.lng),
+        lat:parseFloat(latLng.lat),
+        address
+      }))
+      .catch(error => console.error('Error', error));
+  };
+
   onFocusChange = (focusedInput) => {
     let { startDate } = this.state;
     this.setState({
@@ -89,7 +108,7 @@ class HomeLoggedOut extends Component {
   }
   
   render() {
-    const { startDate, endDate, numGuests, openGuestSelect, location, errors } = this.state;
+    const { startDate, endDate, numGuests, openGuestSelect, address, errors } = this.state;
     const startDateString = startDate && startDate.format('ddd, MMM Do');
     const endDateString = endDate && endDate.format('ddd, MMM Do');
 
@@ -102,11 +121,43 @@ class HomeLoggedOut extends Component {
               <div className="search-input-wrapper">
                 <label>
                   <p>City, Address, Landmark</p>
-                  <input 
-                    type="text" 
-                    placeholder="Manhattan, NY" 
-                    value={location}
-                    onChange={(e) => this.setState({'location': e.target.value})}/>
+                  <PlacesAutocomplete
+                    value={address}
+                    onChange={this.handleChangeAddress}
+                    onSelect={this.handleSelectAddress}
+                  >
+                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                      <div className="autocomplete-dropdown-container">
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Try "Manhattan"',
+                            className: 'location-search-input search-input',
+                          })}
+                        />
+                        <div className="autocomplete-dropdown autocomplete-dropdown--splash">
+                          {loading && <div>Loading...</div>}
+                          {suggestions.map(suggestion => {
+                            const className = suggestion.active
+                              ? 'suggestion-item--active'
+                              : 'suggestion-item';
+                              const style = suggestion.active
+                              ? { backgroundColor: "#fafafa", "cursor": "pointer" }
+                              : { backgroundColor: "#ffffff", "cursor": "pointer" };
+                            return (
+                              <div
+                                {...getSuggestionItemProps(suggestion, {
+                                  className,
+                                  style
+                                })}
+                              >
+                                <span><i className="fas fa-map-marker-alt"></i> {suggestion.description}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    )}
+                  </PlacesAutocomplete>
                 </label>
               </div>
               <div className="date-input-wrapper" ref={this.setDatePickerRef}>

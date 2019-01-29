@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { NavLink, Redirect } from 'react-router-dom';
-// import Reacts3Uploader from 'react-s3-uploader';
 import objectToFormData from 'object-to-formdata';
 import 'react-dates/initialize';
 import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
 import PlacesAutocomplete, {
   geocodeByAddress,
-  geocodeByPlaceId,
   getLatLng,
 } from 'react-places-autocomplete';
 
@@ -17,10 +14,7 @@ const today = moment();
 
 //TO DO: 
 // debug the slow inputs
-// figure out how to get lat long from address
-// figure out auto populate of addresses on typing
-// figure out aws image attachments
-// figure out how to allow user to select which image they want to be the thumb image
+// allow user to select which image they want to be the thumb image
 
 class ListingForm extends Component {
   constructor(props) {
@@ -42,7 +36,6 @@ class ListingForm extends Component {
         end_date: '',
         images: [],
         amenity_ids: [],
-        photos: []
       },
       focusedInput: 'startDate',
       calendarFocused: null,
@@ -50,6 +43,7 @@ class ListingForm extends Component {
       startDate: '',
       imageFile: '',
       imageUrl: '',
+      photos: []
       
     }
   }  
@@ -101,8 +95,11 @@ class ListingForm extends Component {
   }
 
   handleSubmit = () => {
-    const { listing } = this.state;
+    const { listing, photos } = this.state;
     const formData = objectToFormData(listing, null,null, 'listing');
+    for(let i = 0; i < photos.length; i++) {
+      formData.append('listing[photos][]', photos[i]);
+    }
     return this.props.createListing(formData).then((res) => {
       this.props.history.push(`/listings/${res.listing.id}`)
     })
@@ -127,18 +124,6 @@ class ListingForm extends Component {
       }}))
       .catch(error => console.error('Error', error));
   };
-
-  // handlePhotoAttachement = (e) => {
-  //   const reader = new FileReader();
-  //   const file = e.currentTarget.files[0];
-  //   reader.onloadend = () => this.setState({ imageUrl: reader.result, imageFile: file});
-
-  //   if (file) {
-  //     reader.readAsDataURL(file);
-  //   } else {
-  //     this.setState({ imageUrl: "", imageFile: null });
-  //   }
-  // }
 
   render() {
     let { 
@@ -182,10 +167,8 @@ class ListingForm extends Component {
                <input 
                 type="file"
                 className="text-input"
-                // name="thumb_img"
-                onChange={e => this.setState({ ...this.state, listing: {...this.state.listing, photos: e.target.files }})}
+                onChange={e => this.setState({ photos: e.target.files })}
                 multiple
-                // onChange={this.handlePhotoAttachement}
                 />
                 { imageUrl && <img src={imageUrl} className="thumb-img" /> }
               </label>

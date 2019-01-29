@@ -9,7 +9,6 @@
 #  session_token   :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  profile_thumb   :string
 #
 
 class User < ApplicationRecord
@@ -21,6 +20,7 @@ class User < ApplicationRecord
   has_many :listings
   has_many :bookings
   has_many :reviews
+  has_one_attached :photo
 
 
   attr_reader :password

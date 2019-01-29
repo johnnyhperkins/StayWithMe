@@ -4,9 +4,9 @@ import { receiveMessages } from '../actions/ui';
 
 export const updateUser = (user) => dispatch => {
   return update(user).then((res) => {
-    // debugger
-    dispatch(receiveMessages(res));
-    return dispatch(receiveCurrentUser(user));
+
+    dispatch(receiveMessages(["Profile has been successfully updated"]));
+    return dispatch(receiveCurrentUser(res));
   },
   (e) => {
     return dispatch(receiveSessionErrors(e.responseJSON));

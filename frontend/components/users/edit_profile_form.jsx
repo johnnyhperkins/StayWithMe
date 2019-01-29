@@ -1,4 +1,12 @@
+
+
+
 // TO DO: Figure out how to change passwords!
+// update the api util to allow to send picutres
+// fade out errors
+
+
+
 
 import React, { Component } from 'react';
 import { userExists } from '../../util/session_api';
@@ -8,28 +16,75 @@ import { updateUser } from '../../actions/users';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
+import objectToFormData from 'object-to-formdata';
+import {BlankUserProfile} from '../../static_assets/user-solid';
 
 class EditProfileForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
       user: this.props.user,
-      errors: ''
+      errors: '',
+      imageUrl: this.props.user.photoUrl || '',
+      imageFile: '',
+      password: ''
     }
     
   }
 
   componentDidMount() {
-    this.props.receiveSessionErrors([]);
+    const { errors, messages, receiveMessages, receiveSessionErrors } = this.props;
+    if(errors.length || messages.length) {
+      receiveSessionErrors([]);
+      receiveMessages([]);
+    }
   }
 
-  handleSubmit = (e) => {
+  clearErrorsAndMessages = () => {
+        window.setTimeout(() => {
+          this.props.receiveSessionErrors([]);
+          this.props.receiveMessages([]);
+        }, 5000);   
+    }
+
+  // componentDidUpdate(prevProps) {
+  //   console.log('prevProps:', prevProps);
+  //   console.log('currentProps:', this.props);
+  //   debugger
+  //   if(this.props.errors.length || this.props.messages.length) {
+  //     debugger
+  //     window.setTimeout(() => {
+  //         this.props.receiveSessionErrors([]);
+  //         this.props.receiveMessages([]);
+  //       }, 5000);   
+  //   }
+  // }
+
+  componentWillUnmount() {
+      receiveSessionErrors([]);
+      receiveMessages([]);
+  }
+
+  handleSubmit = () => {
+    const { email, username, id } = this.state.user;
     const { updateUser, receiveMessages } = this.props;
-    updateUser(this.state.user).then(res => {
-      
-      if(res) {
-        receiveMessages(["Succesfully Updated"])
-      }
+    const updatedUserObject = {
+      id,
+      email,
+      username
+    }
+    
+    this.state.password.length ? updatedUserObject['password'] = this.state.password : "";
+
+    const formData = objectToFormData(updatedUserObject, null,null, 'user');
+    if(this.state.imageFile) {
+      formData.append('user[photo]', this.state.imageFile);
+    }
+    
+    return updateUser(formData).then(res => {
+      // if(res) {
+      //   receiveMessages(["Succesfully Updated"])
+      // }
     }, (e) => {
       console.log(e);
     });
@@ -42,6 +97,17 @@ class EditProfileForm extends Component {
         [e.target.name]: e.target.value
       }
     })
+  }
+
+  handlePhotoAttachement = (e) => {
+    const reader = new FileReader();
+    const file = e.currentTarget.files[0];
+    reader.onloadend = () => this.setState({ imageUrl: reader.result, imageFile: file});
+    if (file) {
+      reader.readAsDataURL(file);
+    } else {
+      this.setState({ imageUrl: "", imageFile: null });
+    }
   }
 
   checkExists = () => {
@@ -63,17 +129,36 @@ class EditProfileForm extends Component {
 
   render() {
     const { username, email, password } = this.state.user;
+    const { imageUrl } = this.state;
     const { errors, messages } = this.props;
     console.log(errors, messages);
     return (
       <>
       <section className="grid--75 margin-left24">
-        <div className="grid--75__header">
+        <div className="grid--75__header flex-container">
           <p>Required</p>
+          {!isEmpty(messages) && messages.map((m, idx) => <h6 className="text--green message" key={idx} >{m}</h6>)}
         </div>
         <div className="form-wrapper">
-        {!isEmpty(messages) && messages.map((m, idx) => <p key={idx} >{m}</p>)}
 
+        
+        
+        <div className="profile-thumb-wrapper">
+        { imageUrl ? 
+          ( <>
+              <div className="profile-thumb" style={{backgroundImage: `url(${imageUrl})`}} />
+            </>
+          ) :
+            <BlankUserProfile />
+          }
+            <input 
+              type="file"
+              className="text-input--profile text-input"
+              name="thumb_img"
+              onChange={this.handlePhotoAttachement}
+            />
+            <label>edit</label>
+          </div>
           <div className="profile-form-row">
             <label>Email</label>
               <input 
@@ -100,6 +185,8 @@ class EditProfileForm extends Component {
                 onBlur={this.checkExists}
                 />
           </div>
+          
+          
           <div className="profile-form-row">
             <label>Change Your Password</label>
               <input 

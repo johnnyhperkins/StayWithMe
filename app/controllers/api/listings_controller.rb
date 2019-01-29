@@ -11,10 +11,7 @@ class Api::ListingsController < ApplicationController
   def create
     @listing = Listing.new(listing_params)
     @listing.user_id = current_user.id;
-    # @listing.photos.attach(params[:listing][:photos])
-    # debugger
     if @listing.save
-      # debugger
       if params[:listing][:amenity_ids].length
         params[:listing][:amenity_ids].each do |amenity_id|
           @listing.listing_amenities.create(amenity_id:amenity_id)
@@ -72,7 +69,7 @@ class Api::ListingsController < ApplicationController
 
   private
   def listing_params
-    params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, :images, photos: [])
+    params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [])
   end
 end
 

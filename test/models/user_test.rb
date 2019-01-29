@@ -9,7 +9,6 @@
 #  session_token   :string           not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
-#  profile_thumb   :string
 #
 
 require 'test_helper'

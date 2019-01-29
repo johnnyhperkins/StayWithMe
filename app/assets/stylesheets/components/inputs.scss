@@ -19,6 +19,26 @@
     margin-right: 24px;
 }
 
+.profile-thumb-wrapper {
+    input[type=file] {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        width:100%;
+        cursor: pointer;
+    }
+    
+    input[type=file] + label {
+        font-size: $font-s;
+        color: $light-black;
+        display: block;
+        text-align: center;
+        cursor: pointer;
+    }
+}
+
 
 input[type=text]:focus,
 input[type=password]:focus,
@@ -33,11 +53,9 @@ form {
     }
 }
 
-
 .select {
     @extend .text-input;
 }
-
 
 .checkbox-wrapper {
     margin-bottom:2.4rem;
@@ -144,7 +162,7 @@ textarea {
 
 .text-input.text-input--profile {
     display:inline-block;
-    width: 75%;
+    width: 55%;
     border-radius: 1px;
     padding: .7rem 1rem;
     margin-left: 1.3rem;
@@ -153,15 +171,3 @@ textarea {
     line-height:0;
     height:auto;
 }
-
-.profile-form-row {
-    display:flex;
-    justify-content: flex-end;
-    margin-bottom: 2.4rem;
-
-    label {
-        padding: 6px 0 6px 8px;
-        font-size: $font-s;
-    }
-}
-

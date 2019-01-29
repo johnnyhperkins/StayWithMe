@@ -2,20 +2,19 @@
 #
 # Table name: listings
 #
-#  id           :bigint(8)        not null, primary key
-#  user_id      :integer          not null
-#  title        :string           not null
-#  thumb_img    :string
-#  address      :text             not null
-#  lat          :float            not null
-#  lng          :float            not null
-#  price        :integer          not null
-#  home_type_id :integer          not null
-#  description  :text             not null
-#  max_guests   :integer          not null
-#  images       :string           is an Array
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
+#  id            :bigint(8)        not null, primary key
+#  user_id       :integer          not null
+#  title         :string           not null
+#  address       :text             not null
+#  lat           :float            not null
+#  lng           :float            not null
+#  price         :integer          not null
+#  home_type_id  :integer          not null
+#  description   :text             not null
+#  max_guests    :integer          not null
+#  created_at    :datetime         not null
+#  updated_at    :datetime         not null
+#  thumb_img_idx :integer
 #
 
 class Listing < ApplicationRecord
