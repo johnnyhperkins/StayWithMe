@@ -27,7 +27,7 @@ const App = connect(state => ({
         <ProtectedRoute exact path="/listings/new" component={NewListingContainer} />
         <Route exact path="/listings" component={ListingIndex} />
         <Route exact path="/listings/:id" component={Listing} />
-        {/* <Route exact path="/search" component={SearchResultContainer} /> */}
+        <Route exact path="/search" component={SearchResultContainer} />
         <ProtectedRoute exact path="/listings/new" component={NewListingContainer} />
         <ProtectedRoute exact path="/listings/:id/edit" component={EditListingContainer} />
         <ProtectedRoute path="/users/:id" component={Dashboard} />

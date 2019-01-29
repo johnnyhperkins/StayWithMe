@@ -4,7 +4,6 @@ export const RECEIVE_LISTINGS = 'RECEIVE_LISTINGS';
 export const REMOVE_LISTING = 'REMOVE_LISTING';
 
 export const RECEIVE_AMENITIES_AND_HOME_TYPES = 'RECEIVE_AMENITIES_AND_HOME_TYPES';
-// export const RECEIVE_HOME_TYPES = 'RECEIVE_HOME_TYPES';
 
 export const RECEIVE_LISTING_ERRORS = 'RECEIVE_LISTING_ERRORS';
 
@@ -74,11 +73,7 @@ export const fetchAmenitiesAndHomeTypes = () => dispatch => {
   })
 };
 
-// export const fetchHomeTypes = home_types => dispatch => {
-//   return ApiListingsUtil.fetchHomeTypes(home_types).then(home_types => {
-//     return dispatch(receiveHomeTypes(home_types));
-//   })
-// };
+
 
 
 const receiveAmenitiesAndHomeTypes = (amenitiesAndHomeTypes) => ({
@@ -87,10 +82,7 @@ const receiveAmenitiesAndHomeTypes = (amenitiesAndHomeTypes) => ({
   home_types: amenitiesAndHomeTypes.home_types,
 })
 
-// const receiveHomeTypes = ({home_types}) => ({
-//   type: RECEIVE_HOME_TYPES,
-//   home_types
-// })
+
 
 export const receiveListingErrors = (errors) => ({
   type: RECEIVE_LISTING_ERRORS,

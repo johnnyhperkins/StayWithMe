@@ -2,6 +2,22 @@
     margin: $l-size 0;
 }
 
+.flush-content-container {
+    width:100%;
+    position:relative;
+    top: -3rem;
+    align-items: baseline;
+    align-content: space-around;
+    min-height: 480px;
+}
+
+.search-listings-container {
+    .search-index-container {
+        min-width: 66%;
+        padding: 2.4rem;
+    }
+}
+
 main {
     position:relative;
 }

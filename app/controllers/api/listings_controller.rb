@@ -66,7 +66,7 @@ class Api::ListingsController < ApplicationController
   end
 
   def index
-    # query = params
+    # query = params[:lat]
     # @listings = Listings.
   end
 
@@ -84,8 +84,8 @@ class Api::ListingsController < ApplicationController
   def listing_params
     params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [])
   end
-  # def extra_params
-  #   params.require(:extras).permit(:start_date, :end_date, :amenity_ids)
+  # def query_params
+  #   params.require(:query).permit(:start_date, :end_date, :amenity_ids)
   # end
 end
 

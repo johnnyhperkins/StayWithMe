@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 
 const SearchResultItem = ({listing}) => {
     return (
-      <div></div>
+      <div>
+        <h1>Result list item</h1>
+      </div>
     );
 };
 

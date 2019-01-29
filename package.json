@@ -10,6 +10,7 @@
     "moment": "^2.24.0",
     "normalize.css": "^8.0.1",
     "object-to-formdata": "^1.6.2",
+    "query-string": "^6.2.0",
     "react": "^16.7.0",
     "react-dates": "^18.4.0",
     "react-dom": "^16.7.0",

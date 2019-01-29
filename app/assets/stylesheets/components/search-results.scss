@@ -1,0 +1,24 @@
+#search-results-map {
+  height: 100vh;
+  width: 33%;
+  position:fixed!important;
+  height: -webkit-calc(100vh - 12.9rem);
+  height:    -moz-calc(100vh - 12.9rem);
+  height:         calc(100vh - 12.9rem);
+  right: 0;
+  top: 12.9rem;
+}
+
+.filter-bar {
+  border-bottom: 1px solid $off-white;
+  padding: .8rem 2.4rem;
+  position:relative;
+  top: -3rem;
+  .button {
+    font-size: $font-s;
+    font-weight: 200;
+  }
+  .button--outlined {
+    border-color: $off-white;
+  }
+}

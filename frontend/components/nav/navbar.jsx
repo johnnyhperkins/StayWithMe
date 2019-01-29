@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import Modal from 'react-modal';
 import SignUpFormContainer from '../session/signup_form_container';
 import LoginFormContainer from '../session/login_form_container';
 import Logo from '../../static_assets/logo';
 import SearchIcon from '../../static_assets/search_icon';
 import Menu from './menu';
-import { changeFormType } from '../../actions/ui';
+import { changeFormType, receiveSearchQuery } from '../../actions/ui';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -23,8 +23,7 @@ class NavBar extends Component {
       loginOpen: false,
       address: '',
       lng: 0,
-      lat: 0
-      
+      lat: 0 
     }
   }
 
@@ -40,16 +39,6 @@ class NavBar extends Component {
     })
   }
 
-  handleGoogleSignIn() {
-    function onSignIn(googleUser) {
-      var profile = googleUser.getBasicProfile();
-      // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-      // console.log('Name: ' + profile.getName());
-      // console.log('Image URL: ' + profile.getImageUrl());
-      // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-    }
-  }
-
   handleChangeAddress = address => this.setState({ address })
 
   handleSelectAddress = address => {
@@ -59,6 +48,16 @@ class NavBar extends Component {
         lng:parseFloat(latLng.lng),
         lat:parseFloat(latLng.lat),
         address
+      }, () => {
+        // dispatch to ui state with the lat/lng info 
+        const { lat, lng } = this.state;
+        this.props.receiveSearchQuery({query: null})
+        this.props.history.push({pathname: '/search', search: `?lat=${lat}&lng=${lng}`});
+        
+          // dispatch fetchListings this.state. lat long
+          // pass the lat long into the instansiation of the map
+          // do check for listings within the bounds of the map
+          // updatelisting results and create map markers accordingly
       }))
       .catch(error => console.error('Error', error));
   };
@@ -169,7 +168,23 @@ const msp = (state) => ({
 
 const mdp = (dispatch) => ({
   logout: () => dispatch(logout()),
-  changeFormType: (formType) => dispatch(changeFormType(formType))
+  changeFormType: (formType) => dispatch(changeFormType(formType)),
+  receiveSearchQuery: (query) => dispatch(receiveSearchQuery(query))
 })
 
 export default connect(msp, mdp)(NavBar)
+
+
+
+
+
+
+// handleGoogleSignIn() { //BONUS
+  //   function onSignIn(googleUser) {
+  //     var profile = googleUser.getBasicProfile();
+  //     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+  //     console.log('Name: ' + profile.getName());
+  //     console.log('Image URL: ' + profile.getImageUrl());
+  //     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  //   }
+  // }
