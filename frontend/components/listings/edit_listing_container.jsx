@@ -1,18 +1,30 @@
 import { connect } from 'react-redux';
-import { receiveSessionErrors } from '../../actions/sessions';
-import { updateListing } from '../../actions/listings';
+import { 
+    updateListing, 
+    fetchAmenitiesAndHomeTypes, 
+    receiveListingErrors,
+    fetchListing
+} from '../../actions/listings';
 import ListingForm from './listing_form';
 
 const msp = (state, props) => {
   return {
-      listing: state.entities.listings[props.match.params],
-      
+    listing: state.entities.listings[props.match.params],
+    messages: state.ui.messages,
+    home_types: Object.values(state.entities.home_types),
+    amenities: Object.values(state.entities.amenities),
+    errors: state.errors.listing,
+    user_id: state.session.id,
+    formType: "Edit Listing",
+    listingLoading: state.ui.listingLoading,
   }
 }
 
 const mdp = (dispatch) => ({
     updateListing: listing => dispatch(updateListing(listing)),
-    receiveSessionErrors: (errors) => dispatch(receiveSessionErrors(errors)),
+    fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes()),
+    receiveListingErrors: errors => dispatch(receiveListingErrors(errors)),
+    fetchListing: id => dispatch(fetchListing(id))
 })
 
 export default connect(msp,mdp)(ListingForm);

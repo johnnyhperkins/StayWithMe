@@ -7,6 +7,7 @@ import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import Loading from '../misc/loading';
 
 import moment from 'moment';
 
@@ -15,6 +16,7 @@ const today = moment();
 //TO DO: 
 // debug the slow inputs
 // allow user to select which image they want to be the thumb image
+// clean up error messages
 
 class ListingForm extends Component {
   constructor(props) {
@@ -23,34 +25,48 @@ class ListingForm extends Component {
     this.state = {
       listing: {
         user_id,
-        title: 'Testing', 
+        title: '', 
         thumb_img_idx: 1, 
         address: '', 
         lat: 0,
         lng: 0,
-        price: props.listing ? (props.listing.price / 100).toString() : '100',
+        price: '100',
         home_type_id: 1,
         description: 'Testing description',
         max_guests: '5',
         start_date: '',
         end_date: '',
-        images: [],
+        photos: [],
         amenity_ids: [],
       },
       focusedInput: 'startDate',
       calendarFocused: null,
       endDate: '',
       startDate: '',
-      imageFile: '',
-      imageUrl: '',
-      photos: []
+      selectedPhotos: []
       
     }
-  }  
+  } 
 
   componentDidMount() {
-    const { fetchAmenitiesAndHomeTypes } = this.props;
+    const { fetchAmenitiesAndHomeTypes, fetchListing } = this.props;
     fetchAmenitiesAndHomeTypes();
+    if(!!fetchListing) {
+      return fetchListing(this.props.match.params.id).then(({listing}) => {
+          const startDate = moment(new Date(listing.start_date));
+          const endDate = moment(new Date(listing.end_date));
+          delete listing['created_at']
+          delete listing['updated_at']
+          this.setState({
+            ...this.state,
+            startDate,
+            endDate,
+            listing,
+          })
+        }
+      );
+    }
+    
   }
 
   onFocusChange = (focusedInput) => {
@@ -95,12 +111,33 @@ class ListingForm extends Component {
   }
 
   handleSubmit = () => {
-    const { listing, photos } = this.state;
+    const { listing, selectedPhotos } = this.state;
+    
+    const action = this.props.createListing ? this.props.createListing : this.props.updateListing;
+
+    const amenity_ids = listing.amenity_ids;
+    delete listing['amenity_ids'];
+    if(this.props.formType == "Edit Listing") delete listing['photos'];
+
     const formData = objectToFormData(listing, null,null, 'listing');
-    for(let i = 0; i < photos.length; i++) {
-      formData.append('listing[photos][]', photos[i]);
+    formData.append('extras[start_date]', listing.start_date);
+    formData.append('extras[end_date]', listing.end_date);
+    formData.delete('listing[start_date]');
+    formData.delete('listing[end_date]');
+
+    if(selectedPhotos.length) {
+      for(let i = 0; i < selectedPhotos.length; i++) {
+        formData.append('listing[photos][]', selectedPhotos[i]);
+      }
     }
-    return this.props.createListing(formData).then((res) => {
+
+    if(amenity_ids.length) {
+      for(let i = 0; i < amenity_ids.length; i++) {
+        formData.append('extras[amenity_ids][]', amenity_ids[i]);
+      }
+    }
+    
+    return action(formData).then((res) => {
       this.props.history.push(`/listings/${res.listing.id}`)
     })
   }
@@ -126,11 +163,16 @@ class ListingForm extends Component {
   };
 
   render() {
+    const { listingLoading, listing } = this.props;
+    if(listingLoading || listing) {
+      return <Loading />
+    }
     let { 
       startDate,
       endDate,
       focusedInput,
-      imageUrl
+      imageUrl,
+      selectedPhotos
     } = this.state;
 
     const { 
@@ -140,16 +182,17 @@ class ListingForm extends Component {
       price, 
       home_type_id, 
       description, 
-      max_guests, 
-      images,
+      max_guests,
+      photos
     } = this.state.listing;
-
-    const { errors, home_types, amenities } = this.props;
+    // debugger
+    const { errors, home_types, amenities, formType } = this.props;
     const startDateString = startDate && moment(startDate).format('ddd, MMM Do');
     const endDateString = endDate && moment(endDate).format('ddd, MMM Do');
+
     return (
       <section className="content-container grid--75">
-        <h2>Lets get started listing your place.</h2>
+        <h2>{formType == "Edit Listing" ? "Edit your listing" : 'Lets get started listing your place.'}</h2>
         <div className="form-wrapper listing-form">
         {/* {!isEmpty(messages) && messages.map((m, idx) => <p key={idx} >{m}</p>)} */}
               <label>Title
@@ -167,12 +210,16 @@ class ListingForm extends Component {
                <input 
                 type="file"
                 className="text-input"
-                onChange={e => this.setState({ photos: e.target.files })}
+                onChange={e => this.setState({ selectedPhotos: e.target.files })}
                 multiple
                 />
-                { imageUrl && <img src={imageUrl} className="thumb-img" /> }
+                {/* { imageUrl && <img src={imageUrl} className="thumb-img" /> } */}
               </label>
-
+              {(photos && photos.length) ?
+                <div className="flex-container--no-justify photos-container">
+                  { photos.map((url, idx) => <div key={idx} className="listing-thumb square-image grid--25" style={{backgroundImage: `url(${url})`}} />) }
+                </div> : null
+              }
               <PlacesAutocomplete
                 value={address}
                 onChange={this.handleChangeAddress}
@@ -310,7 +357,7 @@ class ListingForm extends Component {
           }
         </div>
         <section>
-          <button onClick={this.handleSubmit} className="button--submit inline-block" >Save</button>
+          <button onClick={this.handleSubmit} className="button--submit inline-block" >{formType}</button>
         </section>  
       </section>
     )

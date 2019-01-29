@@ -55,9 +55,11 @@ export const destroyListing = (id) => {
 
 export const updateListing = (listing) => {
   return $.ajax({
-    url: `/api/listings/${listing.id}`,
+    url: `/api/listings/${listing.get('listing[id]')}`,
     method: "PATCH",
-    data: { listing },
+    data: listing,
+    contentType: false,
+    processData: false,
     error: (err) => console.log(err)
   })
 };

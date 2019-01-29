@@ -9,17 +9,19 @@ class Api::ListingsController < ApplicationController
   before_action :require_logged_in, only: [:create, :destroy]
 
   def create
+    debugger
     @listing = Listing.new(listing_params)
+    debugger;
     @listing.user_id = current_user.id;
     if @listing.save
-      if params[:listing][:amenity_ids].length
-        params[:listing][:amenity_ids].each do |amenity_id|
+      if params[:extras][:amenity_ids].length
+        params[:extras][:amenity_ids].each do |amenity_id|
           @listing.listing_amenities.create(amenity_id:amenity_id)
         end
       end
       @listing.listing_availabilities.create(
-        start_date: params[:listing][:start_date], 
-        end_date: params[:listing][:start_date]
+        start_date: params[:extras][:start_date], 
+        end_date: params[:extras][:end_date]
       )
       render 'api/listings/show'
 
@@ -33,6 +35,17 @@ class Api::ListingsController < ApplicationController
     @listing = current_user.listings.find(params[:id]);
     if @listing
       if @listing.update_attributes(listing_params);
+        if params[:extras][:amenity_ids].length
+          params[:extras][:amenity_ids].each do |amenity_id|
+            @listing.listing_amenities.create(amenity_id:amenity_id)
+          end
+        end
+        if params[:extras][:start_date] || params[:extras][:end_date]
+          @listing.listing_availabilities.create(
+            start_date: params[:extras][:start_date], 
+            end_date: params[:extras][:end_date]
+          )
+        end
         render 'api/listings/show'
       else 
         render json: @listing.errors.full_messages, status: 409
@@ -70,6 +83,9 @@ class Api::ListingsController < ApplicationController
   private
   def listing_params
     params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [])
+  end
+  def extra_params
+    params.require(:extras).permit(:start_date, :end_date, :amenity_ids)
   end
 end
 

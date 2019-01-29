@@ -5,11 +5,11 @@ import ListingForm from './listing_form'
 
 const msp = state => ({
   user_id: state.session.id,
-  messages: state.ui,
+  messages: state.ui.messages,
   home_types: Object.values(state.entities.home_types),
   amenities: Object.values(state.entities.amenities),
   errors: state.errors.listing,
-  // listings: state.entities.listings
+  formType: "Create Listing"
 })
 
 const mdp = dispatch => ({

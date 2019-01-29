@@ -96,7 +96,7 @@ class Listing extends Component {
       description,
       id,
       user_id,
-      photoUrls
+      photos
     } = this.props.listing;
 
     let { 
@@ -110,15 +110,14 @@ class Listing extends Component {
     return (
       <>
       <section className="image-header-container flush-top flex-container">
-        { photoUrls.filter((_,idx) => idx === thumbIdx)
+        { photos.filter((_,idx) => idx === thumbIdx)
             .map(url => <div className="left-half hero-image grid--50" style={{backgroundImage: `url(${url})`}}></div>) }
         <div className="right-half grid--50">
-          { photoUrls.filter((_,idx) => idx !== thumbIdx)
+          { photos.filter((_,idx) => idx !== thumbIdx)
             .map((url, idx2) => {
                 if(idx2 < 4) {
                   return  (
                   <div className="square-image grid--50" style={{backgroundImage: `url(${url})`}}>
-                    {/* <img src={url} /> */}
                   </div>
                   )
                 }

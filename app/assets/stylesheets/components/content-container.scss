@@ -58,6 +58,9 @@ footer p, footer a, {
     .listing-form {
         border-top-width: 1px;
     }
+    .photos-container {
+        flex-wrap: wrap;
+    }
 }
 
 .grid--50 {
