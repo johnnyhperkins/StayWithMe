@@ -32,6 +32,7 @@ class SearchResultContainer extends Component {
  
   componentDidMount() {
     this.setMapPosition();
+    this.props.fetchListings()
   }
 
   componentDidUpdate(prevProps) {
@@ -47,7 +48,7 @@ class SearchResultContainer extends Component {
   render() {
     const { searching, listingLoading, listings } = this.props;
     // debugger
-    if(searching) {
+    if(searching || listingLoading) {
       return <Loading />
     } 
     return (
@@ -67,13 +68,13 @@ const msp = state => ({
   filter: state.ui.bounds,
   searching: state.ui.searching,
   listingLoading: state.ui.listingLoading,
-  listings: state.entities.listings
+  listings: Object.values(state.entities.listings)
 })
 
 const mdp = dispatch => ({
   fetchListings: bounds => dispatch(fetchListings(bounds)),
   receiveSearchQuery: (searchQuery) => dispatch(receiveSearchQuery(searchQuery)),
-  updateBounds: (bounds) => dispatch(updateBounds(bounds))
+  // updateBounds: (bounds) => dispatch(updateBounds(bounds))
 })
 
 export default withRouter(connect(msp,mdp)(SearchResultContainer));

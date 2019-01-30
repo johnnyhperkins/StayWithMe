@@ -2,6 +2,7 @@ import * as ApiListingsUtil from '../util/listings_api';
 export const RECEIVE_LISTING = 'RECEIVE_LISTING';
 export const RECEIVE_LISTINGS = 'RECEIVE_LISTINGS';
 export const REMOVE_LISTING = 'REMOVE_LISTING';
+import { updateBounds} from './ui'
 
 export const RECEIVE_AMENITIES_AND_HOME_TYPES = 'RECEIVE_AMENITIES_AND_HOME_TYPES';
 
@@ -16,6 +17,7 @@ export const createListing = listing => dispatch => {
 };
 
 export const fetchListings = bounds => dispatch => {
+  updateBounds(bounds);
   return ApiListingsUtil.fetchListings(bounds).then(listings => {
     console.log(listings);
     return dispatch(receiveListings(listings));

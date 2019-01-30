@@ -77,7 +77,7 @@ class Api::ListingsController < ApplicationController
       }
     }
 
-    @listings = bounds ? Listing.in_bounds(bounds) : {}
+    @listings = bounds ? Listing.in_bounds(bounds) : Listing.all
     
   end
 
