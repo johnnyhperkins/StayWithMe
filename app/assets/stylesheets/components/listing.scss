@@ -23,9 +23,6 @@
   margin-top: 20px;
 }
 
-
-
-
 .floating-booking-container {
   padding: 2.4rem;
   border: 1px solid $off-white;
@@ -101,12 +98,42 @@
 }
 
 .listing-details {
-  padding-left: 2.4rem;
+  padding: 2rem 2rem 1.6rem 2rem;
   h3 {
     margin-bottom: 1rem;
   }
   h6 {
     cursor:pointer;
+  }
+  .listing-details--top,
+  .listing-details--bottom {
+    min-height:82px;
+    h4 {
+      font-size: $font-l;
+      color: $light-black;
+      font-weight:400;
+    }
+  }
+
+  .listing-details--top {
+    justify-content: baseline;
+    align-items: baseline;
+    .listing-details--top--left {
+      .amenity-listings {
+        list-style: inherit;
+        .amenity-item {
+          display:inline-block;
+          font-size: $font-s;
+          color: $light-black;
+        }
+      }
+    }
+    .listing-details--top--right {
+      
+    }
+  }
+  .listing-details--bottom {
+    align-items: flex-end;
   }
 }
 

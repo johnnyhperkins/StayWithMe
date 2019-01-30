@@ -4,7 +4,7 @@ import { withRouter, Redirect } from 'react-router-dom';
 import queryString from 'query-string';
 import _ from 'lodash';
 
-import { fetchListings } from '../../actions/listings';
+import { fetchListings, fetchAmenitiesAndHomeTypes } from '../../actions/listings'
 import SearchResultsMap from './results_map';
 import SearchResultsList from './results_list';
 import SearchFilterBar from './filter_bar';
@@ -31,8 +31,11 @@ class SearchResultContainer extends Component {
   }
  
   componentDidMount() {
+    const {fetchListings, fetchAmenitiesAndHomeTypes} = this.props;
+
     this.setMapPosition();
-    this.props.fetchListings()
+    fetchListings()
+    fetchAmenitiesAndHomeTypes()
   }
 
   componentDidUpdate(prevProps) {
@@ -51,10 +54,13 @@ class SearchResultContainer extends Component {
     if(searching || listingLoading) {
       return <Loading />
     } 
+    const resultsCount = listings.length;
     return (
       <>
       <SearchFilterBar />
-      <section className="flush-content-container search-listings-container flex-container">
+      <section className="flush-content-container search-listings-container">
+        <h3>{resultsCount ? `${resultsCount}+home${resultsCount > 1 ? 's' : ''}` : 'No results were found for this search' }
+        </h3>
         <SearchResultsList {...this.props} />
         <SearchResultsMap {...this.props} />
       </section>
@@ -68,13 +74,16 @@ const msp = state => ({
   filter: state.ui.bounds,
   searching: state.ui.searching,
   listingLoading: state.ui.listingLoading,
-  listings: Object.values(state.entities.listings)
+  listings: Object.values(state.entities.listings),
+  amenities: state.entities.amenities,
+  home_types: state.entities.home_types
 })
 
 const mdp = dispatch => ({
   fetchListings: bounds => dispatch(fetchListings(bounds)),
   receiveSearchQuery: (searchQuery) => dispatch(receiveSearchQuery(searchQuery)),
-  // updateBounds: (bounds) => dispatch(updateBounds(bounds))
+  fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes()),
+  updateBounds: (bounds) => dispatch(updateBounds(bounds))
 })
 
 export default withRouter(connect(msp,mdp)(SearchResultContainer));

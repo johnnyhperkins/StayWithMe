@@ -11,19 +11,14 @@ class SearchResultsList extends Component {
     // this.props.fetchListings(this.props.filter);
   }
 
-  render() {
-
-    const { listings } = this.props;
-    const listingsArray = Object.values(listings);
+  render() {    
+    const listingsArray = Object.values(this.props.listings);
     
     return (
       <section className="search-index-container">
-        <ul>
-          {listingsArray.map(listing => {
-            return <SearchListItem key={listing.id} listing={listing} />
-          })}
-        </ul>
-
+        {listingsArray.map(listing => {
+          return <SearchListItem key={listing.id} listing={listing} {...this.props} />
+        })}
       </section>  
     )
   }

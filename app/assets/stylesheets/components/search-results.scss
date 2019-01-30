@@ -9,6 +9,24 @@
   top: 12.9rem;
 }
 
+.listing-result-wrapper {
+  display:flex;
+  min-height: 200px;
+  max-height: 200px;
+  margin-bottom:2.4rem;
+  .listing-thumb {
+    width:300px;
+    max-height:200px;
+    border-radius: 3px;
+  }
+  .listing-details {
+    border-top: 1px solid $off-white;
+    border-right: 1px solid $off-white;
+    border-bottom: 1px solid $off-white;
+    flex-grow:2;
+  }
+}
+
 .filter-bar {
   border-bottom: 1px solid $off-white;
   padding: .8rem 2.4rem;
@@ -32,4 +50,11 @@
     align-items: baseline;
     align-content: space-around;
     min-height: 480px;
+    padding-left: 2.4rem;
+    padding-right: 1rem;
+    padding-bottom: 2.4rem;
+    width: 66%;
+    h4 {
+      font-size: $font-l;
+    }
 }

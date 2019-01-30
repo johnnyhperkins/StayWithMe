@@ -31,7 +31,9 @@ export default class MarkerManager {
   }
 
   removeMarker(marker) {
+    console.log(this.markers);
     this.markers[marker.listingId].setMap(null);
     delete this.markers[marker.listingId];
+    
   }
 }
