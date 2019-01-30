@@ -12,8 +12,11 @@
 .filter-bar {
   border-bottom: 1px solid $off-white;
   padding: .8rem 2.4rem;
-  position:relative;
-  top: -3rem;
+  position:fixed;
+  width: 100%;
+  top: 8rem;
+  background: #fff;
+  z-index: 1;
   .button {
     font-size: $font-s;
     font-weight: 200;
@@ -21,4 +24,12 @@
   .button--outlined {
     border-color: $off-white;
   }
+}
+
+.flush-content-container.search-listings-container {
+    position:relative;
+    top: 2rem;
+    align-items: baseline;
+    align-content: space-around;
+    min-height: 480px;
 }

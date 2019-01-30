@@ -9,7 +9,6 @@ class Api::ListingsController < ApplicationController
   before_action :require_logged_in, only: [:create, :destroy]
 
   def create
-    debugger
     @listing = Listing.new(listing_params)
     @listing.user_id = current_user.id;
     if @listing.save
@@ -32,7 +31,6 @@ class Api::ListingsController < ApplicationController
 
   def update 
     @listing = current_user.listings.find(params[:id]);
-    debugger
     if @listing
       if @listing.update_attributes(listing_params);
         if params[:listing][:amenity_ids].length
@@ -66,8 +64,21 @@ class Api::ListingsController < ApplicationController
   end
 
   def index
-    # query = params[:lat]
-    # @listings = Listings.
+    default_map_bounds = {
+      bounds: {
+        northEast: {
+          lat: 40.82386146979773,
+          lng: -74.01118555112726
+        },
+        southWest: {
+          lat: 40.74223405008065,
+          lng: -73.93131204887277
+        }
+      }
+    }
+
+    @listings = bounds ? Listing.in_bounds(bounds) : {}
+    
   end
 
   def destroy
@@ -84,8 +95,9 @@ class Api::ListingsController < ApplicationController
   def listing_params
     params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [])
   end
-  # def query_params
-  #   params.require(:query).permit(:start_date, :end_date, :amenity_ids)
-  # end
+
+  def bounds
+    params[:bounds]
+  end
 end
 

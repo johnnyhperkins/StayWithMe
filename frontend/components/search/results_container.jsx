@@ -9,32 +9,29 @@ import SearchResultsMap from './results_map';
 import SearchResultsList from './results_list';
 import SearchFilterBar from './filter_bar';
 import Loading from '../misc/loading';
-import { receiveSearchQuery } from '../../actions/ui';
+import { receiveSearchQuery, updateBounds } from '../../actions/ui';
 
 class SearchResultContainer extends Component {
   constructor(props) {
     super(props);
   }
 
-  updateMapBounds = () => {
+  setMapPosition = () => {
     const query = queryString.parse(this.props.location.search)
-    console.log(_.isEmpty(query));
     
     if(_.isEmpty(query)) return this.props.history.push('/');
 
     const {lat, lng } = query;
-
     this.props.receiveSearchQuery({ 
       query: {
         lat: parseFloat(lat), 
         lng: parseFloat(lng) 
       }
     })
-
   }
  
   componentDidMount() {
-    this.updateMapBounds();
+    this.setMapPosition();
   }
 
   componentDidUpdate(prevProps) {
@@ -43,12 +40,13 @@ class SearchResultContainer extends Component {
     if(_.isEmpty(query)) return <Redirect push to="/" />
 
     if(prevProps.location.search != this.props.location.search) {
-      this.updateMapBounds();
+      this.setMapPosition();
     }
   }
 
   render() {
-    const {latLng, searching } = this.props;
+    const { searching, listingLoading, listings } = this.props;
+    // debugger
     if(searching) {
       return <Loading />
     } 
@@ -56,8 +54,8 @@ class SearchResultContainer extends Component {
       <>
       <SearchFilterBar />
       <section className="flush-content-container search-listings-container flex-container">
-        <SearchResultsList />
-        <SearchResultsMap latLng={latLng} />
+        <SearchResultsList {...this.props} />
+        <SearchResultsMap {...this.props} />
       </section>
       </>
     )
@@ -65,14 +63,17 @@ class SearchResultContainer extends Component {
 }
 
 const msp = state => ({
-  latLng: state.ui.query,
-  searching: state.ui.searching
-
+  latLng: state.ui.query, //original orientation of the map
+  filter: state.ui.bounds,
+  searching: state.ui.searching,
+  listingLoading: state.ui.listingLoading,
+  listings: state.entities.listings
 })
 
 const mdp = dispatch => ({
-  fetchListings: query => dispatch(fetchListings(query)),
-  receiveSearchQuery: (query) => dispatch(receiveSearchQuery(query))
+  fetchListings: bounds => dispatch(fetchListings(bounds)),
+  receiveSearchQuery: (searchQuery) => dispatch(receiveSearchQuery(searchQuery)),
+  updateBounds: (bounds) => dispatch(updateBounds(bounds))
 })
 
 export default withRouter(connect(msp,mdp)(SearchResultContainer));

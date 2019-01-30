@@ -1,15 +1,5 @@
 //Listings
 
-// export const requestAllListings = (bounds) => {
-//   // console.log(bounds);
-//   return $.ajax({
-//     method: "GET",
-//     url: "/api/listings",
-//     data: {bounds},
-//     error: (err) => console.log(err),
-//   })
-// }
-
 export const createListing = (listing) => {
   return $.ajax({
     url: '/api/listings',
@@ -29,11 +19,12 @@ export const fetchListing = (id) => {
   })
 };
 
-export const fetchListings = (query) => {
+export const fetchListings = (bounds) => {
+  console.log({bounds});
   return $.ajax({
-    url: '/api/listings/',
+    url: '/api/listings',
     method: "GET",
-    data: query,
+    data: {bounds},
     error: (err) => console.log(err)
   })
 };

@@ -7,8 +7,10 @@ class SearchResultsMap extends Component {
   }
 
   componentDidMount() {
-    // const { listings } = this.props
-    const { latLng } = this.props
+    console.log(this.props);
+    const { listings } = this.props
+    const { latLng } = this.props //starting place of map
+    // debugger
 
     const mapOptions = {
       center: { lat: latLng.lat, lng: latLng.lng }, // this is SF
@@ -16,37 +18,39 @@ class SearchResultsMap extends Component {
     };
     const mapDOMNode = document.getElementById('search-results-map')
     this.map = new google.maps.Map(mapDOMNode, mapOptions);
-    // let bounds = {
-    //   'northEast': {
-    //     lat: 0,
-    //     lng: 0
-    //   },
-    //   'southWest': {
-    //     lat: 0,
-    //     lng: 0
-    //   }
-    // }
-    // // debugger
-    // this.MarkerManager = new MarkerManager(this.map);
-    // this.MarkerManager.updateMarkers(listings);
-    // this.map.addListener('idle', () => {
-    //   bounds['northEast']['lat'] = this.map.getBounds().ma.l
-    //   bounds['northEast']['lng'] = this.map.getBounds().ga.j
-    //   bounds['southWest']['lat'] = this.map.getBounds().ma.j
-    //   bounds['southWest']['lng'] = this.map.getBounds().ga.l  
-    //   this.props.updateBounds(bounds);
-    //   this.props.requestAllListings(this.props.filter)
-      
-    // })
+    let bounds = {
+      'northEast': {
+        lat: 0,
+        lng: 0
+      },
+      'southWest': {
+        lat: 0,
+        lng: 0
+      }
+    }
+    // debugger
+   
+    this.map.addListener('idle', () => {
+      bounds['northEast']['lat'] = this.map.getBounds().ma.l
+      bounds['northEast']['lng'] = this.map.getBounds().ga.j
+      bounds['southWest']['lat'] = this.map.getBounds().ma.j
+      bounds['southWest']['lng'] = this.map.getBounds().ga.l  
+      this.props.updateBounds(bounds);
+      this.props.fetchListings(this.props.filter)
+    })
+
+    this.MarkerManager = new MarkerManager(this.map);
+    debugger
+    this.MarkerManager.updateMarkers(listings);
      
   }
 
   componentDidUpdate() {
-    // const { listings } = this.props
-    // // console.log('updating benchmap')
-    // // debugger
+    const { listings } = this.props
+    // console.log('updating benchmap')
+    // debugger
     
-    // this.MarkerManager.updateMarkers(listings)
+    this.MarkerManager.updateMarkers(listings)
   }
 
   render() {

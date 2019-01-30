@@ -15,8 +15,9 @@ export const createListing = listing => dispatch => {
   (e) => dispatch(receiveListingErrors(e.responseJSON)))
 };
 
-export const fetchListings = query => dispatch => {
-  return ApiListingsUtil.fetchListings(query).then(listings => {
+export const fetchListings = bounds => dispatch => {
+  return ApiListingsUtil.fetchListings(bounds).then(listings => {
+    console.log(listings);
     return dispatch(receiveListings(listings));
   },
   (e) => dispatch(receiveListingErrors(e.responseJSON)))
