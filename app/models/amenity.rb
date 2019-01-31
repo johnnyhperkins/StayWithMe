@@ -10,4 +10,5 @@
 
 class Amenity < ApplicationRecord
   validates :name, presence: true
+  has_many :listing_amenities
 end

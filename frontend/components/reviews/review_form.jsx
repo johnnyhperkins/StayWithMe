@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import { createReview } from '../../actions/reviews';
 import { receiveSessionErrors } from '../../actions/sessions';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+
 import isEmpty from 'lodash/isEmpty';
+import Rating from 'react-rating';
 
 class ReviewForm extends Component {
   constructor(props) {
     super(props);
-    console.log(props.listing_id);
     this.state = {
-      
       review: {
           rating: 0,
           review_body: '',
@@ -35,7 +34,12 @@ class ReviewForm extends Component {
 
   handleSubmit = () => {
     console.log(this.state.review);
-    this.props.createReview(this.state.review);
+    return this.props.createReview(this.state.review).then(() => {
+      this.setState({review:{
+        rating: 0,
+        review_body: ''
+      }})
+    });
   }
 
   handleInput = (e) => {
@@ -61,15 +65,22 @@ class ReviewForm extends Component {
         <div className="form-wrapper">
           
             <label>Rating</label>
-              <input 
-                className="text-input"
-                autoComplete="off"
-                type="number" 
-                name="rating"
-                value={rating} 
-                onChange={this.handleInput} 
+                <Rating 
+                  name="rating"
+                  className="read-only-rating"
+                  emptySymbol="fa fa-star-o fa-2x"
+                  fullSymbol="fa fa-star fa-2x"
+                  initialRating={rating}
+                  onChange={(e) => this.setState({review: {
+                    ...this.state.review,
+                    rating: e
+                  }})}
+                  onClick={(e) => this.setState({review: {
+                    ...this.state.review,
+                    rating: e
+                  }})}
                 />
-          
+           <br />
             <label>Review</label>
               <textarea
                 className="text-input"

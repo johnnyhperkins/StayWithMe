@@ -7,7 +7,7 @@ if listing.photos.attached?
   json.photos listing.photos.map { |file| url_for(file) }
 end
 if listing.listing_amenities
-  json.amenity_ids listing.listing_amenities.map { |la| la.amenity_id }
+  json.amenity_ids listing.listing_amenities.ids
 end
 if listing.listing_availabilities
   listing.listing_availabilities.each do |la| 
@@ -16,6 +16,19 @@ if listing.listing_availabilities
   end
 end
 
+def get_rating(listing)
+  sum = 0
+  listing.reviews.each do |review|
+    sum += review.rating
+  end
+  if sum > 0
+    return (sum / listing.reviews.count).to_f
+  else
+    return 0
+  end
+end
+
 if listing.reviews
   json.review_ids listing.reviews.ids
+  json.rating get_rating(listing)
 end

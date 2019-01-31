@@ -269,7 +269,7 @@ class ListingForm extends Component {
                         formType == "Edit Listing" ? (
                         <input 
                           checked={
-                            amenity_ids.includes(amenity.id) ? true : false} 
+                            amenity_ids.includes(amenity.id)} 
                             className="checkbox" 
                             onChange={this.handleAmenities} type="checkbox" 
                             value={amenity.id} 

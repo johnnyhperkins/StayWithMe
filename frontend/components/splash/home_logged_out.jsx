@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import 'react-dates/initialize';
 import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
 import moment from 'moment';
+import {receiveSearchQuery } from '../../actions/ui';
 import SearchIcon from '../../static_assets/search_icon';
 import PlacesAutocomplete, {
   geocodeByAddress,
@@ -60,8 +62,10 @@ class HomeLoggedOut extends Component {
   }
   
   search = () => {
-    // TO DO implement search functionality
-    console.log('perform search', this.state);
+    // TO DO implement add date filter
+    const { lat, lng } = this.state;
+    this.props.receiveSearchQuery({query: null})
+    this.props.history.push({pathname: '/search', search: `?lat=${lat}&lng=${lng}`});
   }
 
   handleChangeAddress = address => this.setState({ address })
@@ -232,8 +236,8 @@ class HomeLoggedOut extends Component {
                 </div>}
               </div>
             </div>
-            <div className="search-icon-wrapper">
-              <SearchIcon options={{'height':'28px','width':'28px', 'fill':'#fff'}} onClick={this.search} />
+            <div className="search-icon-wrapper" onClick={this.search}>
+              <SearchIcon options={{'height':'28px','width':'28px', 'fill':'#fff'}}  />
             </div>
           </div>
         </section>
@@ -243,8 +247,8 @@ class HomeLoggedOut extends Component {
 }
 
 const mdp = dispatch => ({
-  // searchListings: (query) => dispatch(searchListings)
+  receiveSearchQuery: (query) => dispatch(receiveSearchQuery(query))
 })
 
 
-export default connect(mdp)(HomeLoggedOut);
+export default withRouter(connect(null,mdp)(HomeLoggedOut));

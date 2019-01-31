@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import Modal from 'react-modal';
 import SignUpFormContainer from '../session/signup_form_container';
 import LoginFormContainer from '../session/login_form_container';
@@ -65,7 +65,7 @@ class NavBar extends Component {
   render() {
     const { session, logout, loggedIn } = this.props;
     const { address } = this.state;
-    const classes = loggedIn ? 'fixed-top-nav flex-container' : 'top-nav logged-out flex-container';
+    const classes = loggedIn || this.props.location.pathname != "/" ? 'fixed-top-nav flex-container' : 'top-nav logged-out flex-container';
     return (
       <>
       <nav className={classes}>
@@ -172,7 +172,7 @@ const mdp = (dispatch) => ({
   receiveSearchQuery: (query) => dispatch(receiveSearchQuery(query))
 })
 
-export default connect(msp, mdp)(NavBar)
+export default withRouter(connect(msp, mdp)(NavBar))
 
 
 

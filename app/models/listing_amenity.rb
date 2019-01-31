@@ -7,7 +7,6 @@
 #
 
 class ListingAmenity < ApplicationRecord
-  validates :listing_id, :amenity_id, presence: true
   belongs_to :amenity
   belongs_to :listing
 end

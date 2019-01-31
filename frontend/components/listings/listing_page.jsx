@@ -4,11 +4,12 @@ import { withRouter, Link } from 'react-router-dom';
 import { fetchListing, fetchAmenitiesAndHomeTypes } from '../../actions/listings'
 import { fetchListingReviews } from '../../actions/reviews'
 import Loading from '../misc/loading';
-import { isInclusivelyAfterDay, DateRangePicker } from 'react-dates';
+import { isInclusivelyAfterDay, DateRangePicker, DayPickerRangeController } from 'react-dates';
 import Review from '../reviews/review';
 import ReviewForm from '../reviews/review_form';
 import moment from 'moment';
 import isEmpty from 'lodash/isEmpty';
+import Rating from 'react-rating';
 
 const today = moment();
 
@@ -16,12 +17,21 @@ class Listing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startDate:'',
-      endDate:'',
-      focusedInput: null,
-      calendarFocused: null,
-      openGuestSelect: false,
-      numGuests: 1,
+      newBooking: {
+        startDate:'',
+        endDate:'',
+        focusedInput: null,
+        calendarFocused: null,
+        openGuestSelect: false,
+        numGuests: 1,
+      },
+      availCal: {
+        startDate:'',
+        endDate:'',
+        focusedInput: null,
+        calendarFocused: null,
+      }
+      
     }
   }
 
@@ -41,12 +51,34 @@ class Listing extends Component {
     if(isEmpty(amenities) || isEmpty(home_types)) fetchAmenitiesAndHomeTypes();
 
     fetchListing(this.props.match.params.id).then(({listing}) => {
+      
+      //init map
       const mapOptions = {
         center: { lat: listing.lat, lng: listing.lng },
-        zoom: 13
+        zoom: 16
       };
       const mapDOMNode = document.getElementById('map')
       this.map = new google.maps.Map(mapDOMNode, mapOptions);
+      const blueCircle = new google.maps.Circle({
+        strokeColor: 'rgb(161,207,218)',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: 'rgb(161,207,218)',
+        fillOpacity: 0.35,
+        map: this.map,
+        center: mapOptions.center,
+        radius: 150
+      });
+      blueCircle.setMap(this.map);
+
+      //set availability cal state
+      this.setState({
+        availCal: {
+          startDate: moment(listing.start_date),
+          endDate: moment(listing.end_date),
+        }
+      })
+
     }); 
   }
 
@@ -88,7 +120,12 @@ class Listing extends Component {
   }
 
   render() {
-    const { listingLoading, amenities, home_types } = this.props;
+    const { 
+      listingLoading, 
+      amenities, 
+      home_types, 
+      reviews } = this.props;
+    
     if(listingLoading) {
       return <Loading />
     }
@@ -102,18 +139,20 @@ class Listing extends Component {
       description,
       id,
       user_id,
-      photos
+      photos,
+      rating,
+      review_ids
     } = this.props.listing;
-    const {
-      reviews
-    } = this.props;
+
     let { 
       startDate, 
       endDate, 
       focusedInput,
       numGuests,
       openGuestSelect
-    } = this.state;
+    } = this.state.newBooking;
+
+
     const thumbIdx = 1;
     return (
       <>
@@ -145,24 +184,77 @@ class Listing extends Component {
           
           <p>{description}</p>
 
+          
           <hr className="hr-24"/>
+          {/* AMENITIES */}
+
           <div className="amenities">
-            <p className="bold">Amenities</p>
+            <h5>Amenities</h5>
             <ul>
             {Object.values(amenities).filter(a => amenity_ids.includes(a.id)).map(amenity => {
               return <li key={amenity.id}>{amenity.name}</li>
             })}
             </ul>
           </div>
+
           <hr className="hr-24"/>
+          {/* AVAILABILITY */}
+
+          <h5>Availability</h5>
+          <DayPickerRangeController
+                startDate={this.state.availCal.startDate}
+                endDate={this.state.availCal.endDate}
+                readOnly
+                isOutsideRange={day => isInclusivelyAfterDay(today, day)}
+                onOutsideClick={DayPickerRangeController.onOutsideClick}
+                numberOfMonths={2}
+                onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
+                onNextMonthClick={DayPickerRangeController.onNextMonthClick}
+                onDatesChange={({ startDate, endDate }) => this.setState({ 
+                  availCal: {
+                    ...this.state.availCal,
+                    startDate, 
+                    endDate
+                 } })}
+                focusedInput={null} 
+                onFocusChange={focusedInput => this.setState({ focusedInput })}
+              />
+
+          <hr className="hr-24"/>
+          {/* LOCATION */}
+          
           <div className="map-wrapper">
-            <h4>Location</h4>
+            <h5>Location</h5>
             <div id="map" ref={map => this.mapNode = map}></div>
           </div>
+
+          <hr className="hr-24"/>
+          {/* REVIEWS */}
+
+          <div className="flex-container--no-justify">
+          
+            <h3>{review_ids.length} Reviews</h3> 
+                <Rating 
+                  className="read-only-rating"
+                  readonly
+                  emptySymbol="fa fa-star-o fa-2x"
+                  fullSymbol="fa fa-star fa-2x"
+                  initialRating={rating}
+                />
+          
+          </div>
+
+          <hr className="hr-24"/>
+          {/* LEAVE REVIEWS */}
+
           <section className="reviews-container">
             {!isEmpty(reviews) ? Object.values(reviews).map(review => <Review key={review.id} review={review} />) : null}
           </section>
+
+          {/* REVIEW FORM */}
           <ReviewForm listing_id={id} />
+
+
         </section>
         
         <aside className="floating-booking-container">

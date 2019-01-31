@@ -13,11 +13,12 @@ import SearchResultContainer from './search/results_container';
 import {AuthRoute, ProtectedRoute} from '../util/route_utils';
 import Footer from './footer';
 
+//if user is logged out and on the home page, display one
 
 const App = connect(state => ({
   loggedIn: Boolean(state.session.id),
-}))(({loggedIn}) => {
-  const classes = loggedIn ? 'logged-in' : '';
+}))(({loggedIn, location}) => {  
+  const classes = loggedIn || location.pathname != "/" ? 'logged-in' : '';
   return (
     <main className={classes}>
       <Route path="/" component={NavBar} />    

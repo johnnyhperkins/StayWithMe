@@ -7,6 +7,7 @@ export const RECEIVE_REVIEW_ERRORS = 'RECEIVE_REVIEW_ERRORS';
 //Reviews
 export const createReview = review => dispatch => {
   return ApiReviewsUtil.createReview(review).then(review => {
+    console.log(review);
     return dispatch(receiveReview(review));
   },
   (e) => dispatch(receiveReviewErrors(e.responseJSON)))

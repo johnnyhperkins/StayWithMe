@@ -13,6 +13,29 @@
   border: 1px solid $light-black;
 }
 
+.listing-details-container {
+  h5 {
+    margin-bottom: 1.6rem;
+    color:$light-black;
+  }
+}
+
+.read-only-rating,
+.rating-element {
+  margin-left: 2.4rem;
+  width: 400px;
+  height: 45px;
+  .fa {
+    width: 30px;
+    height: 30px;
+    font-size: 1.8rem;
+    color: $teal-blue;
+  }
+  .fa-star-o {
+    border:1px solid;
+  }
+}
+
 .right-half {
   display: flex;
   flex-wrap: wrap;
@@ -117,4 +140,12 @@
 
 .square-image img {
   max-height:250px;
+}
+
+.reviews-container {
+  margin: 2.4rem 0;
+}
+
+.review {
+
 }
