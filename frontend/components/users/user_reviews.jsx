@@ -6,7 +6,7 @@ class UserReviews extends Component {
     // const { listings } = this.props;
     return (
       <>
-      <section className="grid--75">
+      <section className="grid--75 margin-left24">
         <div className="grid--75__header">
           <p>Reviews</p>
         </div>

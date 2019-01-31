@@ -40,7 +40,6 @@ class SearchResultContainer extends Component {
 
   componentDidUpdate(prevProps) {
     const query = queryString.parse(this.props.location.search)
-    
     if(_.isEmpty(query)) return <Redirect push to="/" />
 
     if(prevProps.location.search != this.props.location.search) {
@@ -59,7 +58,7 @@ class SearchResultContainer extends Component {
       <>
       <SearchFilterBar />
       <section className="flush-content-container search-listings-container">
-        <h3>{resultsCount ? `${resultsCount}+home${resultsCount > 1 ? 's' : ''}` : 'No results were found for this search' }
+        <h3>{resultsCount ? `${resultsCount}+ home${resultsCount > 1 ? 's' : ''}` : 'No results were found for this search' }
         </h3>
         <SearchResultsList {...this.props} />
         <SearchResultsMap {...this.props} />

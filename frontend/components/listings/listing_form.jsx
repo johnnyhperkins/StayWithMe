@@ -265,7 +265,23 @@ class ListingForm extends Component {
                 <div className="flex-container checkbox-wrapper">
                   { amenities.map(amenity => {
                       return <label key={amenity.id}>{amenity.name}
-                        <input checked={amenity_ids.includes(amenity.id)} className="checkbox" onChange={this.handleAmenities} type="checkbox" value={amenity.id} key={amenity.id}/>
+                      {// TO DO: Fix this
+                        formType == "Edit Listing" ? (
+                        <input 
+                          checked={
+                            amenity_ids.includes(amenity.id) ? true : false} 
+                            className="checkbox" 
+                            onChange={this.handleAmenities} type="checkbox" 
+                            value={amenity.id} 
+                            key={amenity.id}/>
+                      ) : 
+                      ( <input 
+                            className="checkbox" 
+                            onChange={this.handleAmenities} type="checkbox" 
+                            value={amenity.id} 
+                            key={amenity.id}/>
+                        )} 
+                        
                       </label>
                     }) 
                   }

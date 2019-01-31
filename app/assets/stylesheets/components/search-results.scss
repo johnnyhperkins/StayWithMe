@@ -9,6 +9,10 @@
   top: 12.9rem;
 }
 
+.heart {
+  font-size: 2.8rem
+}
+
 .listing-result-wrapper {
   display:flex;
   min-height: 200px;
@@ -24,6 +28,42 @@
     border-right: 1px solid $off-white;
     border-bottom: 1px solid $off-white;
     flex-grow:2;
+    position:relative;
+    .top--left,
+    .top--right,
+    .bottom--left,
+    .bottom--right, {
+      position: absolute
+    }
+    .top--left {
+      top: 24px;
+      left: 24px;
+      .amenity-listings {
+        list-style: inherit;
+        .amenity-item {
+          display:inline-block;
+          font-size: $font-s;
+          color: $light-black;
+        }
+      }
+    }
+    .top--right {
+      top: 24px;
+      right: 24px;
+    }
+    .bottom--left {
+      bottom: 24px;
+      left: 24px;
+    }
+    .bottom--right {
+      bottom: 24px;
+      right: 24px;
+      h4 {
+        font-size: $font-l;
+        color: $light-black;
+        font-weight:400;
+      }
+    }
   }
 }
 

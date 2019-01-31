@@ -11,7 +11,7 @@ export const listings = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_LISTINGS:
-      return action.listings || state
+      return !!action.listings ? action.listings : {}
     case RECEIVE_LISTING:
       return merge({}, 
         state, 

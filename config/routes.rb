@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     resources :listings, only: [:create, :destroy, :show, :update, :index]
     resources :home_types, only: [:index]
     resources :amenities, only: [:index]
+    resources :reviews, only: [:create, :index, :update]
+    post '/listings/:listing_id/reviews', to: 'reviews#index'
+    resources :bookings, only: [:create, :index, :update]
   end
   root to: 'static_pages#root'
 end

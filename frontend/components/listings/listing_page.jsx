@@ -2,8 +2,11 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { fetchListing, fetchAmenitiesAndHomeTypes } from '../../actions/listings'
+import { fetchListingReviews } from '../../actions/reviews'
 import Loading from '../misc/loading';
 import { isInclusivelyAfterDay, DateRangePicker } from 'react-dates';
+import Review from '../reviews/review';
+import ReviewForm from '../reviews/review_form';
 import moment from 'moment';
 import isEmpty from 'lodash/isEmpty';
 
@@ -24,13 +27,16 @@ class Listing extends Component {
 
   componentDidMount() {
     const { 
-      fetchListing, 
+      fetchListing,
+      fetchListingReviews, 
       amenities, 
       home_types, 
-      fetchAmenitiesAndHomeTypes 
+      fetchAmenitiesAndHomeTypes,
     } = this.props;
 
     document.addEventListener('mousedown', this.handleClickOutsideGuestSelector);
+    
+    fetchListingReviews(this.props.match.params.id)
 
     if(isEmpty(amenities) || isEmpty(home_types)) fetchAmenitiesAndHomeTypes();
 
@@ -98,7 +104,9 @@ class Listing extends Component {
       user_id,
       photos
     } = this.props.listing;
-
+    const {
+      reviews
+    } = this.props;
     let { 
       startDate, 
       endDate, 
@@ -111,13 +119,13 @@ class Listing extends Component {
       <>
       <section className="image-header-container flush-top flex-container">
         { photos.filter((_,idx) => idx === thumbIdx)
-            .map(url => <div className="left-half hero-image grid--50" style={{backgroundImage: `url(${url})`}}></div>) }
+            .map((url, idx) => <div className="left-half hero-image grid--50" key={idx} style={{backgroundImage: `url(${url})`}}></div>) }
         <div className="right-half grid--50">
           { photos.filter((_,idx) => idx !== thumbIdx)
-            .map((url, idx2) => {
-                if(idx2 < 4) {
+            .map((url, idx) => {
+                if(idx < 4) {
                   return  (
-                  <div className="square-image grid--50" style={{backgroundImage: `url(${url})`}}>
+                  <div className="square-image grid--50" key={idx} style={{backgroundImage: `url(${url})`}}>
                   </div>
                   )
                 }
@@ -127,7 +135,7 @@ class Listing extends Component {
       </section>
       <section className="content-container--interior-page flex-container">
         <section className="listing-details-container grid--75">
-          {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 className="text--maroon">{ht.name}</h6>)}
+          {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 key={ht.id} className="text--maroon">{ht.name}</h6>)}
           <h2>{title} {this.props.userId == user_id && 
             <Link to={`/listings/${id}/edit`} >(<span className="text--teal-blue">Edit Listing</span>)</Link>}
           </h2>
@@ -151,6 +159,10 @@ class Listing extends Component {
             <h4>Location</h4>
             <div id="map" ref={map => this.mapNode = map}></div>
           </div>
+          <section className="reviews-container">
+            {!isEmpty(reviews) ? Object.values(reviews).map(review => <Review key={review.id} review={review} />) : null}
+          </section>
+          <ReviewForm listing_id={id} />
         </section>
         
         <aside className="floating-booking-container">
@@ -206,6 +218,7 @@ class Listing extends Component {
               <button className="button--submit" onClick={this.handleBooking}>Book</button>
         </aside>
       </section>
+        
       </>
     )
   }
@@ -216,12 +229,14 @@ const msp = (state, props) => ({
   listing: state.entities.listings[props.match.params.id],
   listingLoading: state.ui.listingLoading,
   amenities: state.entities.amenities,
-  home_types: state.entities.home_types
+  home_types: state.entities.home_types,
+  reviews: state.entities.reviews
 })
 
 const mdp = dispatch => ({
   fetchListing: id => dispatch(fetchListing(id)),
-  fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes())
+  fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes()),
+  fetchListingReviews: (listingId) => dispatch(fetchListingReviews(listingId))
 })
 
 export default withRouter(connect(msp,mdp)(Listing));

@@ -6,7 +6,7 @@
 # GET /api/users/:user_id/listings - returns all listings for an individual user
 
 class Api::ListingsController < ApplicationController
-  before_action :require_logged_in, only: [:create, :destroy]
+  before_action :require_logged_in, only: [:create, :destroy, :update]
 
   def create
     @listing = Listing.new(listing_params)

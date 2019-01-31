@@ -15,3 +15,7 @@ if listing.listing_availabilities
     json.end_date la.end_date
   end
 end
+
+if listing.reviews
+  json.review_ids listing.reviews.ids
+end

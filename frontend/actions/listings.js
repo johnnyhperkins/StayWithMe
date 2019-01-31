@@ -19,7 +19,7 @@ export const createListing = listing => dispatch => {
 export const fetchListings = bounds => dispatch => {
   updateBounds(bounds);
   return ApiListingsUtil.fetchListings(bounds).then(listings => {
-    console.log(listings);
+//     console.log(listings);
     return dispatch(receiveListings(listings));
   },
   (e) => dispatch(receiveListingErrors(e.responseJSON)))

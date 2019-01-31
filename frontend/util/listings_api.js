@@ -20,7 +20,7 @@ export const fetchListing = (id) => {
 };
 
 export const fetchListings = (bounds) => {
-  console.log({bounds});
+  // console.log({bounds});
   return $.ajax({
     url: '/api/listings',
     method: "GET",

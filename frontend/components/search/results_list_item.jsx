@@ -1,18 +1,14 @@
 import React, {Component} from 'react';
 
 const SearchResultItem = ({listing, home_types, amenities}) => {
-    console.log(listing);
     const {title, amenity_ids, home_type_id, photos, price, max_guests} = listing
     return (
       <div className="listing-result-wrapper">
         <div className="listing-thumb" style={{backgroundImage: `url(${photos[0] })`}}>
-
         </div> 
         <div className="listing-details">
-          
-          <div className="listing-details--top flex-container">
-            <div className="listing-details--top--left">
-              {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 className="text--light-gray">{ht.name}</h6>)}
+          <div className="top--left">
+              {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 className="text--light-gray" key={ht.id}>{ht.name}</h6>)}
               <h4>{title}</h4>
               <ul className="amenity-listings">
                 <li className="amenity-item">{max_guests} guests</li><br />
@@ -24,21 +20,16 @@ const SearchResultItem = ({listing, home_types, amenities}) => {
                   })}
               </ul>
             </div>
-            <div className="listing-details--top--right">
-              <i class="heart fas fa-heart-o"></i>
+            <div className="top--right">
+              <i className="heart text--maroon fas fa-heart"></i>
             </div>
-          </div>
-
-          <div className="listing-details--bottom flex-container">
-            <div className="rating">
+            <div className="bottom--left">
               Rating
             </div>
-            <div className="price">
+            <div className="bottom--right">
               <h4>${price}/<span className="tiny">night</span></h4>
             </div>
           </div>
-        
-        </div>
         
       </div> 
 
