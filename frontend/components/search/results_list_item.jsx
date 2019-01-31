@@ -1,8 +1,9 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 const SearchResultItem = ({listing, home_types, amenities}) => {
     const {title, amenity_ids, home_type_id, photos, price, max_guests} = listing
     return (
+
       <div className="listing-result-wrapper">
         <div className="listing-thumb" style={{backgroundImage: `url(${photos[0] })`}}>
         </div> 

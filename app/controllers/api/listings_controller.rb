@@ -12,11 +12,6 @@ class Api::ListingsController < ApplicationController
     @listing = Listing.new(listing_params)
     @listing.user_id = current_user.id;
     if @listing.save
-      if params[:listing][:amenity_ids].length
-        params[:listing][:amenity_ids].each do |amenity_id|
-          @listing.listing_amenities.create(amenity_id:amenity_id)
-        end
-      end
       @listing.listing_availabilities.create(
         start_date: params[:listing][:start_date], 
         end_date: params[:listing][:end_date]
@@ -33,11 +28,6 @@ class Api::ListingsController < ApplicationController
     @listing = current_user.listings.find(params[:id]);
     if @listing
       if @listing.update_attributes(listing_params);
-        if params[:listing][:amenity_ids].length
-          params[:listing][:amenity_ids].each do |amenity_id|
-            @listing.listing_amenities.create(amenity_id:amenity_id)
-          end
-        end
         if params[:listing][:start_date] || params[:listing][:end_date]
           @listing.listing_availabilities.create(
             start_date: params[:listing][:start_date], 
@@ -93,7 +83,7 @@ class Api::ListingsController < ApplicationController
 
   private
   def listing_params
-    params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [])
+    params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [], amenity_ids: [])
   end
 
   def bounds

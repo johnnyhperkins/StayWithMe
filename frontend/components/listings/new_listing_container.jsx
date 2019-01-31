@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createListing, fetchAmenitiesAndHomeTypes, receiveListingErrors } from '../../actions/listings';
+import { createListing, receiveListingErrors } from '../../actions/listings';
 import ListingForm from './listing_form'
 
 const msp = state => ({
@@ -14,7 +14,6 @@ const msp = state => ({
 
 const mdp = dispatch => ({
   createListing: listing => dispatch(createListing(listing)),
-  fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes()),
   receiveListingErrors: (errors) => dispatch(receiveListingErrors(errors))
 })
 

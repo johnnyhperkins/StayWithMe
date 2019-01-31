@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_28_223436) do
+ActiveRecord::Schema.define(version: 2019_01_31_165652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,13 +36,6 @@ ActiveRecord::Schema.define(version: 2019_01_28_223436) do
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
-  create_table "amenities", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_amenities_on_name"
-  end
-
   create_table "bookings", force: :cascade do |t|
     t.integer "user_id", null: false
     t.integer "listing_id", null: false
@@ -57,20 +50,6 @@ ActiveRecord::Schema.define(version: 2019_01_28_223436) do
     t.index ["start_date"], name: "index_bookings_on_start_date"
     t.index ["status"], name: "index_bookings_on_status"
     t.index ["user_id"], name: "index_bookings_on_user_id"
-  end
-
-  create_table "home_types", force: :cascade do |t|
-    t.string "name", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_home_types_on_name"
-  end
-
-  create_table "listing_amenities", id: false, force: :cascade do |t|
-    t.bigint "listing_id", null: false
-    t.bigint "amenity_id", null: false
-    t.index ["amenity_id"], name: "index_listing_amenities_on_amenity_id"
-    t.index ["listing_id"], name: "index_listing_amenities_on_listing_id"
   end
 
   create_table "listing_availabilities", force: :cascade do |t|
@@ -97,6 +76,7 @@ ActiveRecord::Schema.define(version: 2019_01_28_223436) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "thumb_img_idx"
+    t.integer "amenity_ids", array: true
     t.index ["address"], name: "index_listings_on_address"
     t.index ["description"], name: "index_listings_on_description"
     t.index ["home_type_id"], name: "index_listings_on_home_type_id"

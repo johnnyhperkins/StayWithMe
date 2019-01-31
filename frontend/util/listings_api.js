@@ -54,21 +54,3 @@ export const updateListing = (listing) => {
     error: (err) => console.log(err)
   })
 };
-
-//Amenities / Home Types
-
-export const fetchAmenitiesAndHomeTypes = () => {
-  return $.ajax({
-    url: '/api/amenities',
-    method: "GET",
-    error: (err) => console.log(err)
-  })
-};
-
-export const fetchHomeTypes = () => {
-  return $.ajax({
-    url: '/api/home_types',
-    method: "GET",
-    error: (err) => console.log(err)
-  })
-};

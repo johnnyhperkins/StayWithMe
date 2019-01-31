@@ -4,7 +4,7 @@ import { withRouter, Redirect } from 'react-router-dom';
 import queryString from 'query-string';
 import _ from 'lodash';
 
-import { fetchListings, fetchAmenitiesAndHomeTypes } from '../../actions/listings'
+import { fetchListings } from '../../actions/listings'
 import SearchResultsMap from './results_map';
 import SearchResultsList from './results_list';
 import SearchFilterBar from './filter_bar';
@@ -31,11 +31,10 @@ class SearchResultContainer extends Component {
   }
  
   componentDidMount() {
-    const {fetchListings, fetchAmenitiesAndHomeTypes} = this.props;
+    const {fetchListings} = this.props;
 
     this.setMapPosition();
     fetchListings()
-    fetchAmenitiesAndHomeTypes()
   }
 
   componentDidUpdate(prevProps) {
@@ -81,7 +80,6 @@ const msp = state => ({
 const mdp = dispatch => ({
   fetchListings: bounds => dispatch(fetchListings(bounds)),
   receiveSearchQuery: (searchQuery) => dispatch(receiveSearchQuery(searchQuery)),
-  fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes()),
   updateBounds: (bounds) => dispatch(updateBounds(bounds))
 })
 

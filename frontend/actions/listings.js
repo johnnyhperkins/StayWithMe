@@ -2,14 +2,14 @@ import * as ApiListingsUtil from '../util/listings_api';
 export const RECEIVE_LISTING = 'RECEIVE_LISTING';
 export const RECEIVE_LISTINGS = 'RECEIVE_LISTINGS';
 export const REMOVE_LISTING = 'REMOVE_LISTING';
-import { updateBounds} from './ui'
 
-export const RECEIVE_AMENITIES_AND_HOME_TYPES = 'RECEIVE_AMENITIES_AND_HOME_TYPES';
+import { updateBounds, savingListing } from './ui'
 
 export const RECEIVE_LISTING_ERRORS = 'RECEIVE_LISTING_ERRORS';
 
 //Listings
 export const createListing = listing => dispatch => {
+  dispatch(savingListing());
   return ApiListingsUtil.createListing(listing).then(listing => {
     return dispatch(receiveListing(listing));
   },
@@ -69,21 +69,6 @@ const removeListing = id => ({
 })
 
 // Amenities / Home Types
-
-export const fetchAmenitiesAndHomeTypes = () => dispatch => {
-  return ApiListingsUtil.fetchAmenitiesAndHomeTypes().then(amenitiesAndHomeTypes => {
-    return dispatch(receiveAmenitiesAndHomeTypes(amenitiesAndHomeTypes));
-  })
-};
-
-
-
-
-const receiveAmenitiesAndHomeTypes = (amenitiesAndHomeTypes) => ({
-  type: RECEIVE_AMENITIES_AND_HOME_TYPES,
-  amenities: amenitiesAndHomeTypes.amenities,
-  home_types: amenitiesAndHomeTypes.home_types,
-})
 
 
 

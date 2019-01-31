@@ -3,7 +3,7 @@ import {
   RECEIVE_MESSAGES, 
   RECEIVE_SEARCH_QUERY,
   UPDATE_BOUNDS, 
-  START_LOADING_LISTING 
+  SAVING_LISTING 
 } from '../actions/ui';
 
 import { RECEIVE_LISTING, RECEIVE_LISTINGS } from '../actions/listings';
@@ -12,6 +12,7 @@ import merge from 'lodash/merge';
 const defaultState = {
   listingLoading: true,
   searching: true,
+  savingListing: false,
   messages: []
 }
 
@@ -23,19 +24,19 @@ const uiReducer = (state = defaultState, action) => {
       state, { 
         formType: action.formType 
       })
-    
-    case START_LOADING_LISTING:
-    return merge({}, 
-      state, { 
-        listingLoading: true 
-      }) 
-      
+  
+    case SAVING_LISTING:
+      return merge({}, 
+        state, { 
+          savingListing: true 
+        }) 
     case RECEIVE_LISTINGS:
     case RECEIVE_LISTING:
       return merge({}, 
         state, { 
           listingLoading: false,
-          searching: false 
+          searching: false,
+          savingListing:false 
         }) 
 
     case UPDATE_BOUNDS:

@@ -1,10 +1,28 @@
-import { RECEIVE_AMENITIES_AND_HOME_TYPES } from '../actions/listings';
 
-export const home_types = (state = {}, action) => {
+const defaultState = {
+  1: {
+    id: 1,
+    name: 'Entire Home'
+  },
+  2: {
+    id: 2,
+    name: 'Entire Apartment'
+  },
+  3: {
+    id: 3,
+    name: 'Shared Room'
+  },
+  4: {
+    id: 4,
+    name: 'Private Room'
+  },
+};
+
+
+export const home_types = (state = defaultState, action) => {
   Object.freeze(state);
   switch (action.type) {
-    case RECEIVE_AMENITIES_AND_HOME_TYPES:
-      return action.home_types
+    
     default:
       return state;
   }

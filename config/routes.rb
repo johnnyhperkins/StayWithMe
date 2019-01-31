@@ -4,11 +4,9 @@ Rails.application.routes.draw do
     post '/users/:user_id/listings', to: 'users#index'
     post '/users/search', to: 'users#user_exists'
     resource :session, only: [:create, :new, :destroy]
-    
-    resources :listings, only: [:create, :destroy, :show, :update, :index]
-    resources :home_types, only: [:index]
 
-    resources :amenities, only: [:index]
+    resources :listings, only: [:create, :destroy, :show, :update, :index]
+    
     resources :reviews, only: [:create, :index, :update]
     post '/listings/:listing_id/reviews', to: 'reviews#index'
 

@@ -15,16 +15,15 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  thumb_img_idx :integer
+#  amenity_ids   :integer          is an Array
 #
 
 class Listing < ApplicationRecord
   validates :user_id, :title, :address, :lat, :lng, :price,:home_type_id, :description, :max_guests, presence: true
 
   belongs_to :user
-  has_one :home_type
   has_many :reviews
   has_many :listing_availabilities
-  has_many :listing_amenities
   has_many_attached :photos
 
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SearchListItem from './results_list_item';
+import { Link } from 'react-router-dom';
 
 class SearchResultsList extends Component {
   constructor(props) {
@@ -17,7 +18,11 @@ class SearchResultsList extends Component {
     return (
       <section className="search-index-container">
         {listingsArray.map(listing => {
-          return <SearchListItem key={listing.id} listing={listing} {...this.props} />
+          return (
+            <Link to={`listings/${listing.id}`}>
+              <SearchListItem key={listing.id} listing={listing} {...this.props} />
+            </Link>
+          )
         })}
       </section>  
     )

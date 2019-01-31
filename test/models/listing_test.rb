@@ -15,6 +15,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  thumb_img_idx :integer
+#  amenity_ids   :integer          is an Array
 #
 
 require 'test_helper'

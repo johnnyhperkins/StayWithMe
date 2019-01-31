@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import ReactModal from 'react-modal';
-
 import configureStore from './store/store';
 import Root from './components/root';
 
@@ -12,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if(window.currentUser) {
     const preloadedState = {
       entities: {
-        users: {[window.currentUser.id] : window.currentUser }
+        users: {[window.currentUser.id] : window.currentUser },
       },
       session: window.currentUser
     };

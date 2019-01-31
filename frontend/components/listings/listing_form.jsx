@@ -8,6 +8,7 @@ import PlacesAutocomplete, {
   getLatLng,
 } from 'react-places-autocomplete';
 import Loading from '../misc/loading';
+import Select from 'react-select';
 
 import moment from 'moment';
 
@@ -49,8 +50,7 @@ class ListingForm extends Component {
   } 
 
   componentDidMount() {
-    const { fetchAmenitiesAndHomeTypes, fetchListing } = this.props;
-    fetchAmenitiesAndHomeTypes();
+    const { fetchListing } = this.props;
     if(!!fetchListing) {
       return fetchListing(this.props.match.params.id).then(({listing}) => {
           const startDate = moment(new Date(listing.start_date));
@@ -97,17 +97,28 @@ class ListingForm extends Component {
       }
   }
 
-  handleAmenities = (e) => {
-    const { amenity_ids } = this.state.listing;
-    const id = e.target.value;
-    const updatedAmenities = amenity_ids.includes(id) ? amenity_ids.filter(i => i !== id) : amenity_ids.concat([id]);
+  handleAmenities = (amenitiesArray) => {
+    // console.log(e);
+    let updatedAmenities = amenitiesArray.map(amenity => amenity.value)
+    // debugger
     this.setState({
         listing: {
           ...this.state.listing,
-          amenity_ids: updatedAmenities
+          amenity_ids: amenitiesArray.map(amenity => amenity.value)
         } 
       }
     )
+    // const { amenity_ids } = this.state.listing;
+    // const id = e.target.value;
+    // console.log();
+    // const updatedAmenities = amenity_ids.includes(id) ? amenity_ids.filter(i => i !== id) : amenity_ids.concat([id]);
+    // this.setState({
+    //     listing: {
+    //       ...this.state.listing,
+    //       amenity_ids: updatedAmenities
+    //     } 
+    //   }
+    // )
   }
   handleSubmit = () => {
     const { listing, selectedPhotoFiles } = this.state;
@@ -147,7 +158,7 @@ class ListingForm extends Component {
   };
 
   render() {
-    const { listingLoading, listing } = this.props;
+    const { listingLoading, listing, savingListing } = this.props;
     if(listingLoading || listing) {
       return <Loading />
     }
@@ -170,6 +181,18 @@ class ListingForm extends Component {
     } = this.state.listing;
     
     const { errors, home_types, amenities, formType } = this.props;
+
+    let formattedAmenities = amenities.map(amenity => {
+      return {
+        value: amenity.id,
+        label: amenity.name
+      }
+    })
+    let defaultAmentities = [];
+    if(amenity_ids.length) {
+      defaultAmentities = formattedAmenities.filter(a => amenity_ids.includes(a.value))
+    }
+    
     const startDateString = startDate && moment(startDate).format('ddd, MMM Do');
     const endDateString = endDate && moment(endDate).format('ddd, MMM Do');
 
@@ -262,7 +285,17 @@ class ListingForm extends Component {
               </label>
               
               <label>Select Amenities
-                <div className="flex-container checkbox-wrapper">
+
+              <Select
+                  defaultValue={defaultAmentities}
+                  isMulti
+                  options={formattedAmenities}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  // onInputChange={this.handleAmenities}
+                  onChange={this.handleAmenities}
+                />
+                {/* <div className="flex-container checkbox-wrapper">
                   { amenities.map(amenity => {
                       return <label key={amenity.id}>{amenity.name}
                       {// TO DO: Fix this
@@ -285,7 +318,7 @@ class ListingForm extends Component {
                       </label>
                     }) 
                   }
-                  </div>
+                  </div> */}
               </label>
               
               <textarea 
@@ -361,7 +394,11 @@ class ListingForm extends Component {
           }
         </div>
         <section>
-          <button onClick={this.handleSubmit} className="button--submit inline-block" >{formType}</button>
+          <button 
+            onClick={this.handleSubmit} 
+            className="button--submit inline-block" >
+            {savingListing ? 'Saving...' : formType}
+          </button>
         </section>  
       </section>
     )

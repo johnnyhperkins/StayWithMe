@@ -1,9 +1,8 @@
 import { connect } from 'react-redux';
 import { 
     updateListing, 
-    fetchAmenitiesAndHomeTypes, 
     receiveListingErrors,
-    fetchListing
+    fetchListing,
 } from '../../actions/listings';
 import ListingForm from './listing_form';
 
@@ -17,12 +16,12 @@ const msp = (state, props) => {
     user_id: state.session.id,
     formType: "Edit Listing",
     listingLoading: state.ui.listingLoading,
+    savingListing: state.ui.savingListing
   }
 }
 
 const mdp = (dispatch) => ({
     updateListing: listing => dispatch(updateListing(listing)),
-    fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes()),
     receiveListingErrors: errors => dispatch(receiveListingErrors(errors)),
     fetchListing: id => dispatch(fetchListing(id))
 })

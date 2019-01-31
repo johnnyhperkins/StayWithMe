@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
-import { fetchListing, fetchAmenitiesAndHomeTypes } from '../../actions/listings'
+import { fetchListing } from '../../actions/listings'
 import { fetchListingReviews } from '../../actions/reviews'
 import Loading from '../misc/loading';
 import { isInclusivelyAfterDay, DateRangePicker, DayPickerRangeController } from 'react-dates';
@@ -39,16 +39,13 @@ class Listing extends Component {
     const { 
       fetchListing,
       fetchListingReviews, 
-      amenities, 
-      home_types, 
-      fetchAmenitiesAndHomeTypes,
     } = this.props;
 
     document.addEventListener('mousedown', this.handleClickOutsideGuestSelector);
     
     fetchListingReviews(this.props.match.params.id)
 
-    if(isEmpty(amenities) || isEmpty(home_types)) fetchAmenitiesAndHomeTypes();
+    // if(isEmpty(amenities) || isEmpty(home_types)) fetchAmenitiesAndHomeTypes();
 
     fetchListing(this.props.match.params.id).then(({listing}) => {
       
@@ -327,7 +324,6 @@ const msp = (state, props) => ({
 
 const mdp = dispatch => ({
   fetchListing: id => dispatch(fetchListing(id)),
-  fetchAmenitiesAndHomeTypes: () => dispatch(fetchAmenitiesAndHomeTypes()),
   fetchListingReviews: (listingId) => dispatch(fetchListingReviews(listingId))
 })
 
