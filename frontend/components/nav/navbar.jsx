@@ -70,10 +70,10 @@ class NavBar extends Component {
       <>
       <nav className={classes}>
         <section className="search-wrapper flex-container">
-          <Link to="/"><Logo loggedIn={loggedIn} /></Link>
+          <Link to="/"><Logo locationPath={this.props.location.pathname} loggedIn={loggedIn} /></Link>
           <div className="search-input-wrapper">
             
-            {loggedIn && 
+            {(loggedIn || this.props.location.pathname != "/") && 
               <>
                 <SearchIcon options={{'height':'18px','width':'18px', 'fill':'#333'}} />
                 <PlacesAutocomplete

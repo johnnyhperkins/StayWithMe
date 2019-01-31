@@ -17,6 +17,15 @@
     cursor: pointer;
 }
 
+.button--cancel {
+    @extend .button;
+    width: 100%;
+    background: $teal-blue;
+    font-weight: 600;
+    color:#fff;
+    margin-top: 1.6rem;
+}
+
 .button--outlined {
     @extend .button;
     border: 1px solid $light-gray;
@@ -114,6 +123,13 @@
 .add-subtract.disabled {
     border: 1px solid rgba( $teal-blue, .3 );
     color: rgba( $teal-blue, .3 )
+}
+
+.submit-container {
+    .button--cancel,
+    .button--submit {
+        width: 25%;
+    }
 }
 
 // Profile page

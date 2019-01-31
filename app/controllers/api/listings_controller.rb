@@ -66,9 +66,11 @@ class Api::ListingsController < ApplicationController
         }
       }
     }
-
-    @listings = bounds ? Listing.in_bounds(bounds) : Listing.all
-    
+    if sample_listings
+      @listings = Listing.all.limit(sample_listings)
+    else
+      @listings = bounds ? Listing.in_bounds(bounds) : Listing.all
+    end
   end
 
   def destroy
@@ -84,6 +86,10 @@ class Api::ListingsController < ApplicationController
   private
   def listing_params
     params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [], amenity_ids: [])
+  end
+
+  def sample_listings
+    params[:query][:sample]
   end
 
   def bounds

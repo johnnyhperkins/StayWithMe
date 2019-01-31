@@ -25,6 +25,15 @@ export const fetchListings = bounds => dispatch => {
   (e) => dispatch(receiveListingErrors(e.responseJSON)))
 };
 
+
+export const queryListings = query => dispatch => {
+  return ApiListingsUtil.queryListings(query).then(listings => {
+    console.log(listings);
+    return dispatch(receiveListings(listings));
+  },
+  (e) => dispatch(receiveListingErrors(e.responseJSON)))
+};
+
 export const fetchUserListings = id => dispatch => {
   return ApiListingsUtil.fetchUserListings(id).then(listings => {
     return dispatch(receiveListings(listings));

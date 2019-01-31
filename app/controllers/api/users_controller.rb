@@ -19,15 +19,16 @@ class Api::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:user][:id])
-    if @user == current_user
-      if !params[:user][:password].nil?
-        if params.include?(:password) && params[:user][:password].length > 5
-          @user.password = params[:user][:password]
-        else
+    debugger
+    if @user.id == current_user.id
+      if params[:user][:password]
+        debugger
+        unless params[:user][:password].length > 5 && @user.change_password(params[:user][:password])
+          debugger
           return render json: ['Password must be at least 6 characters'], status: 402
         end
       end
-      if @user.update_attributes(user_params)
+      if @user.update_attributes(update_user_params)
         render :show, status: 200
       else
         render json: @user.errors.full_messages, status: 409
@@ -58,5 +59,9 @@ class Api::UsersController < ApplicationController
   
   def user_params
     params.require(:user).permit(:username, :email, :password, :photo)
+  end
+
+  def update_user_params
+    params.require(:user).permit(:username, :email, :photo)
   end
 end

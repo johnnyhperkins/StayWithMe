@@ -19,6 +19,15 @@ export const fetchListing = (id) => {
   })
 };
 
+export const queryListings = (query) => {
+  return $.ajax({
+    url: '/api/listings',
+    method: "GET",
+    data: {query},
+    error: (err) => console.log(err)
+  })
+};
+
 export const fetchListings = (bounds) => {
   // console.log({bounds});
   return $.ajax({

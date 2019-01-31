@@ -71,20 +71,20 @@ class EditProfileForm extends Component {
     const updatedUserObject = {
       id,
       email,
-      username
+      username,
+       
     }
     
-    this.state.password.length ? updatedUserObject['password'] = this.state.password : "";
+    updatedUserObject.password = this.state.password.length ? this.state.password : undefined;
+    debugger
 
     const formData = objectToFormData(updatedUserObject, null,null, 'user');
     if(this.state.imageFile) {
       formData.append('user[photo]', this.state.imageFile);
     }
     
-    return updateUser(formData).then(res => {
-      // if(res) {
-      //   receiveMessages(["Succesfully Updated"])
-      // }
+    return updateUser(formData).then(() => {
+      this.setState({password: ''})
     }, (e) => {
       console.log(e);
     });
@@ -195,7 +195,7 @@ class EditProfileForm extends Component {
                 type="password" 
                 value={password} 
                 placeholder="Password"
-                onChange={this.handleInput}
+                onChange={(e) => this.setState({password: e.target.value})}
                 />
           </div>
           { !isEmpty(errors) && (

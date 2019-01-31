@@ -33,3 +33,23 @@
   flex-grow:2;
 }
 
+.featured-listing {
+  margin-right:1.6rem;
+  .listing-thumb {
+    border-radius: 3px;
+    margin-bottom: 1rem;
+  } 
+  .thumb-size-rating {
+    margin-left: .5rem;
+    .fa {
+      width: 10px;
+      height: 10px;
+      font-size: 1rem;
+      color: $teal-blue;
+    } 
+    span {
+      line-height: .3;
+      margin-left: 1px;
+    }
+  }
+}

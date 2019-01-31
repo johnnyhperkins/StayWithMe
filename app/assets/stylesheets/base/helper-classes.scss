@@ -36,6 +36,11 @@
   margin: 2.4rem 0;
 }
 
+.hr-24--no-line {
+  @extend .hr-24;
+  border:none;
+}
+
 .hr-16 {
   margin: 1.6rem 0;
 }

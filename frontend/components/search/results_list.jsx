@@ -19,8 +19,8 @@ class SearchResultsList extends Component {
       <section className="search-index-container">
         {listingsArray.map(listing => {
           return (
-            <Link to={`listings/${listing.id}`}>
-              <SearchListItem key={listing.id} listing={listing} {...this.props} />
+            <Link key={listing.id} to={`listings/${listing.id}`}>
+              <SearchListItem listing={listing} {...this.props} />
             </Link>
           )
         })}

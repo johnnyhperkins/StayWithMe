@@ -225,23 +225,30 @@ class Listing extends Component {
             <div id="map" ref={map => this.mapNode = map}></div>
           </div>
 
-          <hr className="hr-24"/>
+          <hr className="hr-24--no-line"/>
           {/* REVIEWS */}
 
-          <div className="flex-container--no-justify">
+          <div className="flex-container--no-justify rating-container">
           
-            <h3>{review_ids.length} Reviews</h3> 
+            { review_ids.length ? 
+              <>
+              <h3>{review_ids.length} Review{review_ids.length > 1 ? 's' : ''}</h3> 
+              <br />
                 <Rating 
                   className="read-only-rating"
                   readonly
-                  emptySymbol="fa fa-star-o fa-2x"
-                  fullSymbol="fa fa-star fa-2x"
+                  // emptySymbol="fa fa-star-o fa-2x"
+                  // fullSymbol="fa fa-star fa-2x"
                   initialRating={rating}
                 />
+              </>
+              : 
+              <h3>No reviews yet</h3>
+            }
           
           </div>
 
-          <hr className="hr-24"/>
+          {/* <hr className="hr-24"/> */}
           {/* LEAVE REVIEWS */}
 
           <section className="reviews-container">
