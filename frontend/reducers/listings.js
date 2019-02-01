@@ -27,7 +27,7 @@ export const listings = (state = {}, action) => {
       let newerState = merge({},state);
       let listing = newerState[action.review.listing_id];
       listing.review_ids.push(action.review.id)
-      listing.rating = (action.review.rating + (listing.rating * listing.review_ids.length - 1)) / listing.review_ids.length
+      listing.rating = (action.review.rating + (listing.rating * (listing.review_ids.length - 1))) / listing.review_ids.length
       return newerState;
         
     case REMOVE_LISTING:

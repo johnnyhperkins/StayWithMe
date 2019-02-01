@@ -13,6 +13,10 @@ if listing.listing_availabilities
   end
 end
 
+if listing.user.photo.attached?
+  json.ownerPhotoUrl url_for(listing.user.photo)
+end
+
 def get_rating(listing)
   sum = 0
   listing.reviews.each do |review|

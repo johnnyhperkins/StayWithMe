@@ -10,6 +10,7 @@ import ReviewForm from '../reviews/review_form';
 import moment from 'moment';
 import isEmpty from 'lodash/isEmpty';
 import Rating from 'react-rating';
+import SmallRating from '../misc/small_ratings';
 
 import { AirCon } from '../../static_assets/amenity_icons';
 
@@ -189,7 +190,6 @@ class Listing extends Component {
 
           <div className="amenities">
             <h5>Amenities</h5>
-            <AirCon />
             <ul>
             {Object.values(amenities).filter(a => amenity_ids.includes(a.id)).map(amenity => {
               return <li key={amenity.id}>{amenity.name}</li>
@@ -240,8 +240,8 @@ class Listing extends Component {
                 <Rating 
                   className="read-only-rating"
                   readonly
-                  // emptySymbol="fa fa-star-o fa-2x"
-                  // fullSymbol="fa fa-star fa-2x"
+                  emptySymbol="fa fa-star-o fa-2x"
+                  fullSymbol="fa fa-star fa-2x"
                   initialRating={rating}
                 />
               </>
@@ -268,7 +268,7 @@ class Listing extends Component {
         
         <aside className="floating-booking-container">
           <h3 style={{fontSize: '2.2rem'}}>${price} <span className="tiny bold">per night</span></h3>
-          Rating
+          <SmallRating listing={this.props.listing} />
           <hr className="hr-16"/>
           <p className="tiny bold">Dates</p>
           <DateRangePicker
