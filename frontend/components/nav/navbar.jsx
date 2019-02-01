@@ -90,7 +90,7 @@ class NavBar extends Component {
                         })}
                       />
                       <div className="autocomplete-dropdown">
-                        {loading && <div>Loading...</div>}
+                        {loading && <div className="suggestion-item">Loading...</div>}
                         {suggestions.map(suggestion => {
                           const className = suggestion.active
                             ? 'suggestion-item--active'

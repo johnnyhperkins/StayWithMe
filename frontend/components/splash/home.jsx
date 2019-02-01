@@ -29,8 +29,8 @@ class Home extends Component {
         <section className="flex-container--no-justify">
           { listings.map(listing => {
             return (
-              <Link to={`/listings/${listing.id}`}>
-                <FeaturedListing key={listing.id} home_types={home_types} listing={listing} />
+              <Link key={listing.id} to={`/listings/${listing.id}`}>
+                <FeaturedListing home_types={home_types} listing={listing} />
               </Link>
             )}) 
           }

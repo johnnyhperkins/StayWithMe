@@ -27,7 +27,7 @@ class Dashboard extends Component {
       <section className="content-container--interior-page flex-container">
         <Route 
           path="/users/"
-          render={() => <DashboardSidebar userId={session.id} path={location.pathname} />} />
+          render={() => <DashboardSidebar session={session} path={location.pathname} />} />
         <Route 
           path={`/users/${session.id}`} exact
           render={() => <Profile userId={session.id} />} />

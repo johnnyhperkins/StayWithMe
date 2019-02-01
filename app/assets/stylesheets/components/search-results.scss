@@ -18,6 +18,13 @@
   min-height: 200px;
   max-height: 200px;
   margin-bottom:2.4rem;
+  .results-slider {
+    width:31%;
+    border-radius: 3px;
+    .slick-dots {
+      bottom: 5px;
+    }
+  }
   .listing-thumb {
     width:300px;
     max-height:200px;
@@ -44,6 +51,7 @@
           display:inline-block;
           font-size: $font-s;
           color: $light-black;
+          margin-right: 3px;
         }
       }
     }

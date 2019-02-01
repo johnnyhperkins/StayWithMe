@@ -139,7 +139,7 @@ class HomeLoggedOut extends Component {
                           })}
                         />
                         <div className="autocomplete-dropdown autocomplete-dropdown--splash">
-                          {loading && <div>Loading...</div>}
+                          {loading && <div className="suggestion-item">Loading...</div>}
                           {suggestions.map(suggestion => {
                             const className = suggestion.active
                               ? 'suggestion-item--active'

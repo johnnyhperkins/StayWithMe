@@ -66,9 +66,9 @@ class ReviewForm extends Component {
         <div className="form-wrapper">
           <Rating 
             name="rating"
-            className="read-only-rating"
-            // emptySymbol="fa fa-star-o fa-2x"
-            // fullSymbol="fa fa-star fa-2x"
+            className="rating-selector"
+            emptySymbol="fa fa-star-o fa-2x"
+            fullSymbol="fa fa-star fa-2x"
             initialRating={rating}
             onChange={(e) => this.setState({review: {
               ...this.state.review,

@@ -9,6 +9,7 @@ import PlacesAutocomplete, {
 } from 'react-places-autocomplete';
 import Loading from '../misc/loading';
 import Select from 'react-select';
+import { airCon } from '../../static_assets/amenity_icons';
 
 import moment from 'moment';
 
@@ -69,7 +70,7 @@ class ListingForm extends Component {
   }
 
   cancel = () => {
-    this.props.history.push(`/users/${this.props.user_id}`)
+    this.props.history.goBack()
   }
 
   onFocusChange = (focusedInput) => {
@@ -187,190 +188,193 @@ class ListingForm extends Component {
     const endDateString = endDate && moment(endDate).format('ddd, MMM Do');
 
     return (
-      <section className="content-container grid--75">
-        <h2>{formType == "Edit Listing" ? "Edit your listing" : 'Lets get started listing your place.'}</h2>
-        <div className="form-wrapper listing-form">
-        {/* {!isEmpty(messages) && messages.map((m, idx) => <p key={idx} >{m}</p>)} */}
-              <label>Title
-                <input 
-                  className="text-input"
-                  type="text" 
-                  placeholder="Title"
-                  name="title"
-                  value={title} 
-                  onChange={this.handleInput} 
-                  />
-              </label>
-
-              <label>Photos
-               <input 
-                type="file"
-                className="text-input"
-                onChange={e => this.setState({ selectedPhotoFiles: e.target.files })}
-                multiple
-                />
-                {/* { imageUrl && <img src={imageUrl} className="thumb-img" /> } */}
-              </label>
-              {(photos && photos.length) ?
-                <div className="flex-container--no-justify photos-container">
-                  { photos.map((url, idx) => <div key={idx} className="listing-thumb square-image grid--25" style={{backgroundImage: `url(${url})`}} />) }
-                </div> : null
-              }
-              <PlacesAutocomplete
-                value={address}
-                onChange={this.handleChangeAddress}
-                onSelect={this.handleSelectAddress}
-              >
-                {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                  <div className="autocomplete-dropdown-container">
-                    <label>Address
-                      <input
-                        {...getInputProps({
-                          placeholder: 'Find your address...',
-                          className: 'location-search-input text-input',
-                        })}
-                      />
-                      </label>
-                    <div className="autocomplete-dropdown">
-                      {loading && <div>Loading...</div>}
-                      {suggestions.map(suggestion => {
-                        const className = suggestion.active
-                          ? 'suggestion-item--active'
-                          : 'suggestion-item';
-                          const style = suggestion.active
-                          ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                          : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                        return (
-                          <div
-                            {...getSuggestionItemProps(suggestion, {
-                              className,
-                              style
-                            })}
-                          >
-                            <span><i className="fas fa-map-marker-alt"></i> {suggestion.description}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                )}
-              </PlacesAutocomplete>
-
-              <label>Price Per Night
-                <input 
-                  className="text-input"
-                  type="text" 
-                  placeholder="Price"
-                  name="price"
-                  value={price} 
-                  onChange={this.onPriceChange} 
-                /> 
-              </label>
-
-              <label>Home Type
-                <select name="home_type_id" value={home_type_id} className="select" onChange={this.handleInput}>
-                  <option value=''>Select Home Type</option>
-                  {home_types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
-                </select>
-              </label>
-              
-              <label>Select Amenities
-                <div className="basic-multi-select-wrapper">
-                <Select
-                    defaultValue={defaultAmentities}
-                    isMulti
-                    options={formattedAmenities}
-                    className="basic-multi-select"
-                    classNamePrefix="select"
-                    // onInputChange={this.handleAmenities}
-                    onChange={this.handleAmenities}
-                  />
-                </div>        
-              </label>
-              
-              <textarea 
-                className="text-area" 
-                name="description"
-                value={description} 
-                onChange={this.handleInput} 
-                >{description}</textarea>
-
-              <label>Max Guests</label>
-              <input 
-                className="text-input"
-                type="number" 
-                placeholder="Max Guests"
-                name="max_guests"
-                value={max_guests} 
-                onChange={this.handleInput} 
-                />
-
-              <div className="flex-container--no-justify">
-                <label className="inline">
-                  <p>Available From:</p>
+      <section className="flex-container create-listing">
+        <section className="content-container grid--50">
+          <h2>{formType == "Edit Listing" ? "Edit your listing" : 'Lets get started listing your place.'}</h2>
+          <div className="form-wrapper listing-form">
+          {/* {!isEmpty(messages) && messages.map((m, idx) => <p key={idx} >{m}</p>)} */}
+                <label>Title
                   <input 
-                    type="text" 
-                    name="start_date" 
                     className="text-input"
-                    value={startDateString} 
-                    placeholder="mm/dd/yyyy"
-                    readOnly />
-                </label>
-                <label>
-                  <p>Until:</p>
-                  <input 
                     type="text" 
-                    className="text-input"
-                    name="end_date" 
-                    value={endDateString} 
-                    placeholder="mm/dd/yyyy"
-                    readOnly
+                    placeholder="Title"
+                    name="title"
+                    value={title} 
+                    onChange={this.handleInput} 
                     />
                 </label>
-              </div>
-              <DayPickerRangeController
-                startDate={startDate}
-                endDate={endDate}
-                isOutsideRange={day => isInclusivelyAfterDay(today, day)}
-                onOutsideClick={DayPickerRangeController.onOutsideClick}
-                enableOutsideDays={false}
-                numberOfMonths={2}
-                onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
-                onNextMonthClick={DayPickerRangeController.onNextMonthClick}
-                onDatesChange={({ startDate, endDate }) => this.setState({ 
-                    startDate, 
-                    endDate, 
-                    listing: {
-                      ...this.state.listing,
-                      start_date: startDate && moment(startDate).format('YYYY-MM-DD HH:mm:00'),
-                      end_date: endDate && moment(endDate).format('YYYY-MM-DD HH:mm:00'), 
-                    }
-                  })  
-                } 
-                focusedInput={focusedInput} 
-                onFocusChange={this.onFocusChange} 
-              />
-          
-          { !isEmpty(errors) && (
-              <>
-              <ul className="session-errors">
-                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-              </ul>
-              </>
-              ) 
-          }
-        </div>
-        <section className="flex-container submit-container">
-          <button 
-            onClick={this.handleSubmit} 
-            className="button--submit inline-block" >
-            {this.props.savingListing ? 'Saving...' : formType}
-          </button>
+                <PlacesAutocomplete
+                  value={address}
+                  onChange={this.handleChangeAddress}
+                  onSelect={this.handleSelectAddress}
+                >
+                  {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
+                    <div className="autocomplete-dropdown-container">
+                      <label>Address
+                        <input
+                          {...getInputProps({
+                            placeholder: 'Find your address...',
+                            className: 'location-search-input text-input',
+                          })}
+                        />
+                        </label>
+                      <div className="autocomplete-dropdown">
+                        {loading && <div className="suggestion-item">Loading...</div>}
+                        {suggestions.map(suggestion => {
+                          const className = suggestion.active
+                            ? 'suggestion-item--active'
+                            : 'suggestion-item';
+                            const style = suggestion.active
+                            ? { backgroundColor: '#fafafa', cursor: 'pointer' }
+                            : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                          return (
+                            <div
+                              {...getSuggestionItemProps(suggestion, {
+                                className,
+                                style
+                              })}
+                            >
+                              <span><i className="fas fa-map-marker-alt"></i> {suggestion.description}</span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+                </PlacesAutocomplete>
 
-          <button 
-          className="button--cancel inline-block" 
-          onClick={this.cancel}>Cancel</button>
-        </section>  
+                <label>Price Per Night
+                  <input 
+                    className="text-input"
+                    type="text" 
+                    placeholder="Price"
+                    name="price"
+                    value={price} 
+                    onChange={this.onPriceChange} 
+                  /> 
+                </label>
+
+                <label>Home Type
+                  <select name="home_type_id" value={home_type_id} className="select" onChange={this.handleInput}>
+                    <option value=''>Select Home Type</option>
+                    {home_types.map(type => <option key={type.id} value={type.id}>{type.name}</option>)}
+                  </select>
+                </label>
+                
+                <label>Select Amenities
+                  <div className="basic-multi-select-wrapper">
+                  <Select
+                      defaultValue={defaultAmentities}
+                      isMulti
+                      options={formattedAmenities}
+                      className="basic-multi-select"
+                      classNamePrefix="select"
+                      // onInputChange={this.handleAmenities}
+                      onChange={this.handleAmenities}
+                    />
+                  </div>        
+                </label>
+                <label>Describe your listing
+                <textarea 
+                  className="text-area" 
+                  name="description"
+                  value={description} 
+                  onChange={this.handleInput} 
+                  >{description}</textarea>
+                </label>
+                <label>Max guests
+                  <input 
+                    className="text-input"
+                    type="number" 
+                    placeholder="Max Guests"
+                    name="max_guests"
+                    value={max_guests} 
+                    onChange={this.handleInput} 
+                  />
+                </label>
+                <input 
+                  type="file" 
+                  id="file"
+                  onChange={e => this.setState({ selectedPhotoFiles: e.target.files })}
+                  multiple />
+                <label htmlFor="file" className="upload-button">Add Photos</label>
+                {!!this.state.selectedPhotoFiles.length && <p>{this.state.selectedPhotoFiles.length} files selected</p>}    
+                  {(photos && photos.length) ?
+                    <div className="flex-container--no-justify photos-container">
+                      { photos.map((url, idx) => <div key={idx} className="listing-thumb square-image" style={{backgroundImage: `url(${url})`}} />) }
+                    </div> : null
+                  }
+                <hr className="hr-24" />
+                <div className="flex-container--no-justify">
+                  <label className="inline">
+                    <p>Available From:</p>
+                    <input 
+                      type="text" 
+                      name="start_date" 
+                      className="text-input"
+                      value={startDateString} 
+                      placeholder="mm/dd/yyyy"
+                      readOnly />
+                  </label>
+                  <label>
+                    <p>Until:</p>
+                    <input 
+                      type="text" 
+                      className="text-input"
+                      name="end_date" 
+                      value={endDateString} 
+                      placeholder="mm/dd/yyyy"
+                      readOnly
+                      />
+                  </label>
+                </div>
+                <DayPickerRangeController
+                  startDate={startDate}
+                  endDate={endDate}
+                  isOutsideRange={day => isInclusivelyAfterDay(today, day)}
+                  onOutsideClick={DayPickerRangeController.onOutsideClick}
+                  enableOutsideDays={false}
+                  numberOfMonths={2}
+                  onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
+                  onNextMonthClick={DayPickerRangeController.onNextMonthClick}
+                  onDatesChange={({ startDate, endDate }) => this.setState({ 
+                      startDate, 
+                      endDate, 
+                      listing: {
+                        ...this.state.listing,
+                        start_date: startDate && moment(startDate).format('YYYY-MM-DD HH:mm:00'),
+                        end_date: endDate && moment(endDate).format('YYYY-MM-DD HH:mm:00'), 
+                      }
+                    })  
+                  } 
+                  focusedInput={focusedInput} 
+                  onFocusChange={this.onFocusChange} 
+                />
+            
+            { !isEmpty(errors) && (
+                <>
+                <ul className="session-errors">
+                  {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
+                </>
+                ) 
+            }
+          </div>
+          <section className="flex-container--no-justify submit-container">
+            <button 
+              onClick={this.handleSubmit} 
+              className="button--submit inline-block grid--33" >
+              {this.props.savingListing ? 'Saving...' : formType}
+            </button>
+
+            <button 
+            className="button--cancel button--outlined inline-block grid--33" 
+            onClick={this.cancel}>Cancel</button>
+          </section>  
+        </section>
+        <aside className="grid--50">
+          <img src="https://s3.us-east-2.amazonaws.com/stay-with-me/b12a70f632d3d127a38a67afde7cc8ec.png" alt=""/>
+        </aside>
       </section>
     )
   }

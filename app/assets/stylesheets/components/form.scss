@@ -1,3 +1,81 @@
+//create listing
+
+.flex-container.create-listing {
+  align-items: end;
+  .photos-container {
+    flex-wrap: wrap;
+    margin: 25px 0 15px;
+    .listing-thumb {
+        min-width: 150px;
+        width: 165px;
+        max-height:120px;
+        height:120px;
+        margin-right: 5px;
+        margin-bottom:5px;
+        border: 1px solid $off-white;
+      }
+      .square-image {
+          min-height: 120px;
+      }
+  }
+  h2 {
+    font-weight: 300;
+    font-size: 3.2rem;
+    margin-bottom:3.2rem;
+  } 
+  .text-input,
+  select.select {
+    border-radius: 2px!important;
+    // -webkit-appearance: none;
+    -webkit-border-radius: 2px;
+  }
+  .button--outlined {
+    border:1px solid $off-white;
+    padding:11px;
+    margin-left: 2.4rem;
+  }
+  .autocomplete-dropdown-container {
+    z-index: 300;
+  }
+  .autocomplete-dropdown {
+    top:70px;
+    width:100%;
+  }
+  [type="file"] {
+    height: 0;
+    overflow: hidden;
+    width: 0;
+  }
+  
+  [type="file"] + label {
+    background: #f15d22;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: inherit;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    outline: none;
+    padding: 1rem 50px;
+    position: relative;
+    transition: all 0.3s;
+    vertical-align: middle;
+     
+    &.upload-button {
+      background-color: $teal-blue;
+      border-radius: 2px;
+      overflow: hidden;
+  
+      &:hover {
+        background-color: lighten($teal-blue, 5%);
+      }
+    }
+    
+  }
+}
+
 // Profile form
 
 .profile-form-row {

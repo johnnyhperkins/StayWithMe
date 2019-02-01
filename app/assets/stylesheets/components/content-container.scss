@@ -56,6 +56,7 @@ footer p, footer a, {
     padding:0 2.4rem;
     justify-content: flex-start;
     align-items: baseline;
+    align-items: end;
     margin: 0 auto;
     position: relative;
 }
@@ -71,34 +72,18 @@ footer p, footer a, {
     .listing-form {
         border-top-width: 1px;
     }
-    .photos-container {
-        flex-wrap: wrap;
-        margin: 25px 0 15px;
-        .listing-thumb {
-            min-width: 150px;
-            width: 150px;
-            max-height:120px;
-            height:120px;
-            margin-right: 5px;
-            margin-bottom:5px;
-            border: 1px solid $light-black;
-          }
-          .square-image {
-              min-height: 120px;
-          }
-    }
 }
 
 .grid--50 {
-    width: 50%;
+    width: 50%!important;
 }
 
 .grid--33 {
-    width: 33%;
+    width: 33%!important;
 }
 
 .grid--25 {
-    width: 25%;
+    width: 25% !important;
 }
 
 .grid--75__header {
@@ -133,9 +118,25 @@ footer p, footer a, {
 }
 .suggestion-item--active,
 .suggestion-item {
-    padding: 10px 20px;
+    padding: 13px 20px;
     cursor: pointer;
+    font-size: 14px;
+    .fa-map-marker-alt {
+        margin-right: 15px;
+    }
 }
+
+.suggestion-item:first-child,
+.suggestion-item--active:first-child
+ {
+    padding-top:20px;
+}
+
+.suggestion-item:last-child,
+.suggestion-item--active:last-child {
+    padding-bottom: 30px;
+}
+
 
 
 .autocomplete-dropdown {
@@ -162,4 +163,12 @@ footer p, footer a, {
         min-width: 50px;
         min-height: 50px;
     }
+}
+
+.profile-image {
+    width:240px;
+    padding-bottom: 240px;
+    background-size:cover;
+    max-width:100%;
+
 }

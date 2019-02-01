@@ -11,6 +11,8 @@ import moment from 'moment';
 import isEmpty from 'lodash/isEmpty';
 import Rating from 'react-rating';
 
+import { AirCon } from '../../static_assets/amenity_icons';
+
 const today = moment();
 
 class Listing extends Component {
@@ -187,6 +189,7 @@ class Listing extends Component {
 
           <div className="amenities">
             <h5>Amenities</h5>
+            <AirCon />
             <ul>
             {Object.values(amenities).filter(a => amenity_ids.includes(a.id)).map(amenity => {
               return <li key={amenity.id}>{amenity.name}</li>
@@ -250,15 +253,17 @@ class Listing extends Component {
 
           {/* <hr className="hr-24"/> */}
           {/* LEAVE REVIEWS */}
-
+          {this.props.listing.user_id != this.props.userId ? (
+          <>
           <section className="reviews-container">
             {!isEmpty(reviews) ? Object.values(reviews).map(review => <Review key={review.id} review={review} />) : null}
           </section>
-
-          {/* REVIEW FORM */}
           <ReviewForm listing_id={id} />
+          </>
+          ) :
+          null
 
-
+        }
         </section>
         
         <aside className="floating-booking-container">
