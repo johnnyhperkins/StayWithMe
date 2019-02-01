@@ -28,7 +28,7 @@ export const fetchListingReviews = (listingId) => {
 export const fetchUserReviews = (id) => {
   return $.ajax({
     url: `/api/users/${id}/reviews`,
-    method: "POST",
+    method: "GET",
     error: (err) => console.log(err)
   })
 };

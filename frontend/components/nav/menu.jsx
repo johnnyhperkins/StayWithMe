@@ -36,7 +36,6 @@ class Menu extends Component {
     const {logout, loggedIn, openModal, session } = this.props
     return (
       <>
-        <button className='button--navlink'>Become a Host</button>
           { loggedIn ?
             <>
             <NavLink to="/listings/new" className="button--navlink">

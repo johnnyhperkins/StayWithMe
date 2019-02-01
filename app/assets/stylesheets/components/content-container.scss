@@ -156,3 +156,10 @@ footer p, footer a, {
     left: -20px;
     font-size: 14px;
 }
+
+.user-reviews-container {
+    .profile-thumb {
+        min-width: 50px;
+        min-height: 50px;
+    }
+}

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json}  do
     resources :users, only: [:create, :update]
     post '/users/:user_id/listings', to: 'users#index'
+    get '/users/:user_id/reviews', to: 'reviews#index'
     post '/users/search', to: 'users#user_exists'
     resource :session, only: [:create, :new, :destroy]
 

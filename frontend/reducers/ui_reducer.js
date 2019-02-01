@@ -3,16 +3,19 @@ import {
   RECEIVE_MESSAGES, 
   RECEIVE_SEARCH_QUERY,
   UPDATE_BOUNDS, 
-  SAVING_LISTING 
+  SAVING_LISTING,
 } from '../actions/ui';
 
 import { RECEIVE_LISTING, RECEIVE_LISTINGS } from '../actions/listings';
+
+import { RECEIVE_REVIEWS } from '../actions/reviews';
 import merge from 'lodash/merge';
 
 const defaultState = {
   listingLoading: true,
   searching: true,
   savingListing: false,
+  reviewsLoading: true,
   messages: []
 }
 
@@ -51,6 +54,11 @@ const uiReducer = (state = defaultState, action) => {
         searching: !action.query,
         query: action.query,
         listingLoading: true
+      })
+
+    case RECEIVE_REVIEWS:
+      return merge({}, state, {
+        reviewsLoading: false
       })
 
     case RECEIVE_MESSAGES: 

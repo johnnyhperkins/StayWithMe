@@ -1,8 +1,12 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom';
 
-const DashboardSidebar = ({userId}) => {
+const DashboardSidebar = ({userId, path}) => {
     return (
+      <>
+      {(path == `/users/${userId}`) ? (
+        <div></div>
+      ) :
       <aside className="grid--25">
         <ul>
           <li><Link to={`/users/${userId}/edit`}>Edit Profile</Link></li>
@@ -11,6 +15,8 @@ const DashboardSidebar = ({userId}) => {
           <li><Link to={`/users/${userId}`} className="button button--outlined center">View Profile</Link></li>
         </ul>
       </aside>
+      }
+      </>
     );
 };
 

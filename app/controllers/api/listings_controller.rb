@@ -46,7 +46,6 @@ class Api::ListingsController < ApplicationController
   def show
     @listing = Listing.find(params[:id])
     if @listing
-      # debugger
       render 'api/listings/show'
     else 
       render json: ['Listing not found'], status: 409
@@ -89,7 +88,7 @@ class Api::ListingsController < ApplicationController
   end
 
   def sample_listings
-    params[:query][:sample]
+    params[:query][:sample] if params[:query]
   end
 
   def bounds

@@ -28,7 +28,12 @@ class Api::ReviewsController < ApplicationController
   end
 
   def index
-    @reviews = Review.where(listing_id: params[:listing_id])
+    if params[:listing_id]
+      @reviews = Review.where(listing_id: params[:listing_id])
+    end
+    if params[:user_id]
+      @reviews = Review.where(user_id: params[:user_id])
+    end
   end
 
   def destroy
