@@ -7,7 +7,7 @@ export const RECEIVE_REVIEW_ERRORS = 'RECEIVE_REVIEW_ERRORS';
 //Reviews
 export const createReview = review => dispatch => {
   return ApiReviewsUtil.createReview(review).then(review => {
-    console.log(review);
+    
     return dispatch(receiveReview(review));
   },
   (e) => dispatch(receiveReviewErrors(e.responseJSON)))
@@ -17,7 +17,7 @@ export const createReview = review => dispatch => {
 //TO DO: need to refactor later 
 export const fetchListingReviews = (listingId) => dispatch => {
   return ApiReviewsUtil.fetchListingReviews(listingId).then(reviews => {
-    console.log(reviews);
+    
     return dispatch(receiveReviews(reviews));
   },
   (e) => dispatch(receiveReviewErrors(e.responseJSON)))

@@ -19,12 +19,9 @@ class Api::UsersController < ApplicationController
 
   def update
     @user = User.find(params[:user][:id])
-    debugger
     if @user.id == current_user.id
       if params[:user][:password]
-        debugger
         unless params[:user][:password].length > 5 && @user.change_password(params[:user][:password])
-          debugger
           return render json: ['Password must be at least 6 characters'], status: 402
         end
       end

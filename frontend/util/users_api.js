@@ -1,5 +1,4 @@
 export const update = (userFormData) => {
-  // debugger
   return $.ajax({
     url: `/api/users/${userFormData.get('id')}`,
     method: "PATCH",

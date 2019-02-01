@@ -115,7 +115,7 @@ class Listing extends Component {
   }
 
   handleBooking = () => {
-    console.log('handle booking');
+    // console.log('handle booking');
   }
 
   render() {

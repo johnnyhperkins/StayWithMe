@@ -58,7 +58,6 @@ class Api::BookingsController < ApplicationController
   def show
     @booking = Booking.find(params[:id])
     if @booking
-      # debugger
       render 'api/bookings/show'
     else 
       render json: ['Booking not found'], status: 409

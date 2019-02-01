@@ -6,7 +6,6 @@ import UserReviewsReview from './user_reviews_review';
 
 class UserReviews extends Component {
   componentDidMount() {
-    // debugger
     this.props.fetchUserReviews(this.props.userId)
   }
   render() {
@@ -17,7 +16,6 @@ class UserReviews extends Component {
     if(reviewsLoading) {
       return <Loading />
     }
-    // debugger
     return (
       <>
       <section className="grid--75 margin-left24">

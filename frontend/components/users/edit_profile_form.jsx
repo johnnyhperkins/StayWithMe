@@ -29,7 +29,6 @@ class EditProfileForm extends Component {
       imageFile: '',
       password: ''
     }
-    
   }
 
   componentDidMount() {
@@ -47,19 +46,6 @@ class EditProfileForm extends Component {
         }, 5000);   
     }
 
-  // componentDidUpdate(prevProps) {
-  //   console.log('prevProps:', prevProps);
-  //   console.log('currentProps:', this.props);
-  //   debugger
-  //   if(this.props.errors.length || this.props.messages.length) {
-  //     debugger
-  //     window.setTimeout(() => {
-  //         this.props.receiveSessionErrors([]);
-  //         this.props.receiveMessages([]);
-  //       }, 5000);   
-  //   }
-  // }
-
   componentWillUnmount() {
       receiveSessionErrors([]);
       receiveMessages([]);
@@ -71,12 +57,9 @@ class EditProfileForm extends Component {
     const updatedUserObject = {
       id,
       email,
-      username,
-       
+      username,  
     }
-    
     updatedUserObject.password = this.state.password.length ? this.state.password : undefined;
-    debugger
 
     const formData = objectToFormData(updatedUserObject, null,null, 'user');
     if(this.state.imageFile) {
@@ -86,7 +69,7 @@ class EditProfileForm extends Component {
     return updateUser(formData).then(() => {
       this.setState({password: ''})
     }, (e) => {
-      console.log(e);
+
     });
   }
 
@@ -115,7 +98,6 @@ class EditProfileForm extends Component {
     const { username, email } = this.state.user;
     if(username === this.props.user.username || email === this.props.user.email) return
     return userExists({username, email}).then(res => {
-      console.log(res);
       let updateErrors = ["Sorry, that username is already taken", "Sorry, that email is already taken"]
       if(!res.username) {
         updateErrors = updateErrors.filter(e => e !== "Sorry, that username is already taken")
@@ -131,7 +113,6 @@ class EditProfileForm extends Component {
     const { username, email, password } = this.state.user;
     const { imageUrl } = this.state;
     const { errors, messages } = this.props;
-    console.log(errors, messages);
     return (
       <>
       <section className="grid--75 margin-left24">

@@ -5,7 +5,6 @@ class Api::ReviewsController < ApplicationController
     @review = Review.new(review_params)
     @review.user_id = current_user.id;
     @review.listing_id = params[:review][:listing_id].to_i
-    # debugger
     if @review.save
       render 'api/reviews/show'
     else 
@@ -13,14 +12,9 @@ class Api::ReviewsController < ApplicationController
     end
   end
 
-  # def update 
-  #   @review = current_user.reviews.find(params[:id]);
-  # end
-
   def show
     @review = Review.find(params[:id])
     if @review
-      # debugger
       render 'api/reviews/show'
     else 
       render json: ['Review not found'], status: 409

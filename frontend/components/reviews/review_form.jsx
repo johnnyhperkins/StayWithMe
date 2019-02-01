@@ -33,7 +33,6 @@ class ReviewForm extends Component {
   }
 
   handleSubmit = () => {
-    console.log(this.state.review);
     return this.props.createReview(this.state.review).then(() => {
       this.setState({review:{
         rating: 0,
@@ -44,7 +43,6 @@ class ReviewForm extends Component {
   }
 
   handleInput = (e) => {
-    console.log(e.target);
     this.setState({
       review: {
         ...this.state.review,

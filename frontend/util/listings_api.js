@@ -29,7 +29,6 @@ export const queryListings = (query) => {
 };
 
 export const fetchListings = (bounds) => {
-  // console.log({bounds});
   return $.ajax({
     url: '/api/listings',
     method: "GET",

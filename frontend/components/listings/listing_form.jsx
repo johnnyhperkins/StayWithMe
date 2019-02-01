@@ -182,8 +182,6 @@ class ListingForm extends Component {
     if(amenity_ids.length) {
       defaultAmentities = formattedAmenities.filter(a => amenity_ids.includes(a.value))
     }
-    console.log(formattedAmenities);
-    console.log(defaultAmentities);
     const startDateString = startDate && moment(startDate).format('ddd, MMM Do');
     const endDateString = endDate && moment(endDate).format('ddd, MMM Do');
 
