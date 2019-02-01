@@ -15,6 +15,7 @@ end
 
 if listing.user.photo.attached?
   json.ownerPhotoUrl url_for(listing.user.photo)
+  json.ownerName listing.user.username
 end
 
 def get_rating(listing)

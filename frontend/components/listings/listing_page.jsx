@@ -141,7 +141,9 @@ class Listing extends Component {
       user_id,
       photos,
       rating,
-      review_ids
+      review_ids,
+      ownerPhotoUrl,
+      ownerName
     } = this.props.listing;
 
     let { 
@@ -178,7 +180,10 @@ class Listing extends Component {
           <h2>{title} {this.props.userId == user_id && 
             <Link to={`/listings/${id}/edit`} >(<span className="text--teal-blue">Edit Listing</span>)</Link>}
           </h2>
-          
+          <div className="profile-thumb-wrapper">
+            <div class="profile-thumb" style={{backgroundImage: `url(${ownerPhotoUrl})`}}></div>
+            <p className="tiny">{ownerName}</p>
+          </div>  
           <p>{address}</p>
           <hr className="hr-24"/>
           
