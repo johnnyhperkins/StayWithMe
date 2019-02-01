@@ -5,7 +5,6 @@ import LoginFormContainer from './session/login_form_container';
 import NewListingContainer from './listings/new_listing_container';
 import EditListingContainer from './listings/edit_listing_container';
 import Listing from './listings/listing_page';
-import ListingIndex from './listings/listings_index';
 import Home from './splash/home';
 import NavBar from './nav/navbar';
 import Dashboard from './users/dashboard';
