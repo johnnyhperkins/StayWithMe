@@ -19,9 +19,12 @@
     position:absolute;
     top: 0;
     right: 0;
+    left:inherit;
     .profile-thumb {  
       min-width: 60px;
       min-height: 60px;
+      width: 60px;
+      height: 60px;
     }
     p {
       text-align:center;
@@ -57,8 +60,14 @@
   .rating-selector {
     margin-left:2.4rem;
   }
+  .profile-thumb {
+    min-width: 60px;
+    min-height: 60px;
+    width: 60px;
+    height: 60px;
+  }
   .fa {
-    width: 30px;
+    width: 20px;
     height: 30px;
     font-size: 1.8rem;
     color: $teal-blue;

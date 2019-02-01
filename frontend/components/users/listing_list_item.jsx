@@ -1,13 +1,6 @@
 import React, {Component} from 'react';
 import { Link } from 'react-router-dom'
 
-// class ListingListItem extends Component {
-//   constructor(props) {
-//     super(props)
-//     this.
-//   }
-  
-// }
 const ListingListItem = ({listing, amenities, destroyListing, home_types}) => {
   const { 
       id,

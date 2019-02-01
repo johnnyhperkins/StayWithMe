@@ -135,3 +135,8 @@
   background: linear-gradient(140deg, #80e8e0 55%, #33dacd 55%, #33dacd 100%);
   margin-left: $m-size;
 }
+
+
+.no-margin.read-only-rating {
+  margin-left:0!important;
+}
