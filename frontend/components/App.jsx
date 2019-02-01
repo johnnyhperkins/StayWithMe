@@ -27,7 +27,6 @@ const App = connect(state => ({
         
         <AuthRoute exact path="/login" component={LoginFormContainer} />
         <ProtectedRoute exact path="/listings/new" component={NewListingContainer} />
-        <Route exact path="/listings" component={ListingIndex} />
         <Route exact path="/listings/:id" component={Listing} />
         
         <ProtectedRoute exact path="/listings/new" component={NewListingContainer} />
