@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import Modal from 'react-modal';
-import SignUpFormContainer from '../session/signup_form_container';
 import LoginFormContainer from '../session/login_form_container';
 import Logo from '../../static_assets/logo';
 import SearchIcon from '../../static_assets/search_icon';
 import Menu from './menu';
-import { changeFormType, receiveSearchQuery } from '../../actions/ui';
+import { 
+  receiveSearchQuery, 
+  toggleLoginModal 
+} from '../../actions/ui';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
@@ -19,25 +21,14 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      signUpOpen: false,
-      loginOpen: false,
       address: '',
       lng: 0,
       lat: 0 
     }
   }
 
-  openModal = (modal) => this.setState({[modal]: true})
-  closeModal = (modal) => this.setState({[modal]: false})
-
-  switchSignUpLogin = (formType) => {
-    let switchFormType = formType == "Log In" ? "Sign Up" : "Log In";
-    this.props.changeFormType(switchFormType);
-    this.setState({
-      signUpOpen: !this.state.signUpOpen,
-      loginOpen: !this.state.loginOpen,
-    })
-  }
+  openModal = (modal) => this.props.toggleLoginModal(modal, true)
+  closeModal = (modal) => this.props.toggleLoginModal(modal, false)
 
   handleChangeAddress = address => this.setState({ address })
 
@@ -49,21 +40,22 @@ class NavBar extends Component {
         lat:parseFloat(latLng.lat),
         address
       }, () => {
-        // dispatch to ui state with the lat/lng info 
         const { lat, lng } = this.state;
         this.props.receiveSearchQuery({query: null})
         this.props.history.push({pathname: '/search', search: `?lat=${lat}&lng=${lng}`});
         
-          // dispatch fetchListings this.state. lat long
-          // pass the lat long into the instansiation of the map
-          // do check for listings within the bounds of the map
-          // updatelisting results and create map markers accordingly
       }))
       .catch(error => console.error('Error', error));
   };
 
   render() {
-    const { session, logout, loggedIn } = this.props;
+    const { 
+      session, 
+      logout, 
+      loggedIn, 
+      sessionModalOpen, 
+      sessionModalType,
+      toggleLoginModal } = this.props;
     const { address } = this.state;
     const classes = loggedIn || this.props.location.pathname != "/" ? 'fixed-top-nav flex-container' : 'top-nav logged-out flex-container';
     return (
@@ -127,8 +119,8 @@ class NavBar extends Component {
         </section>
       </nav>
 
-      <Modal isOpen={this.state.loginOpen}
-             onRequestClose={() => this.closeModal('loginOpen')}
+      <Modal isOpen={sessionModalOpen}
+             onRequestClose={() => toggleLoginModal(sessionModalType, false)}
              className="modal"
              overlayClassName="Overlay"
              switch={this.switchSignUpLogin}
@@ -136,24 +128,13 @@ class NavBar extends Component {
              
              <span 
              className="button--close" 
-             onClick={() => this.closeModal('loginOpen')}>&times;</span> 
+             onClick={() => toggleLoginModal(sessionModalType, false)}>&times;</span> 
 
-             <div className="g-signin2" data-onsuccess="onSignIn"></div>
-        <LoginFormContainer switch={this.switchSignUpLogin} closeModal={() => this.closeModal('loginOpen')} />
-      </Modal>
-
-      <Modal isOpen={this.state.signUpOpen}
-             onRequestClose={() => this.closeModal('signUpOpen')}
-             className="modal"
-             overlayClassName="Overlay"
-            >
-
-             <span 
-              className="button--close" 
-              onClick={() => this.closeModal('signUpOpen')}>&times;</span>
-
-              <div className="g-signin2" data-onsuccess="onSignIn"></div>
-        <SignUpFormContainer switch={this.switchSignUpLogin} closeModal={() => this.closeModal('signUpOpen')} />
+        <LoginFormContainer  
+          switch={this.switchSignUpLogin} 
+          closeModal={() => toggleLoginModal(sessionModalType, false)} 
+          sessionModalType={sessionModalType}
+          />
       </Modal>
       
       </>
@@ -163,13 +144,16 @@ class NavBar extends Component {
 
 const msp = (state) => ({
   session: state.session,
-  loggedIn: Boolean(state.session.id)
+  loggedIn: Boolean(state.session.id),
+  sessionModalOpen: state.ui.sessionModalOpen,
+  sessionModalType: state.ui.sessionModalType
 })
 
 const mdp = (dispatch) => ({
   logout: () => dispatch(logout()),
   changeFormType: (formType) => dispatch(changeFormType(formType)),
-  receiveSearchQuery: (query) => dispatch(receiveSearchQuery(query))
+  receiveSearchQuery: (query) => dispatch(receiveSearchQuery(query)),
+  toggleLoginModal: (modal,bool) => dispatch(toggleLoginModal(modal,bool))
 })
 
 export default withRouter(connect(msp, mdp)(NavBar))

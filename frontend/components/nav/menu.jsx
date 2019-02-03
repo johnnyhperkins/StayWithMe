@@ -56,12 +56,12 @@ class Menu extends Component {
             <>
             <button 
               className='button--navlink'
-              onClick={() => openModal('signUpOpen')} >
+              onClick={() => openModal('signup')} >
               Sign Up
             </button>
             <button 
               className='button--navlink'
-              onClick={() => openModal('loginOpen')} >
+              onClick={() => openModal('login')} >
               Log In
             </button>
             </> 

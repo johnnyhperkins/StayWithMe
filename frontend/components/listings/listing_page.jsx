@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { fetchListing } from '../../actions/listings'
 import { fetchListingReviews } from '../../actions/reviews'
+import { createBooking } from '../../actions/bookings'
+
 import Loading from '../misc/loading';
 import { isInclusivelyAfterDay, DateRangePicker, DayPickerRangeController } from 'react-dates';
 import Review from '../reviews/review';
@@ -12,6 +14,7 @@ import isEmpty from 'lodash/isEmpty';
 import Rating from 'react-rating';
 import SmallRating from '../misc/small_ratings';
 
+
 import { AirCon } from '../../static_assets/amenity_icons';
 
 const today = moment();
@@ -20,13 +23,15 @@ class Listing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newBooking: {
+      booking: {
         startDate:null,
         endDate:null,
         calendarFocused: null,
         openGuestSelect: false,
         numGuests: 1,
         focusedInput: null,
+        start_date: '',
+        end_date: ''
       },
       availCal: {
         startDate:null,
@@ -88,21 +93,19 @@ class Listing extends Component {
   onFocusChange = (focusedInput) => {
     console.log(focusedInput);
     this.setState({
-      newBooking: {
-        ...this.state.newBooking,
+      booking: {
+        ...this.state.booking,
         // focusedInput: !this.state.focusedInput ? 'startDate' : focusedInput,
         focusedInput
       }
     });
   }
 
-  
-
   handleClickOutsideGuestSelector = (event) => {
     if (this.GuestSelectorRef && !this.GuestSelectorRef.contains(event.target)) {
       this.setState({ 
-        newBooking: {
-          ...this.state.newBooking,
+        booking: {
+          ...this.state.booking,
           openGuestSelect: false
         }
       }) 
@@ -114,20 +117,20 @@ class Listing extends Component {
   }
 
   handleNumGuestChange(add) {
-    let { numGuests } = this.state.newBooking;
+    let { numGuests } = this.state.booking;
     return () => {
       if( numGuests > 0 ) {
         if(add) {
           this.setState({
-            newBooking: {
-              ...this.state.newBooking,
+            booking: {
+              ...this.state.booking,
               numGuests: ++numGuests
             }
           })
         } else if(numGuests > 1) {
           this.setState({
-            newBooking: {
-              ...this.state.newBooking,
+            booking: {
+              ...this.state.booking,
               numGuests: --numGuests
             }
           })  
@@ -137,7 +140,7 @@ class Listing extends Component {
   }
 
   handleBooking = () => {
-    // console.log('handle booking');
+    console.log('handle booking', this.state.booking);
   }
 
   render() {
@@ -170,7 +173,7 @@ class Listing extends Component {
     let { 
       numGuests,
       openGuestSelect
-    } = this.state.newBooking;
+    } = this.state.booking;
 
 
     const thumbIdx = 1;
@@ -295,9 +298,9 @@ class Listing extends Component {
           <hr className="hr-16"/>
           <p className="tiny bold">Dates</p>
           <DateRangePicker
-                startDate={this.state.newBooking.startDate}
+                startDate={this.state.booking.startDate}
                 startDateId="your_unique_start_date_id" 
-                endDate={this.state.newBooking.endDate}
+                endDate={this.state.booking.endDate}
                 endDateId="your_unique_end_date_id" 
                 startDatePlaceholderText="Check In"
                 endDatePlaceholderText="Check Out"
@@ -308,8 +311,8 @@ class Listing extends Component {
                 // onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
                 // onNextMonthClick={DayPickerRangeController.onNextMonthClick}
                 onDatesChange={({ startDate, endDate }) => this.setState({
-                    newBooking: {
-                      ...this.state.newBooking,
+                    booking: {
+                      ...this.state.booking,
                       startDate, 
                       endDate, 
                       start_date: startDate && moment(startDate).format('YYYY-MM-DD HH:mm:00'),
@@ -318,7 +321,7 @@ class Listing extends Component {
                     
                   })  
                 } 
-                focusedInput={this.state.newBooking.focusedInput} 
+                focusedInput={this.state.booking.focusedInput} 
                 onFocusChange={this.onFocusChange} 
               />
               <div 
@@ -334,8 +337,8 @@ class Listing extends Component {
                   ref={(input) => this.guestSelect = input}
                   readOnly       
                   onFocus={() => this.setState({
-                    newBooking: {
-                      ...this.state.newBooking,
+                    booking: {
+                      ...this.state.booking,
                       openGuestSelect: !openGuestSelect, 
                       openDatePicker:false
                     }
@@ -369,7 +372,8 @@ const msp = (state, props) => ({
 
 const mdp = dispatch => ({
   fetchListing: id => dispatch(fetchListing(id)),
-  fetchListingReviews: (listingId) => dispatch(fetchListingReviews(listingId))
+  fetchListingReviews: (listingId) => dispatch(fetchListingReviews(listingId)),
+  createBooking: (booking) => dispatch(createBooking(booking))
 })
 
 export default withRouter(connect(msp,mdp)(Listing));

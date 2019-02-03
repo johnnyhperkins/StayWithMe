@@ -129,10 +129,10 @@ class SessionForm extends Component {
           <button className="button--submit background--teal-blue" onClick={this.demoLogin}>Use Demo Account</button>}
         {formType === "Sign Up" ? 
           <p>Already have a StayWithMe account? <button className="button--link" 
-                                                        onClick={() => this.props.switch('Log In')}>Log In</button>
+                                                        onClick={() => this.props.toggleLoginModal('login', true)}>Log In</button>
           </p> 
           : 
-          <button className="button--link" onClick={() => this.props.switch('Sign Up')}>Create new account</button>
+          <button className="button--link" onClick={() => this.props.toggleLoginModal('signup', true)}>Create new account</button>
         }
       </div>
       </>

@@ -1,9 +1,9 @@
-import { 
-  FORM_TYPE, 
+import {  
   RECEIVE_MESSAGES, 
   RECEIVE_SEARCH_QUERY,
   UPDATE_BOUNDS, 
   SAVING_LISTING,
+  TOGGLE_LOGIN_MODAL
 } from '../actions/ui';
 
 import { RECEIVE_LISTING, RECEIVE_LISTINGS } from '../actions/listings';
@@ -16,18 +16,14 @@ const defaultState = {
   searching: true,
   savingListing: false,
   reviewsLoading: true,
-  messages: []
+  messages: [],
+  sessionModalOpen: false,
+  sessionModalType: null,
 }
 
 const uiReducer = (state = defaultState, action) => {
   Object.freeze(state)
   switch (action.type) {
-    case FORM_TYPE: 
-    return merge({}, 
-      state, { 
-        formType: action.formType 
-      })
-  
     case SAVING_LISTING:
       return merge({}, 
         state, { 
@@ -41,7 +37,14 @@ const uiReducer = (state = defaultState, action) => {
           searching: false,
           savingListing:false 
         }) 
-
+    case TOGGLE_LOGIN_MODAL:
+        return merge({}, 
+          state, {
+            sessionModalOpen: action.bool,
+            sessionModalType: action.modal
+            // [action.modal]: action.bool
+          },
+      )
     case UPDATE_BOUNDS:
       return merge({}, 
         state, { 
