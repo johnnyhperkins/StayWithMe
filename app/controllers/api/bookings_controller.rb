@@ -6,9 +6,10 @@
 # DELETE /api/bookings/:id - deletes a booking
 # GET /api/listings/:listing_id/bookings/ - returns all bookings for a listing
 
-
 # user creates a booking with a pending status
-# booking dates are checked agains the listing availabilites join table
+# booking dates are checked against the listing availabilites join table
+# owner of the listing sees a booking has been requested
+# booking dates are checked against the listing availabilites join table
 # if there's no conflict change status to 'approved' and attach the booking to the listing
 # if theres a conflict change status to 'denied'
 
@@ -20,12 +21,7 @@ class Api::BookingsController < ApplicationController
     @booking = Booking.new(booking_params)
     @booking.user_id = current_user.id;
     if @booking.save
-      @booking.booking_availabilities.create(
-        start_date: params[:booking][:start_date], 
-        end_date: params[:booking][:end_date]
-      )
       render 'api/bookings/show'
-
     else 
       render json: @booking.errors.full_messages, status: 409
     end
@@ -35,17 +31,7 @@ class Api::BookingsController < ApplicationController
     @booking = current_user.bookings.find(params[:id]);
     if @booking
       if @booking.update_attributes(booking_params);
-        if params[:booking][:amenity_ids].length
-          params[:booking][:amenity_ids].each do |amenity_id|
-            @booking.booking_amenities.create(amenity_id:amenity_id)
-          end
-        end
-        if params[:booking][:start_date] || params[:booking][:end_date]
-          @booking.booking_availabilities.create(
-            start_date: params[:booking][:start_date], 
-            end_date: params[:booking][:end_date]
-          )
-        end
+       
         render 'api/bookings/show'
       else 
         render json: @booking.errors.full_messages, status: 409
@@ -65,20 +51,6 @@ class Api::BookingsController < ApplicationController
   end
 
   def index
-    default_map_bounds = {
-      bounds: {
-        northEast: {
-          lat: 40.82386146979773,
-          lng: -74.01118555112726
-        },
-        southWest: {
-          lat: 40.74223405008065,
-          lng: -73.93131204887277
-        }
-      }
-    }
-
-    @bookings = bounds ? Booking.in_bounds(bounds) : Booking.all
     
   end
 
@@ -94,11 +66,7 @@ class Api::BookingsController < ApplicationController
 
   private
   def booking_params
-    params.require(:booking).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [])
+    params.require(:booking).permit(:user_id, :listing_id, :guest_count, :status, :start_date, :end_date)
   end
 
-  def bounds
-    params[:bounds]
-  end
 end
-

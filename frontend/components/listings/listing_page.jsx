@@ -23,10 +23,10 @@ class Listing extends Component {
       newBooking: {
         startDate:'',
         endDate:'',
-        focusedInput: null,
         calendarFocused: null,
         openGuestSelect: false,
         numGuests: 1,
+        focusedInput: null,
       },
       availCal: {
         startDate:'',
@@ -47,8 +47,6 @@ class Listing extends Component {
     document.addEventListener('mousedown', this.handleClickOutsideGuestSelector);
     
     fetchListingReviews(this.props.match.params.id)
-
-    // if(isEmpty(amenities) || isEmpty(home_types)) fetchAmenitiesAndHomeTypes();
 
     fetchListing(this.props.match.params.id).then(({listing}) => {
       
@@ -74,6 +72,7 @@ class Listing extends Component {
       //set availability cal state
       this.setState({
         availCal: {
+          ...this.state.availCal,
           startDate: moment(listing.start_date),
           endDate: moment(listing.end_date),
         }
@@ -87,14 +86,27 @@ class Listing extends Component {
   }
 
   onFocusChange = (focusedInput) => {
+    console.log(focusedInput);
+    console.log(this.state.newBooking);
+    console.log(this.state.availCal);
     this.setState({
-      focusedInput
+      newBooking: {
+        ...this.state.newBooking,
+        focusedInput: !focusedInput ? 'startDate' : focusedInput,
+      }
     });
   }
 
+  
+
   handleClickOutsideGuestSelector = (event) => {
     if (this.GuestSelectorRef && !this.GuestSelectorRef.contains(event.target)) {
-      this.setState({openGuestSelect: false}) 
+      this.setState({ 
+        newBooking: {
+          ...this.state.newBooking,
+          openGuestSelect: false
+        }
+      }) 
     }
   }
 
@@ -103,14 +115,24 @@ class Listing extends Component {
   }
 
   handleNumGuestChange(add) {
-    let { numGuests } = this.state;
+    let { numGuests } = this.state.newBooking;
     return () => {
       if( numGuests > 0 ) {
         if(add) {
-          this.setState({numGuests: ++numGuests})
+          this.setState({
+            newBooking: {
+              ...this.state.newBooking,
+              numGuests: ++numGuests
+            }
+          })
         } else if(numGuests > 1) {
-          this.setState({numGuests: --numGuests})
-        }  
+          this.setState({
+            newBooking: {
+              ...this.state.newBooking,
+              numGuests: --numGuests
+            }
+          })  
+        }
       }
     }
   }
@@ -147,9 +169,6 @@ class Listing extends Component {
     } = this.props.listing;
 
     let { 
-      startDate, 
-      endDate, 
-      focusedInput,
       numGuests,
       openGuestSelect
     } = this.state.newBooking;
@@ -277,9 +296,9 @@ class Listing extends Component {
           <hr className="hr-16"/>
           <p className="tiny bold">Dates</p>
           <DateRangePicker
-                startDate={startDate}
+                startDate={this.state.newBooking.startDate}
                 startDateId="your_unique_start_date_id" 
-                endDate={endDate}
+                endDate={this.state.newBooking.endDate}
                 endDateId="your_unique_end_date_id" 
                 startDatePlaceholderText="Check In"
                 endDatePlaceholderText="Check Out"
@@ -289,14 +308,18 @@ class Listing extends Component {
                 numberOfMonths={1}
                 // onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
                 // onNextMonthClick={DayPickerRangeController.onNextMonthClick}
-                onDatesChange={({ startDate, endDate }) => this.setState({ 
-                    startDate, 
-                    endDate, 
-                    start_date: startDate && moment(startDate).format('YYYY-MM-DD HH:mm:00'),
-                    end_date: endDate && moment(endDate).format('YYYY-MM-DD HH:mm:00'), 
+                onDatesChange={({ startDate, endDate }) => this.setState({
+                    newBooking: {
+                      ...this.state.newBooking,
+                      startDate, 
+                      endDate, 
+                      start_date: startDate && moment(startDate).format('YYYY-MM-DD HH:mm:00'),
+                      end_date: endDate && moment(endDate).format('YYYY-MM-DD HH:mm:00'), 
+                    } 
+                    
                   })  
                 } 
-                focusedInput={focusedInput} 
+                focusedInput={this.state.newBooking.focusedInput} 
                 onFocusChange={this.onFocusChange} 
               />
               <div 
@@ -311,7 +334,11 @@ class Listing extends Component {
                   value={`${numGuests} guest${numGuests > 1 ? 's' : ''}`} 
                   ref={(input) => this.guestSelect = input}
                   readOnly       
-                  onFocus={() => this.setState({openGuestSelect: !openGuestSelect, openDatePicker:false})}
+                  onFocus={() => this.setState({
+                    newBooking: {
+                      ...this.state.newBooking,
+                      openGuestSelect: !openGuestSelect, openDatePicker:false}
+                  })}
                   />
                 {openGuestSelect && 
                 <div className='guest-select-container flex-container' >
