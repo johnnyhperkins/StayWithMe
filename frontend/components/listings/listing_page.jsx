@@ -21,18 +21,18 @@ class Listing extends Component {
     super(props);
     this.state = {
       newBooking: {
-        startDate:'',
-        endDate:'',
+        startDate:null,
+        endDate:null,
         calendarFocused: null,
         openGuestSelect: false,
         numGuests: 1,
         focusedInput: null,
       },
       availCal: {
-        startDate:'',
-        endDate:'',
-        focusedInput: null,
-        calendarFocused: null,
+        startDate:null,
+        endDate:null,
+        // focusedInput: null,
+        // calendarFocused: null,
       }
       
     }
@@ -87,12 +87,11 @@ class Listing extends Component {
 
   onFocusChange = (focusedInput) => {
     console.log(focusedInput);
-    console.log(this.state.newBooking);
-    console.log(this.state.availCal);
     this.setState({
       newBooking: {
         ...this.state.newBooking,
-        focusedInput: !focusedInput ? 'startDate' : focusedInput,
+        // focusedInput: !this.state.focusedInput ? 'startDate' : focusedInput,
+        focusedInput
       }
     });
   }
@@ -200,7 +199,7 @@ class Listing extends Component {
             <Link to={`/listings/${id}/edit`} >(<span className="text--teal-blue">Edit Listing</span>)</Link>}
           </h2>
           <div className="profile-thumb-wrapper">
-            <div class="profile-thumb" style={{backgroundImage: `url(${ownerPhotoUrl})`}}></div>
+            <div className="profile-thumb" style={{backgroundImage: `url(${ownerPhotoUrl})`}}></div>
             <p className="tiny">{ownerName}</p>
           </div>  
           <p>{address}</p>
@@ -228,7 +227,7 @@ class Listing extends Component {
           <DayPickerRangeController
                 startDate={this.state.availCal.startDate}
                 endDate={this.state.availCal.endDate}
-                readOnly
+                // readOnly
                 isOutsideRange={day => isInclusivelyAfterDay(today, day)}
                 onOutsideClick={DayPickerRangeController.onOutsideClick}
                 numberOfMonths={2}
@@ -337,7 +336,9 @@ class Listing extends Component {
                   onFocus={() => this.setState({
                     newBooking: {
                       ...this.state.newBooking,
-                      openGuestSelect: !openGuestSelect, openDatePicker:false}
+                      openGuestSelect: !openGuestSelect, 
+                      openDatePicker:false
+                    }
                   })}
                   />
                 {openGuestSelect && 
