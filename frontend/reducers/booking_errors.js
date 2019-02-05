@@ -1,4 +1,4 @@
-import RECEIVE_BOOKING_ERRORS from '../actions/bookings';
+import { RECEIVE_BOOKING_ERRORS } from '../actions/bookings';
 
 export const bookingErrors = (state = [], action) => {
   switch (action.type) {

@@ -17,7 +17,7 @@ class Profile extends Component {
   }
 
   render() {
-    const { user, bookingLoading, bookings } = this.props;
+    const { user, bookingLoading, bookings, destroyBooking } = this.props;
 
     if(bookingLoading) {
       return <Loading />
@@ -51,7 +51,7 @@ class Profile extends Component {
         {bookings.length ?
           <div className="user-bookings-container">
             <h3>Bookings</h3>
-              {bookings.map(booking => <BookingItem key={booking.id} booking={booking} />)}
+              {bookings.map(booking => <BookingItem key={booking.id} booking={booking} destroyBooking={destroyBooking} />)}
           </div>
           :
           <h3>You have not made any bookings</h3>

@@ -26,7 +26,7 @@ const defaultState = {
 }
 
 const uiReducer = (state = defaultState, action) => {
-  // Object.freeze(state)
+  Object.freeze(state)
   switch (action.type) {
     case SAVING_LISTING:
       return merge({}, 

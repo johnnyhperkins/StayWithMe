@@ -119,16 +119,17 @@ class Listing extends Component {
 
   handleNumGuestChange(add) {
     let { numGuests } = this.state.booking;
+    const {max_guests} = this.props.listing;
     return () => {
-      if( numGuests > 0 ) {
-        if(add) {
+      if( numGuests > 0) {
+        if(add && numGuests < max_guests) {
           this.setState({
             booking: {
               ...this.state.booking,
               numGuests: ++numGuests
             }
           })
-        } else if(numGuests > 1) {
+        } else if(numGuests > 1 && !add) {
           this.setState({
             booking: {
               ...this.state.booking,
@@ -171,6 +172,7 @@ class Listing extends Component {
       listingLoading, 
       amenities, 
       home_types, 
+      booking_errors,
       reviews } = this.props;
     
     if(listingLoading) {
@@ -185,6 +187,7 @@ class Listing extends Component {
       home_type_id, 
       description,
       id,
+      max_guests,
       user_id,
       photos,
       rating,
@@ -208,12 +211,12 @@ class Listing extends Component {
         <div className="right-half grid--50">
           { photos.filter((_,idx) => idx !== thumbIdx)
             .map((url, idx) => {
-                if(idx < 4) {
-                  return  (
+              if(idx < 4) {
+                return (
                   <div className="square-image grid--50" key={idx} style={{backgroundImage: `url(${url})`}}>
                   </div>
-                  )
-                }
+                )
+              }
             })
           }
         </div>
@@ -221,14 +224,17 @@ class Listing extends Component {
       <section className="content-container--interior-page flex-container">
         <section className="listing-details-container grid--75">
           {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 key={ht.id} className="text--maroon">{ht.name}</h6>)}
+          
           <h2>{title} {this.props.userId == user_id && 
             <Link to={`/listings/${id}/edit`} >(<span className="text--teal-blue">Edit Listing</span>)</Link>}
           </h2>
+
           <div className="profile-thumb-wrapper">
             <div className="profile-thumb" style={{backgroundImage: `url(${ownerPhotoUrl})`}}></div>
             <p className="tiny">{ownerName}</p>
           </div>  
           <p>{address}</p>
+          <p>Max Guests: {max_guests}</p>
           <hr className="hr-24"/>
           
           <p>{description}</p>
@@ -253,7 +259,6 @@ class Listing extends Component {
           <DayPickerRangeController
                 startDate={this.state.availCal.startDate}
                 endDate={this.state.availCal.endDate}
-                // readOnly
                 isOutsideRange={day => isInclusivelyAfterDay(today, day)}
                 onOutsideClick={DayPickerRangeController.onOutsideClick}
                 numberOfMonths={2}
@@ -328,11 +333,8 @@ class Listing extends Component {
                 startDatePlaceholderText="Check In"
                 endDatePlaceholderText="Check Out"
                 isOutsideRange={day => isInclusivelyAfterDay(today, day)}
-                // onOutsideClick={DayPickerRangeController.onOutsideClick}
                 enableOutsideDays={false}
                 numberOfMonths={1}
-                // onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
-                // onNextMonthClick={DayPickerRangeController.onNextMonthClick}
                 onDatesChange={({ startDate, endDate }) => this.setState({
                     booking: {
                       ...this.state.booking,
@@ -341,7 +343,6 @@ class Listing extends Component {
                       start_date: startDate && moment(startDate).format('YYYY-MM-DD HH:mm:00'),
                       end_date: endDate && moment(endDate).format('YYYY-MM-DD HH:mm:00'), 
                     } 
-                    
                   })  
                 } 
                 focusedInput={this.state.booking.focusedInput} 
@@ -372,10 +373,18 @@ class Listing extends Component {
                   <p>Adults</p>
                   <button className={`button add-subtract sub ${numGuests == 1 ? 'disabled' :''}`} onClick={this.handleNumGuestChange(false)}></button>
                   <span className="guest-count">{numGuests}</span>
-                  <button className="button add-subtract add" onClick={this.handleNumGuestChange(true)}></button>
+                  <button className={`button add-subtract add ${numGuests == max_guests ? 'disabled' :''}`} onClick={this.handleNumGuestChange(true)}></button>
                 </div>}
               </div>
               <button className="button--submit" onClick={this.handleBooking}>Book</button>
+              { !isEmpty(booking_errors) && (
+                <>
+                <ul className="session-errors">
+                  {booking_errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
+                </>
+                ) 
+              }
         </aside>
       </section>
         
@@ -389,6 +398,7 @@ const msp = (state, props) => ({
   listing: state.entities.listings[props.match.params.id],
   listingLoading: state.ui.listingLoading,
   amenities: state.entities.amenities,
+  booking_errors: state.errors.booking,
   home_types: state.entities.home_types,
   reviews: state.entities.reviews
 })
