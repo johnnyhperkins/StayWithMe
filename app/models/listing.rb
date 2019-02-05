@@ -37,6 +37,10 @@ class Listing < ApplicationRecord
       .where("lat > ?", south_w_lat)
       .where("lng < ?", south_w_lng)
       .where("lng > ?", north_e_lng)
-      
+  end
+
+  def self.within_dates(dates)
+    
+    # find all available listings within the dates object
   end
 end

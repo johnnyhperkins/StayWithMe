@@ -67,7 +67,9 @@ class Api::ListingsController < ApplicationController
     }
     if sample_listings
       @listings = Listing.all.limit(sample_listings)
-    else
+    elsif listings_within_dates
+      @listings = Listing.within_dates(listings_within_dates)
+    else bounds
       @listings = bounds ? Listing.in_bounds(bounds) : Listing.all
     end
   end
@@ -85,6 +87,10 @@ class Api::ListingsController < ApplicationController
   private
   def listing_params
     params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [], amenity_ids: [])
+  end
+
+  def listings_within_dates
+    params[:query][:dates] if params[:query]
   end
 
   def sample_listings

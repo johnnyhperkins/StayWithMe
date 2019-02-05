@@ -21,7 +21,7 @@ class SearchResultContainer extends Component {
     
     if(_.isEmpty(query)) return this.props.history.push('/');
 
-    const {lat, lng } = query;
+    const { lat, lng } = query;
     this.props.receiveSearchQuery({ 
       query: {
         lat: parseFloat(lat), 
