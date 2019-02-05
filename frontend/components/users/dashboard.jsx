@@ -4,8 +4,6 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
 import EditProfileForm from './edit_profile_form';
-import { fetchUserListings, destroyListing } from '../../actions/listings';
-import { fetchUserReviews } from '../../actions/reviews';
 import UserListings from './user_listings';
 import UserReviews from './user_reviews';
 import DashboardSidebar from './dashboard_sidebar';
@@ -15,14 +13,9 @@ class Dashboard extends Component {
   constructor(props) {
     super(props);
   }
-  componentDidMount() {
-    this.props.fetchUserListings(this.props.session.id)
-  }
 
   render() {
     const { session, location } = this.props;
-
-    
     return (
       <section className="content-container--interior-page flex-container">
         <Route 
@@ -39,7 +32,7 @@ class Dashboard extends Component {
           render={() => <EditProfileForm userId={session.id} />} />
         <Route 
           path={`/users/${session.id}/listings`} 
-          render={() => <UserListings {...this.props} />}
+          render={() => <UserListings userId={session.id} />}
             />
       </section>
     )
@@ -48,15 +41,6 @@ class Dashboard extends Component {
 
 const msp = state => ({
   session: state.session,
-  listings: Object.values(state.entities.listings),
-  listingLoading: state.ui.listingLoading,
-  amenities: state.entities.amenities,
-  home_types: state.entities.home_types,
 })
 
-const mdp = dispatch => ({
-  fetchUserListings: (id) => dispatch(fetchUserListings(id)),
-  destroyListing: (id) => dispatch(destroyListing(id))
-})
-
-export default connect(msp,mdp)(Dashboard);
+export default connect(msp)(Dashboard);

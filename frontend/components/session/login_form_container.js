@@ -6,12 +6,14 @@ import {
   receiveSessionErrors 
 } from '../../actions/sessions';
 
-import { toggleLoginModal } from '../../actions/ui';
+import { toggleLoginModal, receiveMessages } from '../../actions/ui';
+
 
 import SessionForm from './session_form';
 
 const msp = (state, ownProps) => {
   let user, formType;
+
   if (ownProps.sessionModalType == 'login') {
     user = { username: '', password: '' };
     formType = "Log In"
@@ -24,24 +26,28 @@ const msp = (state, ownProps) => {
       };
     formType = "Sign Up"
   }
+
   return {
   errors: state.errors.session,
   formType,
-  user
-  
+  user,
+  messages: state.ui.messages
 }}
 
 const mdp = (dispatch, ownProps) => {
   let action;
+
   if (ownProps.sessionModalType == 'login') {
     action = login
   } else {
     action = signup
   }
+
   return {
     action: user => dispatch(action(user)),
     receiveSessionErrors: (errors) => dispatch(receiveSessionErrors(errors)),
-    toggleLoginModal: (modal,bool) => dispatch(toggleLoginModal(modal,bool))
+    toggleLoginModal: (modal,bool) => dispatch(toggleLoginModal(modal,bool)),
+    receiveMessages: (messages) => dispatch(receiveMessages(messages))
   }
 }
 

@@ -13,6 +13,7 @@ import moment from 'moment';
 import isEmpty from 'lodash/isEmpty';
 import Rating from 'react-rating';
 import SmallRating from '../misc/small_ratings';
+import { toggleLoginModal, receiveMessages } from '../../actions/ui';
 
 
 import { AirCon } from '../../static_assets/amenity_icons';
@@ -140,7 +141,29 @@ class Listing extends Component {
   }
 
   handleBooking = () => {
-    console.log('handle booking', this.state.booking);
+    const { 
+      receiveMessages, 
+      toggleLoginModal,
+      createBooking, 
+      userId 
+    } = this.props; 
+    
+    if(!userId) {
+      receiveMessages(["Please log in to make a booking"])
+      return toggleLoginModal('login', true)
+    }
+
+    const { numGuests, start_date, end_date } = this.state.booking;
+    const booking = {
+      listing_id: this.props.match.params.id,
+      guest_count: numGuests,
+      start_date,
+      end_date
+    }
+
+    return createBooking(booking).then(() => {
+      this.props.history.push(`/users/${userId}`)
+    });
   }
 
   render() {
@@ -373,7 +396,10 @@ const msp = (state, props) => ({
 const mdp = dispatch => ({
   fetchListing: id => dispatch(fetchListing(id)),
   fetchListingReviews: (listingId) => dispatch(fetchListingReviews(listingId)),
-  createBooking: (booking) => dispatch(createBooking(booking))
+  createBooking: (booking) => dispatch(createBooking(booking)),
+  toggleLoginModal: (modal, bool) => dispatch(toggleLoginModal(modal,bool)),
+  receiveMessages: (messages) => dispatch(receiveMessages(messages))
+
 })
 
 export default withRouter(connect(msp,mdp)(Listing));

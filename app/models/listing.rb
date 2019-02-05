@@ -24,6 +24,7 @@ class Listing < ApplicationRecord
   belongs_to :user
   has_many :reviews
   has_many :listing_availabilities
+  has_many :bookings
   has_many_attached :photos
 
 

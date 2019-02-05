@@ -1,12 +1,33 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
+import { fetchUserListings, destroyListing } from '../../actions/listings';
 import ListingListItem from './listing_list_item';
 import Loading from '../misc/loading';
 
 
-const UserListings = ({listings, destroyListing, listingLoading, amenities, home_types}) => {
+class UserListings extends Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.props.fetchUserListings(this.props.userId)
+  }
+
+  render() {
+    const {
+      listings, 
+      destroyListing, 
+      listingLoading, 
+      amenities, 
+      home_types
+    } = this.props;
+
     if(listingLoading) {
       return <Loading />
     }
+
     return (
       <>
       <section className="grid--75 margin-left24">
@@ -14,20 +35,37 @@ const UserListings = ({listings, destroyListing, listingLoading, amenities, home
           <p>Your Listings</p>
         </div>
         <div className="form-wrapper">
-          <ul className="user-listings">
-            {listings.map(listing => 
-            <ListingListItem 
-              destroyListing={destroyListing}
-              amenities={amenities} 
-              home_types={home_types} 
-              key={listing.id} 
-              listing={listing} />)}
-          </ul>
+          { listings.length ? 
+            <ul className="user-listings">
+              {listings.map(listing => 
+              <ListingListItem 
+                destroyListing={destroyListing}
+                amenities={amenities} 
+                home_types={home_types} 
+                key={listing.id} 
+                listing={listing} />)}
+            </ul>
+            :
+            <h3>You have no listings</h3>
+          }
         </div>
       </section>
       
       </>
     )
-};
+  } 
+}
 
-export default UserListings
+const msp = state => ({
+  listings: Object.values(state.entities.listings),
+  listingLoading: state.ui.listingLoading,
+  amenities: state.entities.amenities,
+  home_types: state.entities.home_types,
+})
+
+const mdp = dispatch => ({
+  fetchUserListings: (id) => dispatch(fetchUserListings(id)),
+  destroyListing: (id) => dispatch(destroyListing(id)),
+})
+
+export default connect(msp,mdp)(UserListings);

@@ -1,19 +1,13 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Rating from 'react-rating';
-
-// star rating 
-// date of rating
-
 
 const UserReviewsReview = ({review}) => {
    const {
      review_body, 
      rating, 
      photoUrl, 
-     username, 
      listing_title 
     } = review
-    debugger
     return (
       <>
       <div className="flex-container--no-justify">

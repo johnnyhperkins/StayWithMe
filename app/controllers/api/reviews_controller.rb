@@ -24,8 +24,7 @@ class Api::ReviewsController < ApplicationController
   def index
     if params[:listing_id]
       @reviews = Review.where(listing_id: params[:listing_id])
-    end
-    if params[:user_id]
+    elsif params[:user_id]
       @reviews = Review.where(user_id: params[:user_id])
     end
   end

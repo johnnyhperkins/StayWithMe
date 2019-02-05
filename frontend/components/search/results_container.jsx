@@ -32,7 +32,6 @@ class SearchResultContainer extends Component {
  
   componentDidMount() {
     const {fetchListings} = this.props;
-
     this.setMapPosition();
     fetchListings()
   }

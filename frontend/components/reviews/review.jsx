@@ -7,7 +7,7 @@ const Review = ({review}) => {
         <hr className="hr-24"/>
         <div className="flex-container--no-justify rating-container">
           <div>
-            <div class="profile-thumb" style={{backgroundImage: `url(${review.photoUrl})`}}></div>
+            <div className="profile-thumb" style={{backgroundImage: `url(${review.photoUrl})`}}></div>
             <p className="tiny center">{review.username}</p>
           </div>
           <div className="review-body margin-left24">

@@ -1,6 +1,8 @@
 import * as ApiBookingsUtil from '../util/bookings_api';
+
 export const RECEIVE_BOOKING = "RECEIVE_BOOKING";
 export const RECEIVE_BOOKINGS = "RECEIVE_BOOKINGS";
+export const REMOVE_BOOKING = "REMOVE_BOOKING";
 export const RECEIVE_BOOKING_ERRORS = "RECEIVE_BOOKING_ERRORS";
 
 export const createBooking = booking => dispatch => {
@@ -10,8 +12,29 @@ export const createBooking = booking => dispatch => {
   (e) => dispatch(receiveBookingErrors(e.responseJSON)))
 };
 
-export const fetchBookings = id => dispatch => {
-  return ApiBookingsUtil.fetchBookings(id).then(bookings => {
+export const destroyBooking = id => dispatch => {
+  return ApiBookingsUtil.destroyBooking(id).then(() => {
+    return dispatch(removeBooking(id));
+  },
+  (e) => dispatch(receiveBookingErrors(e.responseJSON)))
+};
+
+export const updateBooking = booking => dispatch => {
+  return ApiBookingsUtil.updateBooking(booking).then(booking => {
+    return dispatch(receiveBooking(booking));
+  },
+  (e) => dispatch(receiveBookingErrors(e.responseJSON)))
+};
+
+export const fetchListingBookings = listing_id => dispatch => {
+  return ApiBookingsUtil.fetchListingBookings(listing_id).then(bookings => {
+    return dispatch(receiveBookings(bookings));
+  },
+  (e) => dispatch(receiveBookingErrors(e.responseJSON)))
+};
+
+export const fetchUserBookings = user_id => dispatch => {
+  return ApiBookingsUtil.fetchUserBookings(user_id).then(bookings => {
     return dispatch(receiveBookings(bookings));
   },
   (e) => dispatch(receiveBookingErrors(e.responseJSON)))
@@ -20,12 +43,17 @@ export const fetchBookings = id => dispatch => {
 const receiveBooking = (booking) => ({
   type: RECEIVE_BOOKING,
   booking
-})
+});
 
-const receiveBookings = (bookings) => ({
+const receiveBookings = ({bookings}) => ({
   type: RECEIVE_BOOKINGS,
   bookings
-})
+});
+
+const removeBooking = (id) => ({
+  type: REMOVE_BOOKING,
+  id
+});
 
 const receiveBookingErrors = (errors) => ({
   type: RECEIVE_BOOKING_ERRORS,

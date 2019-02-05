@@ -9,13 +9,13 @@
 # user creates a booking with a pending status
 # booking dates are checked against the listing availabilites join table
 # owner of the listing sees a booking has been requested
-# booking dates are checked against the listing availabilites join table
+
 # if there's no conflict change status to 'approved' and attach the booking to the listing
 # if theres a conflict change status to 'denied'
 
 
 class Api::BookingsController < ApplicationController
-  before_action :require_logged_in, only: [:create, :destroy, :update]
+  before_action :require_logged_in, only: [:index, :create, :destroy, :update]
 
   def create
     @booking = Booking.new(booking_params)
@@ -51,6 +51,16 @@ class Api::BookingsController < ApplicationController
   end
 
   def index
+    # debugger
+    if params[:user_id] && current_user.id == params[:user_id].to_i
+      # debugger
+      @bookings = Booking.where(user_id: params[:user_id].to_i)
+    elsif params[:listing_id]
+      # debugger
+      @bookings = Booking.where(listing_id: params[:listing_id].to_i)
+    else
+      @bookings = []
+    end
     
   end
 

@@ -34,3 +34,7 @@ if listing.reviews
   json.review_ids listing.reviews.ids
   json.rating get_rating(listing)
 end
+
+if listing.bookings
+  json.booking_ids listing.bookings.ids
+end

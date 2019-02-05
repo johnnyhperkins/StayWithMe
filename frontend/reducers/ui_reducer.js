@@ -1,3 +1,5 @@
+import merge from 'lodash/merge';
+
 import {  
   RECEIVE_MESSAGES, 
   RECEIVE_SEARCH_QUERY,
@@ -7,12 +9,14 @@ import {
 } from '../actions/ui';
 
 import { RECEIVE_LISTING, RECEIVE_LISTINGS } from '../actions/listings';
-
+import { RECEIVE_BOOKING, RECEIVE_BOOKINGS } from '../actions/bookings';
+import { RECEIVE_SESSION_ERRORS } from '../actions/sessions'
 import { RECEIVE_REVIEWS } from '../actions/reviews';
-import merge from 'lodash/merge';
+
 
 const defaultState = {
   listingLoading: true,
+  bookingLoading: true,
   searching: true,
   savingListing: false,
   reviewsLoading: true,
@@ -22,13 +26,14 @@ const defaultState = {
 }
 
 const uiReducer = (state = defaultState, action) => {
-  Object.freeze(state)
+  // Object.freeze(state)
   switch (action.type) {
     case SAVING_LISTING:
       return merge({}, 
         state, { 
           savingListing: true 
         }) 
+
     case RECEIVE_LISTINGS:
     case RECEIVE_LISTING:
       return merge({}, 
@@ -37,14 +42,21 @@ const uiReducer = (state = defaultState, action) => {
           searching: false,
           savingListing:false 
         }) 
+    
+    case RECEIVE_BOOKINGS:
+    case RECEIVE_BOOKING:
+      return merge({}, 
+        state, { 
+          bookingLoading: false,
+        }) 
+
     case TOGGLE_LOGIN_MODAL:
         return merge({}, 
           state, {
             sessionModalOpen: action.bool,
             sessionModalType: action.modal
-            // [action.modal]: action.bool
-          },
-      )
+        })
+
     case UPDATE_BOUNDS:
       return merge({}, 
         state, { 
@@ -63,12 +75,19 @@ const uiReducer = (state = defaultState, action) => {
       return merge({}, state, {
         reviewsLoading: false
       })
-
-    case RECEIVE_MESSAGES: 
+    
+    case RECEIVE_MESSAGES:
+      // debugger;
       return merge({}, 
         state, { 
           messages: action.messages 
         })
+
+    case RECEIVE_SESSION_ERRORS:
+      // debugger;
+      return merge({}, state, {
+        messages: []
+      })
 
     default:
       return state;

@@ -19,8 +19,10 @@ class SessionForm extends Component {
     });
   }
 
-  componentDidMount() {
+  componentWillUnmount() {
+    this.props.receiveMessages(['']);
     this.props.receiveSessionErrors([]);
+    
   }
 
   checkExists = () => {
@@ -49,6 +51,14 @@ class SessionForm extends Component {
     // console.log('Google Auth');
   }
 
+  displayErrors = (errors) => {
+     return (
+      <ul className="session-errors">
+        {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+      </ul>
+    ) 
+  }
+
   handleInput = (e) => {
     this.setState({
       user: {
@@ -67,7 +77,7 @@ class SessionForm extends Component {
 
   render() {
     const { username, password } = this.state.user;
-    const { errors, formType } = this.props;
+    const { errors, messages, formType } = this.props;
     return (
       <>
       <p className="center">{formType} with <button onClick={this.facebookAuth} className="button--link">Facebook</button> or <button onClick={this.googleAuth} 
@@ -110,14 +120,10 @@ class SessionForm extends Component {
           name="password"
           onChange={this.handleInput} 
           />
-          { !isEmpty(errors) && (
-            <>
-            <ul className="session-errors">
-              {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-            </ul>
-            </>
-            ) 
-        }
+
+        { !isEmpty(errors) && this.displayErrors(errors) }
+        { !isEmpty(messages) && this.displayErrors(messages) }
+
         <input 
         type="submit" 
         value={formType} 
