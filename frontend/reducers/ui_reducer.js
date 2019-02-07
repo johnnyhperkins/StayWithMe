@@ -65,6 +65,7 @@ const uiReducer = (state = defaultState, action) => {
         })
 
     case RECEIVE_SEARCH_QUERY:
+      console.log(action.query);
       return merge({}, state, {
         searching: !action.query,
         query: action.query,

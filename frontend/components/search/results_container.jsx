@@ -1,10 +1,15 @@
+
+// fetch ALL listings within the map's bounds AND filter for max_guests, dates, etc on the server-side
+// step one is queryListings is called 
+
+
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import queryString from 'query-string';
 import _ from 'lodash';
 
-import { fetchListings } from '../../actions/listings'
+import { fetchListings, queryListings } from '../../actions/listings'
 import SearchResultsMap from './results_map';
 import SearchResultsList from './results_list';
 import SearchFilterBar from './filter_bar';
@@ -14,43 +19,46 @@ import { receiveSearchQuery, updateBounds } from '../../actions/ui';
 class SearchResultContainer extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      newSearch: false
+    }
   }
 
-  setMapPosition = () => {
-    const query = queryString.parse(this.props.location.search)
-    
-    if(_.isEmpty(query)) return this.props.history.push('/');
+  setQuery = () => {
+    const { receiveSearchQuery } = this.props;
 
-    const { lat, lng } = query;
-    this.props.receiveSearchQuery({ 
-      query: {
-        lat: parseFloat(lat), 
-        lng: parseFloat(lng) 
-      }
-    })
+    const query = queryString.parse(this.props.location.search)
+    query.lat = parseFloat(query.lat)
+    query.lng = parseFloat(query.lng)
+
+    receiveSearchQuery(query);
   }
  
   componentDidMount() {
-    const {fetchListings} = this.props;
-    this.setMapPosition();
-    fetchListings()
+    let query = queryString.parse(this.props.location.search)
+    
+    // TO DO: change to default to new york area
+    if(_.isEmpty(query)) return this.props.history.push('/');
+    this.setQuery()
   }
 
   componentDidUpdate(prevProps) {
     const query = queryString.parse(this.props.location.search)
     if(_.isEmpty(query)) return <Redirect push to="/" />
-
     if(prevProps.location.search != this.props.location.search) {
-      this.setMapPosition();
+      // debugger
+      this.setQuery();
     }
   }
 
   render() {
-    const { searching, listingLoading, listings } = this.props;
-    if(searching || listingLoading) {
+    const { searching, listings } = this.props;
+    // debugger
+    if(searching) {
       return <Loading />
     } 
     const resultsCount = listings.length;
+    
     return (
       <>
       <SearchFilterBar />
@@ -66,10 +74,11 @@ class SearchResultContainer extends Component {
 }
 
 const msp = state => ({
-  latLng: state.ui.query, //original orientation of the map
-  filter: state.ui.bounds,
+  // latLng: state.ui.query, //original orientation of the map
+  // filter: state.ui.bounds,
+  query: state.ui.query,
   searching: state.ui.searching,
-  listingLoading: state.ui.listingLoading,
+  // listingLoading: state.ui.listingLoading,
   listings: Object.values(state.entities.listings),
   amenities: state.entities.amenities,
   home_types: state.entities.home_types
@@ -78,6 +87,7 @@ const msp = state => ({
 const mdp = dispatch => ({
   fetchListings: bounds => dispatch(fetchListings(bounds)),
   receiveSearchQuery: (searchQuery) => dispatch(receiveSearchQuery(searchQuery)),
+  queryListings: (query) => dispatch(queryListings(query)),
   updateBounds: (bounds) => dispatch(updateBounds(bounds))
 })
 

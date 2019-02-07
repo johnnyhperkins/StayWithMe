@@ -65,13 +65,20 @@ class Api::ListingsController < ApplicationController
         }
       }
     }
+    if query_params
+      if params[:query][:bounds]
+        @listings = Listing.in_bounds(params[:query][:bounds])
+      end
+      # debugger
+    end
     if sample_listings
       @listings = Listing.all.limit(sample_listings)
-    elsif listings_within_dates
-      @listings = Listing.within_dates(listings_within_dates)
-    else bounds
-      @listings = bounds ? Listing.in_bounds(bounds) : Listing.all
     end
+    # elsif listings_within_dates
+    #   @listings = Listing.within_dates(listings_within_dates)
+    # else bounds
+    #   @listings = bounds ? Listing.in_bounds(bounds) : Listing.all
+    # end
   end
 
   def destroy
@@ -89,16 +96,16 @@ class Api::ListingsController < ApplicationController
     params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [], amenity_ids: [])
   end
 
-  def listings_within_dates
-    params[:query][:dates] if params[:query]
+  def query_params
+    params[:query] if params[:query]
   end
 
   def sample_listings
-    params[:query][:sample] if params[:query]
+    params[:query][:sample] if params[:query] && params[:query][:sample]
   end
 
-  def bounds
-    params[:bounds]
-  end
+  # def bounds
+  #   params[:bounds]
+  # end
 end
 
