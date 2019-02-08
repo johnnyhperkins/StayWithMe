@@ -19,9 +19,6 @@ import { receiveSearchQuery, updateBounds } from '../../actions/ui';
 class SearchResultContainer extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      newSearch: false
-    }
   }
 
   setQuery = () => {
@@ -46,14 +43,12 @@ class SearchResultContainer extends Component {
     const query = queryString.parse(this.props.location.search)
     if(_.isEmpty(query)) return <Redirect push to="/" />
     if(prevProps.location.search != this.props.location.search) {
-      // debugger
       this.setQuery();
     }
   }
 
   render() {
     const { searching, listings } = this.props;
-    // debugger
     if(searching) {
       return <Loading />
     } 
@@ -74,11 +69,8 @@ class SearchResultContainer extends Component {
 }
 
 const msp = state => ({
-  // latLng: state.ui.query, //original orientation of the map
-  // filter: state.ui.bounds,
   query: state.ui.query,
   searching: state.ui.searching,
-  // listingLoading: state.ui.listingLoading,
   listings: Object.values(state.entities.listings),
   amenities: state.entities.amenities,
   home_types: state.entities.home_types

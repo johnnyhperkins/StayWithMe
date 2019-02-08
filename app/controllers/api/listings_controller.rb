@@ -68,8 +68,15 @@ class Api::ListingsController < ApplicationController
     if query_params
       if params[:query][:bounds]
         @listings = Listing.in_bounds(params[:query][:bounds])
+        if params[:query][:start_date] && params[:query][:end_date] && !@listings.empty?
+          start_date = params[:query][:start_date]
+          end_date = params[:query][:end_date]
+          @listings = @listings.filter do |listing|
+            listing.within_dates?(start_date, end_date)
+          end
+          debugger 
+        end
       end
-      # debugger
     end
     if sample_listings
       @listings = Listing.all.limit(sample_listings)

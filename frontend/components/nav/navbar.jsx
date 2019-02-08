@@ -41,7 +41,6 @@ class NavBar extends Component {
         address
       }, () => {
         const { lat, lng } = this.state;
-        // this.props.receiveSearchQuery({query: null})
         this.props.history.push({pathname: '/search', search: `?lat=${lat}&lng=${lng}`});
         
       }))

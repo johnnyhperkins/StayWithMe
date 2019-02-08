@@ -39,8 +39,10 @@ class Listing < ApplicationRecord
       .where("lng > ?", north_e_lng)
   end
 
-  def self.within_dates(dates)
-    
-    # find all available listings within the dates object
+  
+  def within_dates?(start_date, end_date)
+    self.listing_availabilities.each do |la| 
+      return true if la.start_date >= start_date && la.end_date <= end_date
+    end
   end
 end

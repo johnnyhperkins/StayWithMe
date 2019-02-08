@@ -67,6 +67,9 @@ class HomeLoggedOut extends Component {
 
     const start_date = moment(startDate).format('YYYY-MM-DD');
     const end_date = moment(endDate).format('YYYY-MM-DD');
+
+    // const start_date = startDate;
+    // const end_date = endDate;
     
     // this.props.receiveSearchQuery({query: null})
     this.props.history.push({
