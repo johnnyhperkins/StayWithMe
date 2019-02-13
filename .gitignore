@@ -23,6 +23,8 @@
 /node_modules
 /yarn-error.log
 
+TODOS.md
+
 bundle.js*
 
 /public/assets

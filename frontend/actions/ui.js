@@ -10,7 +10,7 @@ export const toggleLoginModal = (modal, bool) => ({
   bool
 })
 
-export const receiveSearchQuery = ({query}) => ({
+export const receiveSearchQuery = (query) => ({
   type: RECEIVE_SEARCH_QUERY,
   query
 })

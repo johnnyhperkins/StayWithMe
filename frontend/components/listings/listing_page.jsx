@@ -206,10 +206,11 @@ class Listing extends Component {
     return (
       <>
       <section className="image-header-container flush-top flex-container">
-        { photos.filter((_,idx) => idx === thumbIdx)
-            .map((url, idx) => <div className="left-half hero-image grid--50" key={idx} style={{backgroundImage: `url(${url})`}}></div>) }
+        { photos ? photos.filter((_,idx) => idx === thumbIdx)
+            .map((url, idx) => <div className="left-half hero-image grid--50" key={idx} style={{backgroundImage: `url(${url})`}}></div>) :
+            <div className="left-half hero-image--dummy grid--50"></div> }
         <div className="right-half grid--50">
-          { photos.filter((_,idx) => idx !== thumbIdx)
+          { photos ? photos.filter((_,idx) => idx !== thumbIdx)
             .map((url, idx) => {
               if(idx < 4) {
                 return (
@@ -218,7 +219,7 @@ class Listing extends Component {
                 )
               }
             })
-          }
+          : null}
         </div>
       </section>
       <section className="content-container--interior-page flex-container">

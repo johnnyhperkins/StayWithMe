@@ -27,7 +27,6 @@ class Listing < ApplicationRecord
   has_many :bookings
   has_many_attached :photos
 
-
   def self.in_bounds(bounds)
     south_w_lat = bounds[:southWest][:lat].to_f
     north_e_lat = bounds[:northEast][:lat].to_f
@@ -37,10 +36,21 @@ class Listing < ApplicationRecord
       .where("lat > ?", south_w_lat)
       .where("lng < ?", south_w_lng)
       .where("lng > ?", north_e_lng)
+<<<<<<< HEAD
   end
 
   def self.within_dates(dates)
     
     # find all available listings within the dates object
+||||||| merged common ancestors
+      
+=======
+  end
+  
+  def within_dates?(start_date, end_date)
+    self.listing_availabilities.each do |la| 
+      return la.start_date <= start_date && end_date <= la.end_date
+    end
+>>>>>>> fixquery
   end
 end

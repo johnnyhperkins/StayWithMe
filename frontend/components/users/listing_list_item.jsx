@@ -14,7 +14,7 @@ const ListingListItem = ({listing, amenities, destroyListing, home_types}) => {
     } = listing;
     return (
       <li className="flex-container--no-justify">
-        <div className="listing-thumb" style={{backgroundImage: `url(${photos[0]})`}} ></div>
+        {photos ? <div className="listing-thumb" style={{backgroundImage: `url(${photos[0]})`}} ></div> : null}
         <div className="listing-details">
         {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 key={ht.id}>{ht.name}</h6>)}
           <h3><Link to={`/listings/${id}`}>{title}</Link></h3>

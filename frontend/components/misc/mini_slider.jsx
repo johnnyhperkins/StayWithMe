@@ -13,16 +13,16 @@ const MiniSlider = ({listing_id, photos}) => {
     };
     return (
       <Slider {...settings}>
-            {photos.length ? photos.map((photo, idx) => {
-              return (
-                <Link key={listing_id} to={`listings/${listing_id}`}>
-                  <img className="listing-thumb" key={idx} src={photo} />
-                </Link>
-              )
-            })
-            : null //put in a default blank pic?
-            }
-          </Slider>
+        {photos && photos.length ? photos.map((photo, idx) => {
+          return (
+            <Link key={listing_id} to={`listings/${listing_id}`}>
+              <img className="listing-thumb" key={idx} src={photo} />
+            </Link>
+          )
+        })
+        : null //put in a default blank pic?
+        }
+      </Slider>
     );
 };
 
