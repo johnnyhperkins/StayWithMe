@@ -27,7 +27,6 @@ class Listing < ApplicationRecord
   has_many :bookings
   has_many_attached :photos
 
-
   def self.in_bounds(bounds)
     south_w_lat = bounds[:southWest][:lat].to_f
     north_e_lat = bounds[:northEast][:lat].to_f
@@ -38,11 +37,10 @@ class Listing < ApplicationRecord
       .where("lng < ?", south_w_lng)
       .where("lng > ?", north_e_lng)
   end
-
   
   def within_dates?(start_date, end_date)
     self.listing_availabilities.each do |la| 
-      return true if la.start_date >= start_date && la.end_date <= end_date
+      return la.start_date <= start_date && end_date <= la.end_date
     end
   end
 end

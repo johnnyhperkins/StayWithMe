@@ -69,7 +69,6 @@ const uiReducer = (state = defaultState, action) => {
       return merge({}, state, {
         searching: !action.query,
         query: action.query,
-        listingLoading: true
       })
 
     case RECEIVE_REVIEWS:

@@ -16,13 +16,15 @@ export const createListing = listing => dispatch => {
   (e) => dispatch(receiveListingErrors(e.responseJSON)))
 };
 
-export const fetchListings = bounds => dispatch => {
-  updateBounds(bounds);
-  return ApiListingsUtil.fetchListings(bounds).then(listings => {
-    return dispatch(receiveListings(listings));
-  },
-  (e) => dispatch(receiveListingErrors(e.responseJSON)))
-};
+// TO DO: PHASE THIS OUT:
+// export const fetchListings = bounds => dispatch => {
+//   console.log('fetchListings is being called');
+//   updateBounds(bounds);
+//   return ApiListingsUtil.fetchListings(bounds).then(listings => {
+//     return dispatch(receiveListings(listings));
+//   },
+//   (e) => dispatch(receiveListingErrors(e.responseJSON)))
+// };
 
 
 export const queryListings = query => dispatch => {

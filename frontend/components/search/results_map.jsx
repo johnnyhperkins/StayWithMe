@@ -9,19 +9,18 @@ class SearchResultsMap extends Component {
 
   componentDidMount() {
     const { query } = this.props 
-
-    const mapOptions = {
-      center: { lat: query.lat, lng: query.lng }, 
-      zoom: 13
-    };
-    
-    const mapDOMNode = document.getElementById('search-results-map')
-
-    this.map = new google.maps.Map(mapDOMNode, mapOptions);
-    
-    this.MarkerManager = new MarkerManager(this.map, this.handleMarkerClick.bind(this));
-    
-    this.registerListeners();
+    if(query) {
+      const mapDOMNode = document.getElementById('search-results-map')
+      const mapOptions = {
+        center: { lat: query.lat, lng: query.lng }, 
+        zoom: 13
+      };
+      
+      this.map = new google.maps.Map(mapDOMNode, mapOptions);
+      this.MarkerManager = new MarkerManager(this.map, this.handleMarkerClick.bind(this));
+      
+      this.registerListeners();
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -76,6 +75,7 @@ class SearchResultsMap extends Component {
   }
 
   handleClick(coords) {
+    //TO DO: fix this to preserve other url query vars
     this.props.history.push({
       pathname: '/search',
       search: `lat=${coords.lat}&lng=${coords.lng}`
@@ -83,7 +83,10 @@ class SearchResultsMap extends Component {
   }
 
   render() {
-    
+    // const { query } = this.props;
+    // if(!query) {
+    //   return <Loading />
+    // } 
     return (
       <div id="search-results-map" ref={map => this.mapNode = map}></div>
     )

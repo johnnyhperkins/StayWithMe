@@ -29,6 +29,7 @@ class Api::ListingsController < ApplicationController
     if @listing
       if @listing.update_attributes(listing_params);
         if params[:listing][:start_date] || params[:listing][:end_date]
+          @listing.listing_availabilities.destroy_all
           @listing.listing_availabilities.create(
             start_date: params[:listing][:start_date], 
             end_date: params[:listing][:end_date]
@@ -66,26 +67,36 @@ class Api::ListingsController < ApplicationController
       }
     }
     if query_params
-      if params[:query][:bounds]
-        @listings = Listing.in_bounds(params[:query][:bounds])
-        if params[:query][:start_date] && params[:query][:end_date] && !@listings.empty?
-          start_date = params[:query][:start_date]
-          end_date = params[:query][:end_date]
-          @listings = @listings.filter do |listing|
-            listing.within_dates?(start_date, end_date)
+      bounds = params[:query][:bounds]
+      start_date = params[:query][:start_date]
+      end_date = params[:query][:end_date]
+      max_guests = params[:query][:max_guests]
+      filtered_listings = []
+
+      if bounds
+        map_listings = Listing.in_bounds(bounds)
+
+        if start_date && end_date && !map_listings.empty?
+          p '------->> start, end and listings not empty'
+
+          map_listings.each do |listing|
+            if ( listing.within_dates?(start_date, end_date) )
+              # debugger
+              filtered_listings << listing 
+            end
           end
-          debugger 
-        end
+
+          return @listings = filtered_listings
+        end  
       end
+      p '-------->>>>> only returning map listings'
+      @listings = map_listings
     end
+
     if sample_listings
       @listings = Listing.all.limit(sample_listings)
     end
-    # elsif listings_within_dates
-    #   @listings = Listing.within_dates(listings_within_dates)
-    # else bounds
-    #   @listings = bounds ? Listing.in_bounds(bounds) : Listing.all
-    # end
+
   end
 
   def destroy

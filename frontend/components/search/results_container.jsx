@@ -1,4 +1,5 @@
 
+
 // fetch ALL listings within the map's bounds AND filter for max_guests, dates, etc on the server-side
 // step one is queryListings is called 
 
@@ -9,7 +10,7 @@ import { withRouter, Redirect } from 'react-router-dom';
 import queryString from 'query-string';
 import _ from 'lodash';
 
-import { fetchListings, queryListings } from '../../actions/listings'
+import { queryListings } from '../../actions/listings'
 import SearchResultsMap from './results_map';
 import SearchResultsList from './results_list';
 import SearchFilterBar from './filter_bar';
@@ -28,6 +29,10 @@ class SearchResultContainer extends Component {
     query.lat = parseFloat(query.lat)
     query.lng = parseFloat(query.lng)
 
+    // Would it make more sense to combine the queryListings action and the receiveSearchQuery?
+    // Or is the idea to have the query set here and trickle down to the map, which actually queries the DB?
+    
+    // OOOR should the map just update the store, which triggers a re-render of this container, which updates the results list and the map?
     receiveSearchQuery(query);
   }
  
@@ -48,21 +53,22 @@ class SearchResultContainer extends Component {
   }
 
   render() {
-    const { searching, listings } = this.props;
-    if(searching) {
+    const { searching, listings, query } = this.props;
+    // refactor this to only check if searching 
+    if(searching || !query) {
       return <Loading />
-    } 
+    }
     const resultsCount = listings.length;
     
     return (
       <>
-      <SearchFilterBar />
-      <section className="flush-content-container search-listings-container">
-        <h3>{resultsCount ? `${resultsCount}+ home${resultsCount > 1 ? 's' : ''}` : 'No results were found for this search' }
-        </h3>
-        <SearchResultsList {...this.props} />
-        <SearchResultsMap {...this.props} />
-      </section>
+        <SearchFilterBar query={query} />
+        <section className="flush-content-container search-listings-container">
+          <h3>{resultsCount ? `${resultsCount}+ home${resultsCount > 1 ? 's' : ''}` : 'No results were found for this search' }
+          </h3>
+          <SearchResultsList {...this.props} />
+          <SearchResultsMap {...this.props} />
+        </section>
       </>
     )
   }
@@ -77,7 +83,6 @@ const msp = state => ({
 })
 
 const mdp = dispatch => ({
-  fetchListings: bounds => dispatch(fetchListings(bounds)),
   receiveSearchQuery: (searchQuery) => dispatch(receiveSearchQuery(searchQuery)),
   queryListings: (query) => dispatch(queryListings(query)),
   updateBounds: (bounds) => dispatch(updateBounds(bounds))

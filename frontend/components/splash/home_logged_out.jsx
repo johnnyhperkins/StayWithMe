@@ -20,8 +20,8 @@ class HomeLoggedOut extends Component {
       address: '',
       lng: 0,
       lat: 0,
-      startDate: '',
-      endDate: '',
+      startDate: null,
+      endDate: null,
       numGuests: 1,
       focusedInput: 'startDate',
       calendarFocused: null,
@@ -62,16 +62,19 @@ class HomeLoggedOut extends Component {
   }
   
   search = () => {
-    // TO DO implement add date filter
+    // TO DO add date filter
     const { lat, lng, startDate, endDate, numGuests } = this.state;
 
-    const start_date = moment(startDate).format('YYYY-MM-DD');
-    const end_date = moment(endDate).format('YYYY-MM-DD');
+    // const start_date = moment(startDate).format('YYYY-MM-DD');
+    // const end_date = moment(endDate).format('YYYY-MM-DD');
+
+    const start_date = moment(startDate).format();
+    const end_date = moment(endDate).format();
 
     // const start_date = startDate;
     // const end_date = endDate;
     
-    // this.props.receiveSearchQuery({query: null})
+    // this.props.receiveSearchQuery({query: null});
     this.props.history.push({
       pathname: '/search', 
       search: `?lat=${lat}&lng=${lng}&start_date=${start_date}&end_date=${end_date}&max_guests=${numGuests}`

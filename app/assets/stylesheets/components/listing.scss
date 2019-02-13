@@ -144,6 +144,12 @@
   background-position: center;
 }
 
+.hero-image--dummy {
+  @extend .hero-image;
+  background-image: url('house-placeimg.jpg');
+
+}
+
 .square-image {
   min-height: 220px;
 }

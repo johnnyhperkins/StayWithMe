@@ -43,8 +43,8 @@ class ListingForm extends Component {
       },
       focusedInput: 'startDate',
       calendarFocused: null,
-      endDate: '',
-      startDate: '',
+      endDate: null,
+      startDate: null,
       selectedPhotoFiles: [] //PHOTO FILES
       
     }

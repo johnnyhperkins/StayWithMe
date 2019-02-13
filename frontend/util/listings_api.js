@@ -28,15 +28,6 @@ export const queryListings = (query) => {
   })
 };
 
-export const fetchListings = (bounds) => {
-  return $.ajax({
-    url: '/api/listings',
-    method: "GET",
-    data: {bounds},
-    error: (err) => console.log(err)
-  })
-};
-
 export const fetchUserListings = (id) => {
   return $.ajax({
     url: `/api/users/${id}/listings`,
