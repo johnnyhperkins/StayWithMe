@@ -62,7 +62,7 @@
     background:none;
     padding:0;
     border:none;
-    color: $teal-blue;
+    color: $teal;
 }
 
 .button--submit {
@@ -92,8 +92,8 @@
 .add-subtract {
     width: 32px;
     height: 32px;
-    color: $teal-blue;
-    border: 1px solid $teal-blue;
+    color: $teal;
+    border: 1px solid $teal;
     border-radius: 50%;
     font-size: $font-m;
     position: relative;
@@ -108,21 +108,21 @@
     content: '+';
     position: absolute;
     display: block;
-    top: 6px;
-    right: 10px;
+    top: 7px;
+    right: 11px;
 }
 
 .add-subtract.sub:before {
     content: '-';
     position: absolute;
     display: block;
-    top: 6px;
-    right: 11px;
+    top: 7px;
+    right: 12px;
 }
 
 .add-subtract.disabled {
-    border: 1px solid rgba( $teal-blue, .3 );
-    color: rgba( $teal-blue, .3 )
+    border: 1px solid rgba( $teal, .3 );
+    color: rgba( $teal, .3 )
 }
 
 .submit-container {

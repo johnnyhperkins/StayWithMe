@@ -227,7 +227,7 @@ class Listing extends Component {
           {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 key={ht.id} className="text--maroon">{ht.name}</h6>)}
           
           <h2>{title} {this.props.userId == user_id && 
-            <Link to={`/listings/${id}/edit`} >(<span className="text--teal-blue">Edit Listing</span>)</Link>}
+            <Link to={`/listings/${id}/edit`} >(<span className="text--teal">Edit Listing</span>)</Link>}
           </h2>
 
           <div className="profile-thumb-wrapper">

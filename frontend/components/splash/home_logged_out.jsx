@@ -62,19 +62,11 @@ class HomeLoggedOut extends Component {
   }
   
   search = () => {
-    // TO DO add date filter
     const { lat, lng, startDate, endDate, numGuests } = this.state;
 
-    // const start_date = moment(startDate).format('YYYY-MM-DD');
-    // const end_date = moment(endDate).format('YYYY-MM-DD');
+    const start_date = moment(startDate).format('YYYY-MM-DD');
+    const end_date = moment(endDate).format('YYYY-MM-DD');
 
-    const start_date = moment(startDate).format();
-    const end_date = moment(endDate).format();
-
-    // const start_date = startDate;
-    // const end_date = endDate;
-    
-    // this.props.receiveSearchQuery({query: null});
     this.props.history.push({
       pathname: '/search', 
       search: `?lat=${lat}&lng=${lng}&start_date=${start_date}&end_date=${end_date}&max_guests=${numGuests}`
@@ -218,7 +210,6 @@ class HomeLoggedOut extends Component {
                         onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
                         onNextMonthClick={DayPickerRangeController.onNextMonthClick}
                         onDatesChange={({ startDate, endDate }) => this.setState({ 
-
                           startDate, 
                           endDate })} 
                         focusedInput={this.state.focusedInput} 
@@ -231,17 +222,18 @@ class HomeLoggedOut extends Component {
               </div>
               <div 
                 className="guest-input-wrapper"
-                ref={this.setGuestSelectorRef} >
+                ref={this.setGuestSelectorRef}>
+
                 <label>
-                <p>Guests</p>
-                <input 
-                  type="text" 
-                  placeholder="1 guest" 
-                  value={`${numGuests} guest${numGuests > 1 ? 's' : ''}`} 
-                  ref={(input) => this.guestSelect = input}
-                  readOnly       
-                  onFocus={() => this.setState({openGuestSelect: !openGuestSelect, openDatePicker:false})}
-                  />
+                  <p>Guests</p>
+                  <input 
+                    type="text" 
+                    placeholder="1 guest" 
+                    value={`${numGuests} guest${numGuests > 1 ? 's' : ''}`} 
+                    ref={(input) => this.guestSelect = input}
+                    readOnly       
+                    onFocus={() => this.setState({openGuestSelect: !openGuestSelect, openDatePicker:false})}
+                    />
                 </label>
                 {openGuestSelect && 
                 <div className='guest-select-container flex-container' >

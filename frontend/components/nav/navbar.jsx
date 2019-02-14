@@ -2,6 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import Modal from 'react-modal';
+import moment from 'moment';
+import queryString from 'query-string';
+import PlacesAutocomplete, {
+  geocodeByAddress,
+  getLatLng,
+} from 'react-places-autocomplete';
+
 import LoginFormContainer from '../session/login_form_container';
 import Logo from '../../static_assets/logo';
 import SearchIcon from '../../static_assets/search_icon';
@@ -10,20 +17,42 @@ import {
   receiveSearchQuery, 
   toggleLoginModal 
 } from '../../actions/ui';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
-
 import { logout } from '../../actions/sessions';
+import SearchFilterBar from '../search/filter_bar';
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
+    const query = props.location.pathname == "/search" ? queryString.parse(this.props.location.search) : null;
+    
     this.state = {
       address: '',
-      lng: 0,
-      lat: 0 
+      lat: query && query.lat ? parseFloat(query.lat) : 0,
+      lng: query && query.lng ? parseFloat(query.lng) : 0,
+      start_date: query && query.start_date ? query.start_date : moment().format('YYYY-MM-DD'),
+      end_date: query && query.end_date ? query.end_date : moment().add(2, 'days').format('YYYY-MM-DD'),
+      numGuests: query && query.max_guests ? parseInt(query.max_guests) : 0,
+      openDatePicker: false,
+      openGuestSelect: false,
+      focusedInput: 'startDate',
+      calendarFocused: null,
+      startDate: '',
+      endDate: '',
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { location } = this.props
+
+    if(prevProps.location !== location && !_.isEqual(prevState, this.state)) {
+      if(location.pathname == "/search") {
+        const query = queryString.parse(location.search);
+        this.setState({
+          numGuests: query.max_guests,
+          startDate: moment(query.start_date),
+          endDate: moment(query.end_date),
+        })
+      }
     }
   }
 
@@ -40,13 +69,102 @@ class NavBar extends Component {
         lat:parseFloat(latLng.lat),
         address
       }, () => {
-        const { lat, lng } = this.state;
-        this.props.history.push({pathname: '/search', search: `?lat=${lat}&lng=${lng}`});
-        
+        this.search()
       }))
       .catch(error => console.error('Error', error));
   };
 
+  search = () => {
+    const {
+      address,
+      lat,
+      lng,
+      start_date, 
+      end_date, 
+      numGuests 
+    } = this.state;
+
+    if( start_date && 
+        end_date && 
+        ( (lat > 0 && lng > 0) || address ) ) {
+      // update the store with the query or just use the url?
+      this.setState({
+        openDatePicker: false,
+        openGuestSelect: false
+      }, () => {
+        const urlString = queryString.stringify({
+          lat,
+          lng,
+          start_date,
+          end_date,
+          max_guests: numGuests
+        })
+        this.props.history.push({
+          pathname: '/search', 
+          search: `?${urlString}`
+        })
+      })
+      
+    } else if(!address) {
+      this.addressInput.focus()
+    } else if(!(start_date && end_date)) {
+      this.setState({openDatePicker: !this.state.openDatePicker})
+    }
+  }
+ 
+  handleNumGuestChange = (add) => {
+    let { numGuests } = this.state;
+
+    return () => {
+      if( numGuests >= 0 ) {
+        if(add) {
+          this.setState({numGuests: ++numGuests})
+        } else if(numGuests > 1) {
+          this.setState({numGuests: --numGuests})
+        }  
+      }
+    }
+  }
+
+  handleOpenGuestSelect = () => {
+    this.setState({
+      openGuestSelect: !this.state.openGuestSelect, 
+      openDatePicker:false
+    })
+  }
+
+  handleOpenDatePicker = () => {
+    this.setState({
+      openDatePicker: !this.state.openDatePicker, 
+      openGuestSelect: false
+    })
+  }
+
+  onDatesChange = ({ startDate, endDate }) => {
+    this.setState({ 
+      startDate, 
+      endDate 
+    }, () => {
+      const start_date = moment(startDate).format('YYYY-MM-DD');
+      const end_date = moment(endDate).format('YYYY-MM-DD');
+      this.setState({start_date, end_date});
+    })
+  }
+
+  onFocusChange = (focusedInput) => {
+    // NOTE: when destructuring endDate, this function doesn't work properly
+    let { startDate, numGuests } = this.state;
+    this.setState({
+      focusedInput: !focusedInput ? 'startDate' : focusedInput,
+    }, () => {
+      if(!!startDate && !!this.state.endDate) {
+        if(startDate < this.state.endDate && numGuests == 0) {
+          this.handleOpenGuestSelect()
+        } 
+      }
+    });
+  }
+  
   render() {
     const { 
       session, 
@@ -54,14 +172,19 @@ class NavBar extends Component {
       loggedIn, 
       sessionModalOpen, 
       sessionModalType,
-      toggleLoginModal } = this.props;
+      toggleLoginModal 
+    } = this.props;
+    
     const { address } = this.state;
+    
     const classes = loggedIn || this.props.location.pathname != "/" ? 'fixed-top-nav flex-container' : 'top-nav logged-out flex-container';
     return (
       <>
       <nav className={classes}>
         <section className="search-wrapper flex-container">
-          <Link to="/"><Logo locationPath={this.props.location.pathname} loggedIn={loggedIn} /></Link>
+          <Link to="/">
+            <Logo locationPath={this.props.location.pathname} loggedIn={loggedIn} />
+          </Link>
           <div className="search-input-wrapper">
             
             {(loggedIn || this.props.location.pathname != "/") && 
@@ -78,6 +201,7 @@ class NavBar extends Component {
                         {...getInputProps({
                           placeholder: 'Try "Manhattan"',
                           className: 'location-search-input search-input',
+                          ref: (input) => this.addressInput = input
                         })}
                       />
                       <div className="autocomplete-dropdown">
@@ -117,23 +241,40 @@ class NavBar extends Component {
             />
         </section>
       </nav>
+      
+      { ( (loggedIn && this.props.location.pathname == "/") || 
+        this.props.location.pathname == "/search") && 
+        // make a function that conditionally passes certain props based on location?
+        <SearchFilterBar
+          {...this.state}
 
-      <Modal isOpen={sessionModalOpen}
-             onRequestClose={() => toggleLoginModal(sessionModalType, false)}
-             className="modal"
-             overlayClassName="Overlay"
-             switch={this.switchSignUpLogin}
-             > 
+          handleOpenGuestSelect={this.handleOpenGuestSelect}
+          handleOpenDatePicker={this.handleOpenDatePicker}
+          onFocusChange={this.onFocusChange}
+
+          handleNumGuestChange={this.handleNumGuestChange}
+          onDatesChange={this.onDatesChange}
+
+          search={this.search}
+        />
+      }
+
+      <Modal 
+        isOpen={sessionModalOpen}
+        onRequestClose={() => toggleLoginModal(sessionModalType, false)}
+        className="modal"
+        overlayClassName="Overlay"
+        switch={this.switchSignUpLogin}> 
              
-             <span 
-             className="button--close" 
-             onClick={() => toggleLoginModal(sessionModalType, false)}>&times;</span> 
+        <span 
+          className="button--close" 
+          onClick={() => toggleLoginModal(sessionModalType, false)}>&times;</span> 
 
         <LoginFormContainer  
           switch={this.switchSignUpLogin} 
           closeModal={() => toggleLoginModal(sessionModalType, false)} 
-          sessionModalType={sessionModalType}
-          />
+          sessionModalType={sessionModalType} />
+
       </Modal>
       
       </>

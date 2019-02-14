@@ -33,6 +33,7 @@
 
 .search-wrapper .search-input {
   border-radius: 4px;
+  color: $light-black;
   border: 1px solid #EBEBEB;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   height: 48px;
@@ -132,4 +133,39 @@
 
 .drop-down-wrapper li:hover {
   border-bottom: 1px solid #333;
+}
+
+.filter-bar {
+  position: relative;
+  .apply-search {
+    font-size: $font-s;
+    color: $teal;
+    cursor: pointer;
+    position: absolute;
+    bottom: -30px;
+    right: 5px;
+  }
+  .range-controller-wrapper {
+    position: absolute;
+    top: 53px;
+    border-radius: 4px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.09);
+    background: #fff;
+    .apply-search { 
+      bottom:-5px;
+      right: 30px;
+    }
+    padding-bottom: 20px;
+  }
+  .guest-select-container {
+    width: 250px;
+    top: 53px;
+    left:120px;
+    padding-bottom: 40px;
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.09);
+  }
+  .filter-active {
+    background-color: $teal;
+    color: #fff;
+  }
 }

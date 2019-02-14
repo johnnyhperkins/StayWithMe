@@ -29,7 +29,7 @@ class Profile extends Component {
 
         <h2 style={{marginTop: 0}} className="font--300">Hey, I'm {user.username}!</h2>
         <p className="bold">Joined in {moment(user.created_at).format('MMM YYYY')}</p>
-        <NavLink className="text--teal-blue" to={`/users/${user.id}/edit`}>Edit Profile</NavLink>
+        <NavLink className="text--teal" to={`/users/${user.id}/edit`}>Edit Profile</NavLink>
 
         <hr className="hr-24" />
         {/* STATS */}

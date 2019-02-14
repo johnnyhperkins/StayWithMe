@@ -24,21 +24,21 @@ class SearchResultsMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { query } = this.props;
-    if( !_.isEqual(prevProps.listings, this.props.listings) ) {
-      this.MarkerManager.updateMarkers(this.props.listings)
+    const { query, listings } = this.props;
+    if(_.isUndefined(listings)) {
+        this.MarkerManager.emptyMarkers();
+    }
+    if( !_.isEqual(prevProps.listings, listings) ) {
+      this.MarkerManager.updateMarkers(listings)
     } 
     if( !_.isEqual(prevProps.query, query) ) {
       this.map.setCenter({lat:query.lat, lng:query.lng})   
     }
+
   }
 
-  registerListeners() {
-    let { query, queryListings } = this.props;
-    
-    google.maps.event.addListener(this.map, 'idle', () => {
-      
-      query.bounds = {
+  calculateBounds = (gmBounds) => {
+    let bounds = {
         'northEast': {
           lat: 0,
           lng: 0
@@ -48,20 +48,24 @@ class SearchResultsMap extends Component {
           lng: 0
         }
       }
-      query.bounds['northEast']['lat'] = this.map.getBounds().ma.l
-      query.bounds['northEast']['lng'] = this.map.getBounds().ga.j
-      query.bounds['southWest']['lat'] = this.map.getBounds().ma.j
-      query.bounds['southWest']['lng'] = this.map.getBounds().ga.l  
-      // TO DO refactor to just get listing id then populate by id
-      // debugger
-      return queryListings(query).then(({listings}) => {
-        if(_.isUndefined(listings)) {
-          this.MarkerManager.emptyMarkers();
-        } else {
-          this.MarkerManager.updateMarkers(Object.values(listings))
-        }
-      }
-      )
+
+      bounds['northEast']['lat'] = gmBounds.ma.l
+      bounds['northEast']['lng'] = gmBounds.ga.j
+      bounds['southWest']['lat'] = gmBounds.ma.j
+      bounds['southWest']['lng'] = gmBounds.ga.l 
+
+      return bounds; 
+  }
+
+  registerListeners = () => {
+    let { setQuery } = this.props;
+    google.maps.event.addListener(this.map, 'idle', () => {
+      
+      //add something to update map center on search
+      const bounds = this.calculateBounds(this.map.getBounds());
+      const mapCenter = this.map.getCenter();
+      setQuery(bounds, mapCenter)
+      
     });
 
     google.maps.event.addListener(this.map, 'click', (event) => {

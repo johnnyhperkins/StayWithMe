@@ -29,7 +29,7 @@ class Api::ListingsController < ApplicationController
     if @listing
       if @listing.update_attributes(listing_params);
         if params[:listing][:start_date] || params[:listing][:end_date]
-          @listing.listing_availabilities.destroy_all
+          @listing.listing_availabilities.destroy_all if @listing.listing_availabilities
           @listing.listing_availabilities.create(
             start_date: params[:listing][:start_date], 
             end_date: params[:listing][:end_date]

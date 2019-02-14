@@ -17,6 +17,9 @@
   justify-content: initial;
 }
 
+.pos-relative {
+  position:relative;
+}
 
 .thumb-size-rating {
   margin: 0 .5rem;
@@ -25,7 +28,7 @@
     width: 10px;
     height: 10px;
     font-size: 1rem;
-    color: $teal-blue;
+    color: $teal;
   } 
   span {
     line-height: .3;
@@ -84,12 +87,12 @@
   color: $green;
 }
 
-.text--teal-blue {
-  color:$teal-blue;
+.text--teal {
+  color:$teal;
 }
 
-.background--teal-blue {
-  background-color:$teal-blue!important;
+.background--teal {
+  background-color:$teal!important;
 }
 
 .hr-with-text {
