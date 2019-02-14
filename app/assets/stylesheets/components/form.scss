@@ -64,12 +64,12 @@
     vertical-align: middle;
      
     &.upload-button {
-      background-color: $teal-blue;
+      background-color: $teal;
       border-radius: 2px;
       overflow: hidden;
   
       &:hover {
-        background-color: lighten($teal-blue, 5%);
+        background-color: lighten($teal, 5%);
       }
     }
     

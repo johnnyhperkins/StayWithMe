@@ -340,8 +340,8 @@ class ListingForm extends Component {
                       endDate, 
                       listing: {
                         ...this.state.listing,
-                        start_date: startDate && moment(startDate).format('YYYY-MM-DD HH:mm:00'),
-                        end_date: endDate && moment(endDate).format('YYYY-MM-DD HH:mm:00'), 
+                        start_date: startDate && moment(startDate).format('YYYY-MM-DD'),
+                        end_date: endDate && moment(endDate).format('YYYY-MM-DD'), 
                       }
                     })  
                   } 

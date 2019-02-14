@@ -7,7 +7,7 @@ const SmallRatings = ({listing}) => {
       <div className="flex-container--no-justify">
         { listing.rating > 0 ?
           ( <>
-            <p className="tiny text--teal-blue">{listing.rating} </p>
+            <p className="tiny text--teal">{listing.rating} </p>
             <Rating 
             className="read-only-rating thumb-size-rating"
             readonly
