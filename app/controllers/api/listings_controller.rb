@@ -95,16 +95,6 @@ class Api::ListingsController < ApplicationController
 
     if sample_listings
       @listings = Listing.all.limit(sample_listings)
-<<<<<<< HEAD
-    elsif listings_within_dates
-      @listings = Listing.within_dates(listings_within_dates)
-    else bounds
-      @listings = bounds ? Listing.in_bounds(bounds) : Listing.all
-||||||| merged common ancestors
-    else
-      @listings = bounds ? Listing.in_bounds(bounds) : Listing.all
-=======
->>>>>>> fixquery
     end
 
   end
@@ -124,20 +114,8 @@ class Api::ListingsController < ApplicationController
     params.require(:listing).permit(:user_id, :title, :thumb_img_idx, :address, :lat, :lng, :price, :home_type_id, :description, :max_guests, photos: [], amenity_ids: [])
   end
 
-<<<<<<< HEAD
-  def listings_within_dates
-    params[:query][:dates] if params[:query]
-  end
-
-  def sample_listings
-    params[:query][:sample] if params[:query]
-||||||| merged common ancestors
-  def sample_listings
-    params[:query][:sample] if params[:query]
-=======
   def query_params
     params[:query] if params[:query]
->>>>>>> fixquery
   end
 
   def sample_listings

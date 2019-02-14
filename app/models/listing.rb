@@ -36,21 +36,11 @@ class Listing < ApplicationRecord
       .where("lat > ?", south_w_lat)
       .where("lng < ?", south_w_lng)
       .where("lng > ?", north_e_lng)
-<<<<<<< HEAD
-  end
-
-  def self.within_dates(dates)
-    
-    # find all available listings within the dates object
-||||||| merged common ancestors
-      
-=======
   end
   
   def within_dates?(start_date, end_date)
     self.listing_availabilities.each do |la| 
       return la.start_date <= start_date && end_date <= la.end_date
     end
->>>>>>> fixquery
   end
 end
