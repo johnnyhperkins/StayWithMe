@@ -8,6 +8,7 @@ import UserListings from './user_listings';
 import UserReviews from './user_reviews';
 import DashboardSidebar from './dashboard_sidebar';
 import Profile from './profile';
+import UserBookingsContainer from './user_bookings_container';
 
 class Dashboard extends Component {
   constructor(props) {
@@ -15,32 +16,36 @@ class Dashboard extends Component {
   }
 
   render() {
-    const { session, location } = this.props;
+    const { user, location } = this.props;
     return (
       <section className="content-container--interior-page flex-container">
         <Route 
           path="/users/"
-          render={() => <DashboardSidebar session={session} path={location.pathname} />} />
+          render={() => <DashboardSidebar user={user} path={location.pathname} />} />
         <Route 
-          path={`/users/${session.id}`} exact
-          render={() => <Profile userId={session.id} />} />
+          path={`/users/${user.id}`} exact
+          render={() => <Profile user={user} />} />
         <Route 
-          path={`/users/${session.id}/reviews`} exact
-          render={() => <UserReviews userId={session.id} />} />
+          path={`/users/${user.id}/reviews`} exact
+          render={() => <UserReviews user={user} />} />
         <Route 
-          path={`/users/${session.id}/edit`}
-          render={() => <EditProfileForm userId={session.id} />} />
+          path={`/users/${user.id}/edit`}
+          render={() => <EditProfileForm user={user} />} />
         <Route 
-          path={`/users/${session.id}/listings`} 
-          render={() => <UserListings userId={session.id} />}
+          path={`/users/${user.id}/listings`} 
+          render={() => <UserListings user={user} />}
             />
+        <Route 
+          path={`/users/${user.id}/bookings`} 
+          render={() => <UserBookingsContainer user={user} />}
+        />
       </section>
     )
   }
 }
 
 const msp = state => ({
-  session: state.session,
+  user: state.session,
 })
 
 export default connect(msp)(Dashboard);

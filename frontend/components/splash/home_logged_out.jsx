@@ -62,14 +62,28 @@ class HomeLoggedOut extends Component {
   }
   
   search = () => {
-    const { lat, lng, startDate, endDate, numGuests } = this.state;
+    const { 
+      lat, 
+      lng, 
+      startDate, 
+      endDate, 
+      numGuests 
+    } = this.state;
 
     const start_date = moment(startDate).format('YYYY-MM-DD');
     const end_date = moment(endDate).format('YYYY-MM-DD');
 
+    const urlString = queryString.stringify({
+      lat,
+      lng,
+      start_date,
+      end_date,
+      max_guests: numGuests
+    })
+
     this.props.history.push({
       pathname: '/search', 
-      search: `?lat=${lat}&lng=${lng}&start_date=${start_date}&end_date=${end_date}&max_guests=${numGuests}`
+      search: `?${urlString}`
     });
   }
 

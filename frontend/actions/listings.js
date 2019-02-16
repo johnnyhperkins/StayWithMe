@@ -3,7 +3,7 @@ export const RECEIVE_LISTING = 'RECEIVE_LISTING';
 export const RECEIVE_LISTINGS = 'RECEIVE_LISTINGS';
 export const REMOVE_LISTING = 'REMOVE_LISTING';
 
-import { updateBounds, savingListing, receiveSearchQuery } from './ui'
+import { savingListing } from './ui'
 
 export const RECEIVE_LISTING_ERRORS = 'RECEIVE_LISTING_ERRORS';
 
@@ -16,21 +16,8 @@ export const createListing = listing => dispatch => {
   (e) => dispatch(receiveListingErrors(e.responseJSON)))
 };
 
-// TO DO: PHASE THIS OUT:
-// export const fetchListings = bounds => dispatch => {
-//   console.log('fetchListings is being called');
-//   updateBounds(bounds);
-//   return ApiListingsUtil.fetchListings(bounds).then(listings => {
-//     return dispatch(receiveListings(listings));
-//   },
-//   (e) => dispatch(receiveListingErrors(e.responseJSON)))
-// };
-
-
 export const queryListings = query => dispatch => {
-  // debugger
   return ApiListingsUtil.queryListings(query).then(listings => {
-    // dispatch(receiveSearchQuery(query));
     return dispatch(receiveListings(listings));
   },
   (e) => dispatch(receiveListingErrors(e.responseJSON)))
@@ -78,10 +65,6 @@ const removeListing = id => ({
   type: REMOVE_LISTING,
   id
 })
-
-// Amenities / Home Types
-
-
 
 export const receiveListingErrors = (errors) => ({
   type: RECEIVE_LISTING_ERRORS,

@@ -189,7 +189,7 @@ class ListingForm extends Component {
       <section className="flex-container create-listing">
         <section className="content-container grid--50">
           <h2>{formType == "Edit Listing" ? "Edit your listing" : 'Lets get started listing your place.'}</h2>
-          <div className="form-wrapper listing-form">
+          <div className="content-container--profile listing-form">
           {/* {!isEmpty(messages) && messages.map((m, idx) => <p key={idx} >{m}</p>)} */}
                 <label>Title
                   <input 
@@ -366,7 +366,7 @@ class ListingForm extends Component {
             </button>
 
             <button 
-            className="button--cancel button--outlined inline-block grid--33" 
+            className="button--cancel inline-block grid--33" 
             onClick={this.cancel}>Cancel</button>
           </section>  
         </section>

@@ -33,7 +33,8 @@ class Profile extends Component {
 
         <hr className="hr-24" />
         {/* STATS */}
-
+        { user.review_ids.length || user.listing_ids.length ? 
+        <>
         <div className="stats flex-container--no-justify space-top-16">
           {user.review_ids.length ? 
             <p><span className="number-reviews-badge">{user.review_ids.length}</span> Review{user.review_ids.length > 1 ? 's' : ''}</p>
@@ -44,8 +45,11 @@ class Profile extends Component {
             : null
           }
         </div>
-
         <hr className="hr-24" />
+        </>
+        : null }
+
+        
         {/* BOOKINGS */}
 
         {bookings.length ?
@@ -62,8 +66,7 @@ class Profile extends Component {
   }
 }
 
-const msp = (state, props) => ({
-  user: state.entities.users[props.userId],
+const msp = (state) => ({
   bookings: Object.values(state.entities.bookings),
   bookingLoading: state.ui.bookingLoading
 })

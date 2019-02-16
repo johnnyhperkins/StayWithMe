@@ -1,4 +1,4 @@
-import {receiveCurrentUser, receiveSessionErrors } from './sessions';
+import { receiveCurrentUser, receiveSessionErrors } from './sessions';
 import { update } from '../util/users_api';
 import { receiveMessages } from '../actions/ui';
 

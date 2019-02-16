@@ -63,11 +63,24 @@ footer p, footer a {
 
 .grid--75 {
     width:75%;
-    .form-wrapper {
+    .content-container--profile {
         padding: 20px;
         border: 1px solid $off-white;
         border-top-width: 0;
         position:relative;
+
+        .profile-thumb-wrapper {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        .profile-thumb {
+            min-width: 100px;
+            min-height:100px;
+            background-size:cover;
+            border-radius: 50%;
+            border: 2px solid $off-white;
+        }
     }
     .listing-form {
         border-top-width: 1px;
@@ -170,5 +183,8 @@ footer p, footer a {
     padding-bottom: 240px;
     background-size:cover;
     max-width:100%;
+}
 
+.toggle-panel {
+    margin-bottom: $m-size;
 }

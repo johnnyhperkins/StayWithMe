@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import { fetchListing } from '../../actions/listings'
 import { fetchListingReviews } from '../../actions/reviews'
-import { createBooking } from '../../actions/bookings'
 
 import Loading from '../misc/loading';
 import { isInclusivelyAfterDay, DateRangePicker, DayPickerRangeController } from 'react-dates';
@@ -12,9 +11,7 @@ import ReviewForm from '../reviews/review_form';
 import moment from 'moment';
 import isEmpty from 'lodash/isEmpty';
 import Rating from 'react-rating';
-import SmallRating from '../misc/small_ratings';
-import { toggleLoginModal, receiveMessages } from '../../actions/ui';
-
+import ListingSidebar from './listing_sidebar';
 
 import { AirCon } from '../../static_assets/amenity_icons';
 
@@ -24,23 +21,9 @@ class Listing extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      booking: {
-        startDate:null,
-        endDate:null,
-        calendarFocused: null,
-        openGuestSelect: false,
-        numGuests: 1,
-        focusedInput: null,
-        start_date: '',
-        end_date: ''
-      },
-      availCal: {
-        startDate:null,
-        endDate:null,
-        // focusedInput: null,
-        // calendarFocused: null,
-      }
-      
+      startDate:null,
+      endDate:null,
+      focusedInput: null,
     }
   }
 
@@ -49,8 +32,6 @@ class Listing extends Component {
       fetchListing,
       fetchListingReviews, 
     } = this.props;
-
-    document.addEventListener('mousedown', this.handleClickOutsideGuestSelector);
     
     fetchListingReviews(this.props.match.params.id)
 
@@ -77,102 +58,19 @@ class Listing extends Component {
 
       //set availability cal state
       this.setState({
-        availCal: {
-          ...this.state.availCal,
-          startDate: moment(listing.start_date),
-          endDate: moment(listing.end_date),
-        }
+        startDate: moment(listing.start_date),
+        endDate: moment(listing.end_date),
       })
 
     }); 
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutsideGuestSelector)
-  }
-
-  onFocusChange = (focusedInput) => {
-    console.log(focusedInput);
-    this.setState({
-      booking: {
-        ...this.state.booking,
-        // focusedInput: !this.state.focusedInput ? 'startDate' : focusedInput,
-        focusedInput
-      }
-    });
-  }
-
-  handleClickOutsideGuestSelector = (event) => {
-    if (this.GuestSelectorRef && !this.GuestSelectorRef.contains(event.target)) {
-      this.setState({ 
-        booking: {
-          ...this.state.booking,
-          openGuestSelect: false
-        }
-      }) 
-    }
-  }
-
-  setGuestSelectorRef = (node) => {
-    this.GuestSelectorRef = node;
-  }
-
-  handleNumGuestChange(add) {
-    let { numGuests } = this.state.booking;
-    const {max_guests} = this.props.listing;
-    return () => {
-      if( numGuests > 0) {
-        if(add && numGuests < max_guests) {
-          this.setState({
-            booking: {
-              ...this.state.booking,
-              numGuests: ++numGuests
-            }
-          })
-        } else if(numGuests > 1 && !add) {
-          this.setState({
-            booking: {
-              ...this.state.booking,
-              numGuests: --numGuests
-            }
-          })  
-        }
-      }
-    }
-  }
-
-  handleBooking = () => {
-    const { 
-      receiveMessages, 
-      toggleLoginModal,
-      createBooking, 
-      userId 
-    } = this.props; 
-    
-    if(!userId) {
-      receiveMessages(["Please log in to make a booking"])
-      return toggleLoginModal('login', true)
-    }
-
-    const { numGuests, start_date, end_date } = this.state.booking;
-    const booking = {
-      listing_id: this.props.match.params.id,
-      guest_count: numGuests,
-      start_date,
-      end_date
-    }
-
-    return createBooking(booking).then(() => {
-      this.props.history.push(`/users/${userId}`)
-    });
-  }
+  }  
 
   render() {
     const { 
       listingLoading, 
       amenities, 
       home_types, 
-      booking_errors,
+      listing,
       reviews } = this.props;
     
     if(listingLoading) {
@@ -182,7 +80,6 @@ class Listing extends Component {
     const { 
       title, 
       address, 
-      price,
       amenity_ids, 
       home_type_id, 
       description,
@@ -196,11 +93,10 @@ class Listing extends Component {
       ownerName
     } = this.props.listing;
 
-    let { 
-      numGuests,
-      openGuestSelect
-    } = this.state.booking;
-
+    const {
+      startDate,
+      endDate
+    } = this.state;
 
     const thumbIdx = 1;
     return (
@@ -224,18 +120,22 @@ class Listing extends Component {
       </section>
       <section className="content-container--interior-page flex-container">
         <section className="listing-details-container grid--75">
-          {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 key={ht.id} className="text--maroon">{ht.name}</h6>)}
-          
-          <h2>{title} {this.props.userId == user_id && 
-            <Link to={`/listings/${id}/edit`} >(<span className="text--teal">Edit Listing</span>)</Link>}
-          </h2>
+          <div className="listing-details__header">
+            <div>
+              {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 key={ht.id} className="text--maroon">{ht.name}</h6>)}
+              <h2>{title} {this.props.userId == user_id && 
+                <Link to={`/listings/${id}/edit`} >(<span className="text--teal">Edit Listing</span>)</Link>}
+              </h2>
+              <p>{address}</p>
+              <p>Max Guests: {max_guests}</p>
+            </div>
 
-          <div className="profile-thumb-wrapper">
-            <div className="profile-thumb" style={{backgroundImage: `url(${ownerPhotoUrl})`}}></div>
-            <p className="tiny">{ownerName}</p>
-          </div>  
-          <p>{address}</p>
-          <p>Max Guests: {max_guests}</p>
+            <div className="profile-thumb-wrapper">
+              <div className="profile-thumb" style={{backgroundImage: `url(${ownerPhotoUrl})`}}></div>
+              <p className="tiny">{ownerName}</p>
+            </div>
+          </div>
+
           <hr className="hr-24"/>
           
           <p>{description}</p>
@@ -258,22 +158,16 @@ class Listing extends Component {
 
           <h5>Availability</h5>
           <DayPickerRangeController
-                startDate={this.state.availCal.startDate}
-                endDate={this.state.availCal.endDate}
-                isOutsideRange={day => isInclusivelyAfterDay(today, day)}
-                onOutsideClick={DayPickerRangeController.onOutsideClick}
-                numberOfMonths={2}
-                onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
-                onNextMonthClick={DayPickerRangeController.onNextMonthClick}
-                onDatesChange={({ startDate, endDate }) => this.setState({ 
-                  availCal: {
-                    ...this.state.availCal,
-                    startDate, 
-                    endDate
-                 } })}
-                focusedInput={null} 
-                onFocusChange={focusedInput => this.setState({ focusedInput })}
-              />
+            startDate={startDate}
+            endDate={endDate}
+            numberOfMonths={2}
+            isOutsideRange={day => isInclusivelyAfterDay(today, day)}
+            onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
+            onNextMonthClick={DayPickerRangeController.onNextMonthClick}
+            onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })}
+            focusedInput={null} 
+            onFocusChange={focusedInput => this.setState({ focusedInput })}
+          />
 
           <hr className="hr-24"/>
           {/* LOCATION */}
@@ -321,72 +215,7 @@ class Listing extends Component {
         }
         </section>
         
-        <aside className="floating-booking-container">
-          <h3 style={{fontSize: '2.2rem'}}>${price} <span className="tiny bold">per night</span></h3>
-          <SmallRating listing={this.props.listing} />
-          <hr className="hr-16"/>
-          <p className="tiny bold">Dates</p>
-          <DateRangePicker
-                startDate={this.state.booking.startDate}
-                startDateId="your_unique_start_date_id" 
-                endDate={this.state.booking.endDate}
-                endDateId="your_unique_end_date_id" 
-                startDatePlaceholderText="Check In"
-                endDatePlaceholderText="Check Out"
-                isOutsideRange={day => isInclusivelyAfterDay(today, day)}
-                enableOutsideDays={false}
-                numberOfMonths={1}
-                onDatesChange={({ startDate, endDate }) => this.setState({
-                    booking: {
-                      ...this.state.booking,
-                      startDate, 
-                      endDate, 
-                      start_date: startDate && moment(startDate).format('YYYY-MM-DD HH:mm:00'),
-                      end_date: endDate && moment(endDate).format('YYYY-MM-DD HH:mm:00'), 
-                    } 
-                  })  
-                } 
-                focusedInput={this.state.booking.focusedInput} 
-                onFocusChange={this.onFocusChange} 
-              />
-              <div 
-                className="guest-input-wrapper"
-                ref={this.setGuestSelectorRef} >
-                
-                <p className="tiny bold">Guests</p>
-                <input 
-                  type="text" 
-                  className="text-input"
-                  placeholder="1 guest" 
-                  value={`${numGuests} guest${numGuests > 1 ? 's' : ''}`} 
-                  ref={(input) => this.guestSelect = input}
-                  readOnly       
-                  onFocus={() => this.setState({
-                    booking: {
-                      ...this.state.booking,
-                      openGuestSelect: !openGuestSelect, 
-                      openDatePicker:false
-                    }
-                  })}
-                  />
-                {openGuestSelect && 
-                <div className='guest-select-container flex-container' >
-                  <p>Adults</p>
-                  <button className={`button add-subtract sub ${numGuests == 1 ? 'disabled' :''}`} onClick={this.handleNumGuestChange(false)}></button>
-                  <span className="guest-count">{numGuests}</span>
-                  <button className={`button add-subtract add ${numGuests == max_guests ? 'disabled' :''}`} onClick={this.handleNumGuestChange(true)}></button>
-                </div>}
-              </div>
-              <button className="button--submit" onClick={this.handleBooking}>Book</button>
-              { !isEmpty(booking_errors) && (
-                <>
-                <ul className="session-errors">
-                  {booking_errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
-                </>
-                ) 
-              }
-        </aside>
+        <ListingSidebar listing={listing} />
       </section>
         
       </>
@@ -399,7 +228,6 @@ const msp = (state, props) => ({
   listing: state.entities.listings[props.match.params.id],
   listingLoading: state.ui.listingLoading,
   amenities: state.entities.amenities,
-  booking_errors: state.errors.booking,
   home_types: state.entities.home_types,
   reviews: state.entities.reviews
 })
@@ -407,10 +235,6 @@ const msp = (state, props) => ({
 const mdp = dispatch => ({
   fetchListing: id => dispatch(fetchListing(id)),
   fetchListingReviews: (listingId) => dispatch(fetchListingReviews(listingId)),
-  createBooking: (booking) => dispatch(createBooking(booking)),
-  toggleLoginModal: (modal, bool) => dispatch(toggleLoginModal(modal,bool)),
-  receiveMessages: (messages) => dispatch(receiveMessages(messages))
-
 })
 
 export default withRouter(connect(msp,mdp)(Listing));

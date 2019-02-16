@@ -1,7 +1,7 @@
 import React from 'react';
 import Rating from 'react-rating';
 
-const UserReviewsReview = ({review}) => {
+const UserReview = ({review}) => {
    const {
      review_body, 
      rating, 
@@ -32,4 +32,4 @@ const UserReviewsReview = ({review}) => {
     );
 };
 
-export default UserReviewsReview;
+export default UserReview;

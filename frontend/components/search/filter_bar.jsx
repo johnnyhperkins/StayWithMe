@@ -35,7 +35,6 @@ class SearchFilterBar extends Component {
   
   handleClickOutsideGuestSelector = (event) => {
       if (this.GuestSelectorRef && !this.GuestSelectorRef.contains(event.target)) {
-        // this.setState({openGuestSelect: false})
         this.props.handleOpenGuestSelect();
       }
   }

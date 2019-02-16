@@ -1,20 +1,18 @@
 import { 
   RECEIVE_LISTING, 
   RECEIVE_LISTINGS, 
-  REMOVE_LISTING,  
+  REMOVE_LISTING
 } from '../actions/listings';
 
-import {RECEIVE_REVIEW} from '../actions/reviews'; 
+import { RECEIVE_REVIEW } from '../actions/reviews'; 
 
 import merge from 'lodash/merge';
-
 
 export const listings = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_LISTINGS:
-      return !!action.listings ? action.listings : {}
-
+      return !!action.listings ? action.listings : state
     
     case RECEIVE_LISTING:
       return merge({}, 
@@ -23,6 +21,7 @@ export const listings = (state = {}, action) => {
           [action.listing.id]: action.listing
         }
       )
+    
     case RECEIVE_REVIEW:
       let newerState = merge({},state);
       let listing = newerState[action.review.listing_id];

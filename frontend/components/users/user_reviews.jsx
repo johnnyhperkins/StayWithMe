@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import {fetchUserReviews} from '../../actions/reviews'
 import Loading from '../misc/loading'
-import UserReviewsReview from './user_reviews_review';
+import UserReview from './user_review';
 
 class UserReviews extends Component {
   componentDidMount() {
-    this.props.fetchUserReviews(this.props.userId)
+    this.props.fetchUserReviews(this.props.user.id)
   }
+  
   render() {
     const { 
       reviewsLoading, 
@@ -22,9 +23,9 @@ class UserReviews extends Component {
         <div className="grid--75__header">
           <p>Reviews</p>
         </div>
-        <div className="form-wrapper user-reviews-container">
+        <div className="content-container--profile user-reviews-container">
           {reviews.length ? 
-            reviews.map(review => <UserReviewsReview key={review.id} review={review} />)
+            reviews.map(review => <UserReview key={review.id} review={review} />)
             :
             <h3>You have not made any reviews</h3>
           }

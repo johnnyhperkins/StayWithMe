@@ -20,10 +20,10 @@
 .button--cancel {
     @extend .button;
     width: 100%;
-    background: #fff;
     font-weight: 300;
     color:#666;
     margin-top: 1.6rem;
+    border: 1px solid $light-gray;
 }
 
 .button--outlined {
@@ -63,6 +63,13 @@
     padding:0;
     border:none;
     color: $teal;
+}
+
+.button--teal-inline {
+    @extend .button;
+    background: teal;
+    color: #fff;
+    margin-right: $s-size;
 }
 
 .button--submit {
@@ -146,7 +153,18 @@
     .button--submit {
         width: auto;
         padding: 1.3rem 2.7rem;
-        margin-top:2.4rem;
+        margin-top: 2.4rem;
     }
     
+}
+
+.button--toggle-panel {
+    margin-right: $m-size;
+    cursor: pointer;    
+    color: $gray;
+}
+
+.button--toggle-panel.active {
+    text-decoration:underline;
+    color: $teal;
 }

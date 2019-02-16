@@ -1,19 +1,3 @@
-# POST /api/bookings - create a booking
-# PATCH /api/bookings/:id - updates a booking
-# PATCH /api/bookings/:id/approved - updates to approved status for a booking
-# PATCH /api/bookings/:id/denied - updates to denied status for a booking
-# PATCH /api/bookings/:id/pending - updates to pending status for a booking
-# DELETE /api/bookings/:id - deletes a booking
-# GET /api/listings/:listing_id/bookings/ - returns all bookings for a listing
-
-# user creates a booking with a pending status
-# booking dates are checked against the listing availabilites join table
-# owner of the listing sees a booking has been requested
-
-# if there's no conflict change status to 'approved' and attach the booking to the listing
-# if theres a conflict change status to 'denied'
-
-
 class Api::BookingsController < ApplicationController
   before_action :require_logged_in, only: [:index, :create, :destroy, :update]
 
@@ -25,32 +9,48 @@ class Api::BookingsController < ApplicationController
   def valid_booking?(booking)
     listing_available?(booking.listing_id, booking.start_date, booking.end_date) &&
     booking.guest_count <= booking.listing.max_guests &&
+
     # check if a request from user for same dates/listing doesn't already exisit
     Booking.where(user_id: booking.user_id)
-      .where(listing_id: booking.listing_id)
-      .where.not('start_date > :end_date OR end_date < :start_date', 
-        start_date: booking.start_date, end_date: booking.end_date).empty?
+           .where(listing_id: booking.listing_id)
+           .where.not('start_date > :end_date OR end_date < :start_date', 
+            start_date: booking.start_date, end_date: booking.end_date).empty?
   end
   
+  def update_status
+    @booking = current_user.listings.find(params[:listing_id]).bookings.find(params[:booking_id])
+    if @booking
+      @booking.status = params[:status]
+      @booking.save
+      render 'api/bookings/show'
+    else
+      render json: ['You don\'t have permission to update this booking'], status: 409
+    end
+  end
+
   def create
     @booking = Booking.new(booking_params)
     @booking.user_id = current_user.id;
-    if valid_booking?(@booking)
-      if @booking.save
-        render 'api/bookings/show'
-      else 
-        render json: @booking.errors.full_messages, status: 409
+    if @booking.start_date && @booking.end_date
+      if valid_booking?(@booking)
+        if @booking.save
+          render 'api/bookings/show'
+        else 
+          render json: @booking.errors.full_messages, status: 409
+        end
+      else
+        render json: ['Dates are unavailable'], status: 409
       end
     else
-      render json: ['Dates are unavailable'], status: 409
+      render json: ['Please select dates'], status: 409
     end
   end
 
   def update 
-    @booking = current_user.bookings.find(params[:id]);
+    # if the owner of the listing is approving
+    @booking = current_user.listings.find(params[:booking][:listing_id]).bookings.find(params[:id])
     if @booking
       if @booking.update_attributes(booking_params);
-       
         render 'api/bookings/show'
       else 
         render json: @booking.errors.full_messages, status: 409
@@ -74,6 +74,10 @@ class Api::BookingsController < ApplicationController
       @bookings = Booking.where(user_id: params[:user_id].to_i)
     elsif params[:listing_id]
       @bookings = Booking.where(listing_id: params[:listing_id].to_i)
+    elsif params[:ids]
+      # debugger
+      ids = params[:ids].map(&:to_i)
+      @bookings = Booking.where(id: ids)
     else
       @bookings = []
     end

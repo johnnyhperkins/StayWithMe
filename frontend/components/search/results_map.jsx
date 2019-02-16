@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import MarkerManager from './marker_manager';
 
@@ -97,4 +98,4 @@ class SearchResultsMap extends Component {
   }
 }
 
-export default SearchResultsMap
+export default withRouter(SearchResultsMap)

@@ -13,7 +13,10 @@ Rails.application.routes.draw do
     post '/listings/:listing_id/reviews', to: 'reviews#index'
 
     resources :bookings, only: [:create, :index, :update, :destroy]
+    post '/bookings/ids', to: 'bookings#index'
     get '/listings/:listing_id/bookings', to: 'bookings#index'
+    patch '/bookings/:id/:status', to: 'bookings#update_status'
+    
   end
   root to: 'static_pages#root'
 end

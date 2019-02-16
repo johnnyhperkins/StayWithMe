@@ -26,8 +26,22 @@ export const updateBooking = booking => dispatch => {
   (e) => dispatch(receiveBookingErrors(e.responseJSON)))
 };
 
+export const updateBookingStatus = (id, status) => dispatch => {
+  return ApiBookingsUtil.updateBookingStatus(id, status).then(booking => {
+    return dispatch(receiveBooking(booking));
+  },
+  (e) => dispatch(receiveBookingErrors(e.responseJSON)))
+};
+
 export const fetchListingBookings = listing_id => dispatch => {
   return ApiBookingsUtil.fetchListingBookings(listing_id).then(bookings => {
+    return dispatch(receiveBookings(bookings));
+  },
+  (e) => dispatch(receiveBookingErrors(e.responseJSON)))
+};
+
+export const fetchBookingsByIds = ids => dispatch => {
+  return ApiBookingsUtil.fetchBookingsByIds(ids).then(bookings => {
     return dispatch(receiveBookings(bookings));
   },
   (e) => dispatch(receiveBookingErrors(e.responseJSON)))
@@ -45,7 +59,7 @@ const receiveBooking = (booking) => ({
   booking
 });
 
-const receiveBookings = ({bookings}) => ({
+export const receiveBookings = ({bookings}) => ({
   type: RECEIVE_BOOKINGS,
   bookings
 });
@@ -55,7 +69,7 @@ const removeBooking = (id) => ({
   id
 });
 
-const receiveBookingErrors = (errors) => ({
+export const receiveBookingErrors = (errors) => ({
   type: RECEIVE_BOOKING_ERRORS,
   errors
 })

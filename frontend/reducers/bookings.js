@@ -1,7 +1,7 @@
 import { 
   RECEIVE_BOOKING,
   RECEIVE_BOOKINGS,
-  REMOVE_BOOKING, 
+  REMOVE_BOOKING
 } from '../actions/bookings';
 
 import merge from 'lodash/merge';
@@ -11,7 +11,7 @@ export const bookings = (state = {}, action) => {
   switch (action.type) {
 
     case RECEIVE_BOOKINGS:
-      return !!action.bookings ? action.bookings : {}
+      return !!action.bookings ? action.bookings : state
 
     case RECEIVE_BOOKING:
       return merge({}, 

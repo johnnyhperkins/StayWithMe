@@ -77,7 +77,6 @@ class Api::ListingsController < ApplicationController
         map_listings = Listing.in_bounds(bounds)
 
         if start_date && end_date && !map_listings.empty?
-          p '------->> start, end and listings not empty'
 
           map_listings.each do |listing|
             if ( listing.within_dates?(start_date, end_date) )
@@ -89,7 +88,6 @@ class Api::ListingsController < ApplicationController
           return @listings = filtered_listings
         end  
       end
-      p '-------->>>>> only returning map listings'
       @listings = map_listings
     end
 
@@ -122,8 +120,5 @@ class Api::ListingsController < ApplicationController
     params[:query][:sample] if params[:query] && params[:query][:sample]
   end
 
-  # def bounds
-  #   params[:bounds]
-  # end
 end
 

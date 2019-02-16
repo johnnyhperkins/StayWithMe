@@ -162,7 +162,7 @@
     top: 53px;
     left:120px;
     padding-bottom: 40px;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.09);
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 6px, rgba(0, 0, 0, 0.07) 0px 0px 0px 1px !important;
   }
   .filter-active {
     background-color: $teal;

@@ -88,16 +88,3 @@
       font-size: $font-s;
   }
 }
-
-.profile-thumb-wrapper {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-.profile-thumb {
-  min-width: 100px;
-  min-height:100px;
-  background-size:cover;
-  border-radius: 50%;
-  border: 2px solid $off-white;
-}

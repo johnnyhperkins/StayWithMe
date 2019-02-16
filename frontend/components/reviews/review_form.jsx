@@ -61,7 +61,7 @@ class ReviewForm extends Component {
           <p>Leave your review</p>
           {!isEmpty(errors) && errors.map((m, idx) => <h6 className="text--green message" key={idx} >{m}</h6>)}
         </div>
-        <div className="form-wrapper">
+        <div className="content-container--profile">
           <Rating 
             name="rating"
             className="rating-selector"

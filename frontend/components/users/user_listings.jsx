@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
+import {Link} from 'react-router-dom';
 
 import { fetchUserListings, destroyListing } from '../../actions/listings';
 import ListingListItem from './listing_list_item';
@@ -12,7 +13,7 @@ class UserListings extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchUserListings(this.props.userId)
+    this.props.fetchUserListings(this.props.user.id)
   }
 
   render() {
@@ -34,7 +35,7 @@ class UserListings extends Component {
         <div className="grid--75__header">
           <p>Your Listings</p>
         </div>
-        <div className="form-wrapper">
+        <div className="content-container--profile">
           { listings.length ? 
             <ul className="user-listings">
               {listings.map(listing => 
@@ -46,7 +47,7 @@ class UserListings extends Component {
                 listing={listing} />)}
             </ul>
             :
-            <h3>You have no listings</h3>
+            <h3>You have no listings. <Link to="/listings/new" className="text--teal">Create one</Link></h3>
           }
         </div>
       </section>

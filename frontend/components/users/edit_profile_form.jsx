@@ -1,12 +1,5 @@
-
-
-
-// TO DO: Figure out how to change passwords!
-// update the api util to allow to send picutres
+// TO DO:
 // fade out errors
-
-
-
 
 import React, { Component } from 'react';
 import { userExists } from '../../util/session_api';
@@ -69,7 +62,7 @@ class EditProfileForm extends Component {
     return updateUser(formData).then(() => {
       this.setState({password: ''})
     }, (e) => {
-
+      console.log(e);
     });
   }
 
@@ -120,7 +113,7 @@ class EditProfileForm extends Component {
           <p>Required</p>
           {!isEmpty(messages) && messages.map((m, idx) => <h6 className="text--green message" key={idx} >{m}</h6>)}
         </div>
-        <div className="form-wrapper">
+        <div className="content-container--profile">
 
         
         
@@ -198,20 +191,15 @@ class EditProfileForm extends Component {
   }
 }
 
-const mdp = (dispatch) => {
-    return {
-    updateUser: user => dispatch(updateUser(user)),
-    receiveSessionErrors: errors => dispatch(receiveSessionErrors(errors)),
-    receiveMessages: messages => dispatch(receiveMessages(messages))
-  }
-}
+const mdp = (dispatch) => ({  
+  updateUser: user => dispatch(updateUser(user)),
+  receiveSessionErrors: errors => dispatch(receiveSessionErrors(errors)),
+  receiveMessages: messages => dispatch(receiveMessages(messages))
+})
 
-const msp = (state, props) => {
-  return {
-      errors: state.errors.session,
-      user: state.entities.users[props.userId],
-      messages: state.ui.messages
-  }
-}
+const msp = (state) => ({
+  errors: state.errors.session,
+  messages: state.ui.messages
+})
 
 export default connect(msp,mdp)(EditProfileForm)

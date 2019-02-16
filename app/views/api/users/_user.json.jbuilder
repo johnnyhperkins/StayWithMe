@@ -3,9 +3,7 @@
 json.extract! user, :id, :username, :email, :created_at
 
 if user.listings
-  json.listing_ids do
-    json.array! user.listings, :id  
-  end
+  json.listing_ids user.listings.ids
 end
 
 if user.photo.attached? 
@@ -13,7 +11,5 @@ if user.photo.attached?
 end
 
 if user.reviews
-  json.review_ids do
-    json.array! user.reviews, :id
-  end
+  json.review_ids user.reviews.ids
 end
