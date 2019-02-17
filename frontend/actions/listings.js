@@ -17,6 +17,7 @@ export const createListing = listing => dispatch => {
 };
 
 export const queryListings = query => dispatch => {
+  console.log('action queryListings', query);
   return ApiListingsUtil.queryListings(query).then(listings => {
     return dispatch(receiveListings(listings));
   },

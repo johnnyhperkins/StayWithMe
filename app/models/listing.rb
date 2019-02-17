@@ -40,8 +40,10 @@ class Listing < ApplicationRecord
   
   def within_dates?(start_date, end_date)
     self.listing_availabilities.each do |la| 
-      return la.start_date <= start_date && end_date <= la.end_date
+      # debugger
+      return true if la.start_date <= start_date && end_date <= la.end_date
     end
+    false
   end
 
   def get_availability_range

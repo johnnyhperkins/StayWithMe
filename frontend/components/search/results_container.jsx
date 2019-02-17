@@ -68,7 +68,7 @@ class SearchResultContainer extends Component {
 
   render() {
     const { listings, searching } = this.props;
-    
+    console.log(listings);
     // if(searching) {
     //   return <Loading />
     // }

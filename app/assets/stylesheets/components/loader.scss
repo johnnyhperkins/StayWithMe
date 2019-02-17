@@ -13,3 +13,98 @@
     height:6rem;
     width:6rem;
 }
+
+.loader2-wrapper {
+    position: relative;
+    height: 100px;
+}
+
+.loader2 {
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    -webkit-transform: translateX(-50%) translateY(-50%) !important;
+    -ms-transform: translateX(-50%) translateY(-50%) !important;
+    transform: translateX(-50%) translateY(-50%) !important;
+}
+
+.loader2-dot1 {
+    background-color: var(--color-loader-dots-default, #008489) !important;
+    border-radius: 100% !important;
+    display: inline-block !important;
+    -webkit-animation-name: keyframe_fading !important;
+    animation-name: keyframe_fading !important;
+    -webkit-animation-duration: 0.8s !important;
+    animation-duration: 0.8s !important;
+    -webkit-animation-iteration-count: infinite !important;
+    animation-iteration-count: infinite !important;
+    -webkit-animation-timing-function: linear !important;
+    animation-timing-function: linear !important;
+    -webkit-animation-fill-mode: both !important;
+    animation-fill-mode: both !important;
+    vertical-align: middle !important;
+    width: 12px !important;
+    height: 12px !important;
+    margin-right: 8px !important;
+    background-color: #008489 !important;
+    -webkit-animation-delay: -0.3s !important;
+    animation-delay: -0.3s !important;
+}
+
+.loader2-dot2 {
+    border-radius: 100% !important;
+    display: inline-block !important;
+    -webkit-animation-name: keyframe_fading !important;
+    animation-name: keyframe_fading !important;
+    -webkit-animation-duration: 0.8s !important;
+    animation-duration: 0.8s !important;
+    -webkit-animation-iteration-count: infinite !important;
+    animation-iteration-count: infinite !important;
+    -webkit-animation-timing-function: linear !important;
+    animation-timing-function: linear !important;
+    -webkit-animation-fill-mode: both !important;
+    animation-fill-mode: both !important;
+    vertical-align: middle !important;
+    width: 12px !important;
+    height: 12px !important;
+    margin-right: 8px !important;
+    background-color: #008489 !important;
+    -webkit-animation-delay: -0.15s !important;
+    animation-delay: -0.15s !important;
+}
+
+.loader2-dot3 {
+    border-radius: 100% !important;
+    display: inline-block !important;
+    -webkit-animation-name: keyframe_fading !important;
+    animation-name: keyframe_fading !important;
+    -webkit-animation-duration: 0.8s !important;
+    animation-duration: 0.8s !important;
+    -webkit-animation-iteration-count: infinite !important;
+    animation-iteration-count: infinite !important;
+    -webkit-animation-timing-function: linear !important;
+    animation-timing-function: linear !important;
+    -webkit-animation-fill-mode: both !important;
+    animation-fill-mode: both !important;
+    vertical-align: middle !important;
+    width: 12px !important;
+    height: 12px !important;
+    margin-right: 8px !important;
+    background-color: #008489 !important;
+}
+
+@keyframes keyframe_fading {
+    0%, 80%, 100% {
+        opacity: 0;
+    }
+
+    30%, 50% {
+        opacity: 1;
+    }
+}

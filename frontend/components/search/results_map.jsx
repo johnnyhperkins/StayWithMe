@@ -26,7 +26,7 @@ class SearchResultsMap extends Component {
 
   componentDidUpdate(prevProps) {
     const { query, listings } = this.props;
-    if(_.isUndefined(listings)) {
+    if(_.isUndefined(listings) || _.isEmpty(listings)) {
         this.MarkerManager.emptyMarkers();
     }
     if( !_.isEqual(prevProps.listings, listings) ) {
@@ -88,10 +88,7 @@ class SearchResultsMap extends Component {
   }
 
   render() {
-    // const { query } = this.props;
-    // if(!query) {
-    //   return <Loading />
-    // } 
+    
     return (
       <div id="search-results-map" ref={map => this.mapNode = map}></div>
     )

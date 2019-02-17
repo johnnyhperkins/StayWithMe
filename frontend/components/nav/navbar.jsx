@@ -41,6 +41,18 @@ class NavBar extends Component {
     }
   }
 
+  componentDidMount() {
+    const { location } = this.props
+    if(location.pathname == "/search") {
+      const query = queryString.parse(location.search);
+      this.setState({
+        numGuests: query.max_guests,
+        startDate: moment(query.start_date),
+        endDate: moment(query.end_date),
+      })
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { location } = this.props
 

@@ -36,26 +36,23 @@
   padding-left:20px;
 }
 
-.CalendarDay {
-  border: 2px solid rgb(255, 255, 255);
-  border-radius: 7px;
-}
-
-.CalendarDay__selected_span {
-  background: $teal!important;
-  color: #fff;
-}
-
-.CalendarDay__selected_span:active, 
-.CalendarDay__selected_span:hover, 
-.CalendarDay__default:hover,
-.CalendarDay__default:active {
-  border: 2px solid rgb(255, 255, 255);
-}
-
-
-
 .listing-details-container {
+  .CalendarDay {
+    border: 2px solid rgb(255, 255, 255);
+    border-radius: 7px;
+  }
+  
+  .CalendarDay__selected_span {
+    background: $teal!important;
+    color: #fff;
+  }
+  
+  .CalendarDay__selected_span:active, 
+  .CalendarDay__selected_span:hover, 
+  .CalendarDay__default:hover,
+  .CalendarDay__default:active {
+    border: 2px solid rgb(255, 255, 255);
+  }
   .CalendarDay__blocked_calendar,
   .CalendarDay__blocked_out_of_range {
     color: rgb(216, 216, 216)!important;

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import SearchListItem from './results_list_item';
+import Loading from '../misc/loading';
 
 class SearchResultsList extends Component {
   constructor(props) {
@@ -8,7 +9,10 @@ class SearchResultsList extends Component {
 
   render() {    
     const listingsArray = Object.values(this.props.listings);
-     
+    const { searching } = this.props
+    if(searching) {
+      return <Loading />
+    } 
     return (
       <section className="search-index-container">
         {listingsArray.map(listing => {
