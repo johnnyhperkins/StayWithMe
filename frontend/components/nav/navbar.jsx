@@ -24,7 +24,7 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
     const query = props.location.pathname == "/search" ? queryString.parse(this.props.location.search) : null;
-    
+    debugger
     this.state = {
       address: '',
       lat: query && query.lat ? parseFloat(query.lat) : 0,
@@ -36,22 +36,24 @@ class NavBar extends Component {
       openGuestSelect: false,
       focusedInput: 'startDate',
       calendarFocused: null,
+      // startDate: query && query.start_date ? moment(query.start_date) : moment().format('YYYY-MM-DD'),
+      // endDate: query && query.end_date ? moment(query.end_date) : moment().add(2, 'days').format('YYYY-MM-DD'),
       startDate: '',
-      endDate: '',
+      endDate: ''
     }
   }
 
-  componentDidMount() {
-    const { location } = this.props
-    if(location.pathname == "/search") {
-      const query = queryString.parse(location.search);
-      this.setState({
-        numGuests: query.max_guests,
-        startDate: moment(query.start_date),
-        endDate: moment(query.end_date),
-      })
-    }
-  }
+  // componentDidMount() {
+  //   const { location } = this.props
+  //   if(location.pathname == "/search") {
+  //     const query = queryString.parse(location.search);
+  //     this.setState({
+  //       numGuests: query.max_guests,
+  //       startDate: moment(query.start_date),
+  //       endDate: moment(query.end_date),
+  //     })
+  //   }
+  // }
 
   componentDidUpdate(prevProps, prevState) {
     const { location } = this.props
@@ -111,10 +113,11 @@ class NavBar extends Component {
           end_date,
           max_guests: numGuests
         })
-        this.props.history.push({
-          pathname: '/search', 
-          search: `?${urlString}`
-        })
+        return window.location = '/#/search?' + urlString;
+        // this.props.history.push({
+        //   pathname: '/search', 
+        //   search: `?${urlString}`
+        // })
       })
       
     } else if(!address) {

@@ -15,7 +15,7 @@ import Loading from '../misc/loading';
 class SearchResultContainer extends Component {
   constructor(props) {
     super(props);
-    //have default lat lng be new york?
+
     this.state = {
       bounds: {},
       lat: 40.75317389843926,
@@ -68,10 +68,6 @@ class SearchResultContainer extends Component {
 
   render() {
     const { listings, searching } = this.props;
-    console.log(listings);
-    // if(searching) {
-    //   return <Loading />
-    // }
 
     const resultsCount = listings.length;
     

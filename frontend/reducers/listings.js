@@ -16,7 +16,7 @@ export const listings = (state = {}, action) => {
       //   state, 
       //   action.bookings
       // )
-      return !!action.listings ? action.listings : state
+      return !!action.listings ? action.listings : {}
     
     case RECEIVE_LISTING:
       return merge({}, 

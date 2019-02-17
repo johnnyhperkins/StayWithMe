@@ -1,8 +1,6 @@
 const path = require('path');
-// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = () => {
-  // const CSSExtract = new MiniCssExtractPlugin({ filename: 'styles.css' })
   return {
     entry: './frontend/index.jsx',
     mode: 'development',

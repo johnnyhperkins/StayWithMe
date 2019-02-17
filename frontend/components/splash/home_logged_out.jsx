@@ -3,13 +3,16 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import 'react-dates/initialize';
 import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
-import moment from 'moment';
-import {receiveSearchQuery } from '../../actions/ui';
-import SearchIcon from '../../static_assets/search_icon';
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import moment from 'moment';
+import queryString from 'query-string';
+
+import {receiveSearchQuery } from '../../actions/ui';
+import SearchIcon from '../../static_assets/search_icon';
+
 
 const today = moment();
 
