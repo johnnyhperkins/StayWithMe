@@ -51,6 +51,7 @@ class Api::BookingsController < ApplicationController
     @booking = current_user.listings.find(params[:booking][:listing_id]).bookings.find(params[:id])
     if @booking
       if @booking.update_attributes(booking_params);
+        @booking.approve!
         render 'api/bookings/show'
       else 
         render json: @booking.errors.full_messages, status: 409

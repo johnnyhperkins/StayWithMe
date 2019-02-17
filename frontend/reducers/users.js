@@ -8,7 +8,6 @@ const usersReducer = (state = defaultState, action) => {
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
       let user = action.user;
-      user.listing_ids = user.listing_ids.map(idObj => idObj.id);
       return merge({}, 
         state, { [user.id]: user }
       ) 

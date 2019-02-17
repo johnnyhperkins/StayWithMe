@@ -22,6 +22,7 @@
     "react-s3-uploader": "^4.8.0",
     "react-select": "^2.3.0",
     "react-slick": "^0.23.2",
+    "react-sticky-box": "^0.8.0",
     "redux": "^4.0.1",
     "redux-thunk": "^2.3.0",
     "slick-carousel": "^1.8.1",

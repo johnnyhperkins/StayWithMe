@@ -43,4 +43,12 @@ class Listing < ApplicationRecord
       return la.start_date <= start_date && end_date <= la.end_date
     end
   end
+
+  def get_availability_range
+    date_range = {start_date: '', end_date: ''}
+    sorted_listing_availabilities = self.listing_availabilities.order(:start_date)
+    date_range[:start_date] = sorted_listing_availabilities.first.start_date
+    date_range[:end_date] = sorted_listing_availabilities.last.end_date
+    date_range
+  end
 end

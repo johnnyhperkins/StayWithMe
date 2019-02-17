@@ -13,3 +13,7 @@ end
 if user.reviews
   json.review_ids user.reviews.ids
 end
+
+if user.bookings
+  json.booking_ids user.bookings.ids
+end

@@ -17,17 +17,18 @@ const ListingBookingItem = ({booking, updateBookingStatus}) => {
     return (
       <>
       <li className="booking-body"> 
-          <h5><Link to={`/listings/${listing_id}`}>{listing_title}</Link></h5>
-          <p>{bookerName} would like to stay at your place!</p>
-          <p>Check in: {moment(start_date).format('MMM DD YYYY')}</p>
-          <p>Check out: {moment(end_date).format('MMM DD YYYY')}</p>
-          <p>Status: {status[0] + status.slice(1).toLowerCase()}</p>
-          { status == "PENDING" && 
-          <>
-          <button className="button--teal-inline grid--33" onClick={() => updateBookingStatus(booking, 'APPROVED')}>Approve</button>
-          <button className="button--cancel grid--33" onClick={() => updateBookingStatus(booking, 'DENIED')}>Deny</button>
-          </>
-          }
+        <hr className="hr-24"/>
+        <h5><Link to={`/listings/${listing_id}`}>{listing_title}</Link></h5>
+        <p>{bookerName} would like to stay at your place!</p>
+        <p>Check in: {moment(start_date).format('MMM DD YYYY')}</p>
+        <p>Check out: {moment(end_date).format('MMM DD YYYY')}</p>
+        <p>Status: {status[0] + status.slice(1).toLowerCase()}</p>
+        { status == "PENDING" && 
+        <>
+        <button className="button--teal-inline grid--33" onClick={() => updateBookingStatus(booking, 'APPROVED')}>Approve</button>
+        <button className="button--cancel grid--33" onClick={() => updateBookingStatus(booking, 'DENIED')}>Deny</button>
+        </>
+        }
       </li>
       </>
     );

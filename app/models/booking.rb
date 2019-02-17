@@ -1,3 +1,5 @@
+require 'date'
+
 # == Schema Information
 #
 # Table name: bookings
@@ -20,14 +22,28 @@ class Booking < ApplicationRecord
   belongs_to :listing
 
   def approve!
-    raise 'not pending' unless self.status == 'PENDING'
-    transaction do
-      self.status = 'APPROVED'
-      self.save!
+    # TO DO: pad the new listing availabilites by adding a day to them on either side of the booking dates
+    listing_availability = self.listing.listing_availabilities
+      .where('start_date <= :start_date AND end_date >= :end_date',
+                 start_date: self.start_date, end_date: self.end_date).first
+    
+    if (self.start_date == listing_availability.start_date && 
+        self.end_date == listing_availability.end_date)
+      return ListingAvailability.find(listing_availability.id).destroy
 
-      overlapping_pending_requests.each do |req|
-        req.update!(status: 'DENIED')
-      end
+    elsif self.start_date == listing_availability.start_date
+      listing_availability.start_date = self.end_date
+      listing_availability.save!
+    elsif self.end_date == listing_availability.end_date
+      listing_availability.end_date = self.start_date
+      listing_availability.save!
+    else
+      ListingAvailability.create(
+        listing_id: self.listing_id,
+        start_date: self.end_date,
+        end_date: listing_availability.end_date)
+      listing_availability.end_date = self.start_date
+      listing_availability.save!
     end
   end
 

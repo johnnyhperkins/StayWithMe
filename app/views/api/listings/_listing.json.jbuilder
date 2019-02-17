@@ -7,10 +7,9 @@ if listing.photos.attached?
 end
 
 if listing.listing_availabilities
-  listing.listing_availabilities.each do |la| 
-    json.start_date la.start_date
-    json.end_date la.end_date
-  end
+  date_range = listing.get_availability_range
+  json.start_date date_range[:start_date]
+  json.end_date date_range[:end_date]
 end
 
 if listing.user.photo.attached?
@@ -37,4 +36,9 @@ end
 
 if listing.bookings
   json.booking_ids listing.bookings.ids
+  if !listing.bookings.empty? 
+    json.booked_dates do
+      json.array! listing.bookings, :start_date, :end_date
+    end
+  end
 end

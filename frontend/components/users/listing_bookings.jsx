@@ -31,7 +31,7 @@ class ListingBookings extends Component {
 
     return (
       <>
-      <ListingListItem listing={listing} home_types={home_types} destroyListing={false} />
+      <ListingListItem key={listing.id} listing={listing} home_types={home_types} destroyListing={false} />
       { bookings.length ?
           bookings.map(booking => 
           <ul>

@@ -9,9 +9,12 @@ import merge from 'lodash/merge';
 export const bookings = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
-
     case RECEIVE_BOOKINGS:
       return !!action.bookings ? action.bookings : state
+      // return merge({}, 
+      //   state, 
+      //   action.bookings
+      // )
 
     case RECEIVE_BOOKING:
       return merge({}, 
@@ -22,7 +25,7 @@ export const bookings = (state = {}, action) => {
       )
         
     case REMOVE_BOOKING:
-      let newState = merge({},state);
+      let newState = merge({}, state);
       delete newState[action.id]
       return newState
 

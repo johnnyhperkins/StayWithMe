@@ -96,11 +96,11 @@
 .floating-booking-container {
   padding: 2.4rem;
   border: 1px solid $off-white;
-  position: absolute;
-  top:2.4rem;
-  right:0;
+  margin-top: 20px;
+  margin-left: 70px;
+  background: #fff;
   min-width: 370px;
-  max-width: 370p;
+  max-width: 370px;
   .DateRangePickerInput,
   .DateRangePicker {  
     width:100%;

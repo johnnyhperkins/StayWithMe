@@ -1,16 +1,17 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
-import { fetchListing } from '../../actions/listings'
-import { fetchListingReviews } from '../../actions/reviews'
-
-import Loading from '../misc/loading';
-import { isInclusivelyAfterDay, DateRangePicker, DayPickerRangeController } from 'react-dates';
-import Review from '../reviews/review';
-import ReviewForm from '../reviews/review_form';
 import moment from 'moment';
 import isEmpty from 'lodash/isEmpty';
+import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
+import { withRouter, Link } from 'react-router-dom';
+import StickyBox from "react-sticky-box";
 import Rating from 'react-rating';
+
+import { fetchListing } from '../../actions/listings'
+import { fetchListingReviews } from '../../actions/reviews'
+import Loading from '../misc/loading';
+import Review from '../reviews/review';
+import ReviewForm from '../reviews/review_form';
 import ListingSidebar from './listing_sidebar';
 
 import { AirCon } from '../../static_assets/amenity_icons';
@@ -27,13 +28,18 @@ class Listing extends Component {
     }
   }
 
+  checkBlockedDays = (day) => {
+    const { booked_dates } = this.props.listing;
+    return !!booked_dates.filter(date_range => moment(day).isBetween(date_range.start_date, date_range.end_date)).length
+  }
+
   componentDidMount() {
     const { 
       fetchListing,
       fetchListingReviews, 
     } = this.props;
-    
-    fetchListingReviews(this.props.match.params.id)
+
+    fetchListingReviews(this.props.match.params.id);
 
     fetchListing(this.props.match.params.id).then(({listing}) => {
       
@@ -161,6 +167,9 @@ class Listing extends Component {
             startDate={startDate}
             endDate={endDate}
             numberOfMonths={2}
+            noBorder
+            // horizontalMonthPadding={0}
+            isDayBlocked={day => this.checkBlockedDays(day)}
             isOutsideRange={day => isInclusivelyAfterDay(today, day)}
             onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
             onNextMonthClick={DayPickerRangeController.onNextMonthClick}
@@ -214,8 +223,9 @@ class Listing extends Component {
 
         }
         </section>
-        
-        <ListingSidebar listing={listing} />
+        <StickyBox offsetTop={80}>
+          <ListingSidebar listing={listing} />
+        </StickyBox>
       </section>
         
       </>

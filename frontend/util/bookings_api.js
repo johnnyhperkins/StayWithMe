@@ -7,15 +7,6 @@ export const createBooking = (booking) => {
   })
 };
 
-export const updateBookingStatus = (id, status) => {
-  return $.ajax({
-    url: `/api/bookings/${id}/${status}`,
-    method: "PATCH",
-    data: {id, status},
-    error: (err) => console.log(err)
-  })
-};
-
 export const updateBooking = (booking) => {
   return $.ajax({
     url: `/api/bookings/${booking.id}`,

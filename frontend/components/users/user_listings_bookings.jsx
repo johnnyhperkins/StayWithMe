@@ -21,25 +21,32 @@ class UserListingsBookings extends Component {
   render() {
     const { 
       destroyBooking, 
-      listingLoading
+      listingLoading,
+      listings
     } = this.props;
     
     if(listingLoading) {
       return <Loading />
     }
     
-    const listings = Object.values(this.props.listings).filter(listing => listing.booking_ids.length);
+    const listingsWithBookings = Object.values(listings).filter(listing => listing.booking_ids.length);
 
     return (
       <div className="bookings-panel">
-        { listings.length ?
+        { listingsWithBookings.length ?
           <>
           <ul>
-            { listings.map(listing => <ListingBookings key={`listing${listing.id}`} listing={listing} destroyBooking={destroyBooking} />) }
+            { listingsWithBookings.map(listing => 
+              <ListingBookings 
+                key={`listing${listing.id}`} 
+                listing={listing} 
+                destroyBooking={destroyBooking} />
+              ) 
+            }
           </ul>
           </>
         :
-          <h3>You don't have any listings.</h3>
+          <h4>Your listings don't have any bookings right now.</h4>
         }
       </div>
     )
