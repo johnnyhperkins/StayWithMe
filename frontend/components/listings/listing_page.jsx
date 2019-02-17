@@ -168,7 +168,6 @@ class Listing extends Component {
             endDate={endDate}
             numberOfMonths={2}
             noBorder
-            // horizontalMonthPadding={0}
             isDayBlocked={day => this.checkBlockedDays(day)}
             isOutsideRange={day => isInclusivelyAfterDay(today, day)}
             onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}

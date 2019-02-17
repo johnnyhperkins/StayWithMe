@@ -40,5 +40,7 @@ if listing.bookings
     json.booked_dates do
       json.array! listing.bookings, :start_date, :end_date
     end
+  else
+    json.booked_dates []
   end
 end

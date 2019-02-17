@@ -41,20 +41,34 @@
   border-radius: 7px;
 }
 
-.CalendarDay__default {
-  background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px);
-  color: rgb(216, 216, 216);
-}
-
 .CalendarDay__selected_span {
   background: $teal!important;
   color: #fff;
 }
 
-.CalendarDay__blocked_calendar,
-.CalendarDay__blocked_out_of_range {
-  color: rgb(216, 216, 216);
-  background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px)!important;
+.CalendarDay__selected_span:active, 
+.CalendarDay__selected_span:hover, 
+.CalendarDay__default:hover,
+.CalendarDay__default:active {
+  border: 2px solid rgb(255, 255, 255);
+}
+
+
+
+.listing-details-container {
+  .CalendarDay__blocked_calendar,
+  .CalendarDay__blocked_out_of_range {
+    color: rgb(216, 216, 216)!important;
+    background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px)!important;
+  }
+
+  .CalendarDay__default {
+    background: repeating-linear-gradient(-45deg, rgb(255, 255, 255), rgb(255, 255, 255) 3px, rgb(235, 235, 235) 3px, rgb(235, 235, 235) 4px);
+    color: rgb(216, 216, 216);
+  }
+  .CalendarDay__default.CalendarDay__selected_span {
+    color:#fff;
+  }
 }
 
 .DayPickerKeyboardShortcuts_buttonReset {
