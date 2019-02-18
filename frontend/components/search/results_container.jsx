@@ -17,44 +17,14 @@ import Loading from '../misc/loading';
 class SearchResultContainer extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      bounds: {},
-      lat: 40.75317389843926,
-      lng: -73.97239013496062,
-      start_date: moment().format('YYYY-MM-DD'),
-      end_date: moment().add(2, 'days').format('YYYY-MM-DD'),
-      numGuests: 1
-    }
   }
 
-  setQueryFilter = (bounds = {}, mapCenter = {}) => {
-    const { queryListings } = this.props;
-
+  setFilterFromURL = () => {
+    const { setFilter } = this.props;
     const query = queryString.parse(this.props.location.search)
 
-    if(!_.isEmpty(mapCenter)) {
-      query.lat = parseFloat(mapCenter.lat());
-      query.lng = parseFloat(mapCenter.lng());
-    } else {
-      query.lat = parseFloat(query.lat)
-      query.lng = parseFloat(query.lng)
-    }
+    if(_.isEmpty(query)) return this.props.history.push('/');
     
-    query.bounds = bounds
-    // debugger;
-    this.setState({
-      ...query
-    }, () => {
-      if(!_.isEmpty(this.state.bounds)) {
-        queryListings(this.state)
-      }
-    })
-  }
- 
-  componentDidMount() {
-    let query = queryString.parse(this.props.location.search)
-
     setFilter({
       lat: parseFloat(query.lat),
       lng: parseFloat(query.lng),
@@ -62,23 +32,21 @@ class SearchResultContainer extends Component {
       end_date: query.end_date, 
       max_guests: query.max_guests
     });
-    
-    if(_.isEmpty(query)) return this.props.history.push('/');
-    
-    // this.setQueryFilter()
+  }
+ 
+  componentDidMount() {
+    const { filter } = this.props;
+    if(filter.bounds) {
+      this.setFilterFromURL()
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const query = queryString.parse(this.props.location.search)
-    if(_.isEmpty(query)) return <Redirect push to="/" />
+    const { filter } = this.props;
     if(prevProps.location.search != this.props.location.search) {
-      setFilter({
-        lat: parseFloat(query.lat),
-        lng: parseFloat(query.lng),
-        start_date: query.start_date, 
-        end_date: query.end_date, 
-        max_guests: query.max_guests
-      });
+      if(filter.bounds) {
+        this.setFilterFromURL()
+      }
     }
   }
 
@@ -99,14 +67,16 @@ class SearchResultContainer extends Component {
         <section className="flush-content-container search-listings-container">
           <h3>{resultsCount ? `${resultsCount}+ home${resultsCount > 1 ? 's' : ''}` : 'No results were found for this search' }
           </h3>
-          <SearchResultsList {...this.props} />
+          <SearchResultsList 
+            listings={listings}
+            searching={searching}
+           />
           <SearchResultsMap 
             listings={listings}
             updateFilter={updateFilter}
-            query={this.state}
+            setFilter={setFilter}
             filter={filter}
             initMapLatLng={initMapLatLng}
-            
           />
         </section>
       </>
@@ -115,7 +85,6 @@ class SearchResultContainer extends Component {
 }
 
 const msp = state => ({
-  query: state.ui.query,
   searching: state.ui.searching,
   listings: Object.values(state.entities.listings),
   amenities: state.entities.amenities,
@@ -124,21 +93,8 @@ const msp = state => ({
 })
 
 const mdp = dispatch => ({
-  queryListings: (query) => dispatch(queryListings(query)),
   updateFilter: (filter,value) => dispatch(updateFilter(filter,value)),
   setFilter: (filter) => dispatch(setFilter(filter))
 })
 
 export default withRouter(connect(msp,mdp)(SearchResultContainer));
-
-
-
-
-// Would it make more sense to combine the queryListings action and the receiveSearchQuery?
-    // Or is the idea to have the query set here and trickle down to the map, which actually queries the DB?
-    // SKIP DOING IT ALL THROUGH THE STORE AND HAVE IT ALL DONE THROUGH LOCAL STATE HERE
-    // OOOR should the map just update the store, which triggers a re-render of this container, which updates the results list and the map?
-    // receiveSearchQuery(query);
-
-// fetch ALL listings within the map's bounds AND filter for numGuests, dates, etc on the server-side
-// step one is queryListings is called 

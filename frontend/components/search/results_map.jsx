@@ -32,54 +32,36 @@ class SearchResultsMap extends Component {
     if(_.isUndefined(listings) || _.isEmpty(listings)) {
       this.MarkerManager.emptyMarkers();
     }
-    if( !_.isEqual(prevProps.listings, listings) ) {
-      this.MarkerManager.updateMarkers(listings)
-    } 
+    console.log(listings);
+    this.MarkerManager.updateMarkers(listings)
+    // if( !_.isEqual(prevProps.listings, listings) ) {
+      
+    // } 
+
     if( prevProps.filter.lat !== filter.lat || 
       prevProps.filter.lng !== filter.lng ) {
       this.map.setCenter({lat:filter.lat, lng:filter.lng})   
     }
-  
-  }
-
-  calculateBounds = (gmBounds) => {
-    let bounds = {
-      'northEast': {
-        lat: 0,
-        lng: 0
-      },
-      'southWest': {
-        lat: 0,
-        lng: 0
-      }
-    }
-
-    bounds['northEast']['lat'] = gmBounds.ma.l
-    bounds['northEast']['lng'] = gmBounds.ga.j
-    bounds['southWest']['lat'] = gmBounds.ma.j
-    bounds['southWest']['lng'] = gmBounds.ga.l 
-
-    return bounds; 
   }
 
   registerListeners = () => {
-    let { 
-      // setQuery, 
-      updateFilter } = this.props;
+    let { setFilter, updateFilter } = this.props;
     google.maps.event.addListener(this.map, 'idle', () => {
       
-      //add something to update map center on search
-      const bounds = this.calculateBounds(this.map.getBounds());
-      const mapCenter = this.map.getCenter();
+      const { north, south, east, west } = this.map.getBounds().toJSON();
+      const bounds = {
+        northEast: { lat:north, lng: east },
+        southWest: { lat: south, lng: west } };
+
       updateFilter('bounds', bounds);
-      setFilter({
-        bounds, 
-        lat: mapCenter.lat(),
-        lng: mapCenter.lng()
-      })
+      // const mapCenter = this.map.getCenter();
+      // debugger;
       
-      // setQuery(bounds, mapCenter)
-      
+      // setFilter({
+      //   bounds, 
+      //   lat: mapCenter.lat(),
+      //   lng: mapCenter.lng()
+      // })
     });
 
     google.maps.event.addListener(this.map, 'click', (event) => {
