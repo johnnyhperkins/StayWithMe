@@ -20,6 +20,8 @@ import {
 import { logout } from '../../actions/sessions';
 import SearchFilterBar from '../search/filter_bar';
 
+import { updateFilter, setFilter } from '../../actions/filters';
+
 class NavBar extends Component {
   constructor(props) {
     super(props);
@@ -98,10 +100,20 @@ class NavBar extends Component {
       numGuests 
     } = this.state;
 
+    const { setFilter } = this.props;
+
     if( start_date && 
         end_date && 
         ( (lat > 0 && lng > 0) || address ) ) {
-      // update the store with the query or just use the url?
+      
+      setFilter({
+        lat,
+        lng,
+        start_date, 
+        end_date, 
+        max_guests: numGuests
+      });
+      
       this.setState({
         openDatePicker: false,
         openGuestSelect: false
@@ -114,10 +126,6 @@ class NavBar extends Component {
           max_guests: numGuests
         })
         return window.location = '/#/search?' + urlString;
-        // this.props.history.push({
-        //   pathname: '/search', 
-        //   search: `?${urlString}`
-        // })
       })
       
     } else if(!address) {
@@ -301,14 +309,16 @@ const msp = (state) => ({
   session: state.session,
   loggedIn: Boolean(state.session.id),
   sessionModalOpen: state.ui.sessionModalOpen,
-  sessionModalType: state.ui.sessionModalType
+  sessionModalType: state.ui.sessionModalType,
+  filter: state.filters
 })
 
 const mdp = (dispatch) => ({
   logout: () => dispatch(logout()),
   changeFormType: (formType) => dispatch(changeFormType(formType)),
   receiveSearchQuery: (query) => dispatch(receiveSearchQuery(query)),
-  toggleLoginModal: (modal,bool) => dispatch(toggleLoginModal(modal,bool))
+  toggleLoginModal: (modal,bool) => dispatch(toggleLoginModal(modal,bool)),
+  setFilter: (filter) => dispatch(setFilter(filter))
 })
 
 export default withRouter(connect(msp, mdp)(NavBar))

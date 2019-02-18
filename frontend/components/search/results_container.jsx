@@ -5,6 +5,8 @@ import queryString from 'query-string';
 import _ from 'lodash';
 import moment from 'moment';
 
+import { updateFilter, setFilter } from '../../actions/filters';
+
 import { queryListings } from '../../actions/listings'
 import SearchResultsMap from './results_map';
 import SearchResultsList from './results_list';
@@ -26,7 +28,7 @@ class SearchResultContainer extends Component {
     }
   }
 
-  setQuery = (bounds = {}, mapCenter = {}) => {
+  setQueryFilter = (bounds = {}, mapCenter = {}) => {
     const { queryListings } = this.props;
 
     const query = queryString.parse(this.props.location.search)
@@ -52,22 +54,43 @@ class SearchResultContainer extends Component {
  
   componentDidMount() {
     let query = queryString.parse(this.props.location.search)
+
+    setFilter({
+      lat: parseFloat(query.lat),
+      lng: parseFloat(query.lng),
+      start_date: query.start_date, 
+      end_date: query.end_date, 
+      max_guests: query.max_guests
+    });
     
     if(_.isEmpty(query)) return this.props.history.push('/');
     
-    this.setQuery()
+    // this.setQueryFilter()
   }
 
   componentDidUpdate(prevProps) {
     const query = queryString.parse(this.props.location.search)
     if(_.isEmpty(query)) return <Redirect push to="/" />
     if(prevProps.location.search != this.props.location.search) {
-      this.setQuery();
+      setFilter({
+        lat: parseFloat(query.lat),
+        lng: parseFloat(query.lng),
+        start_date: query.start_date, 
+        end_date: query.end_date, 
+        max_guests: query.max_guests
+      });
     }
   }
 
   render() {
-    const { listings, searching } = this.props;
+    const { listings, updateFilter, searching, filter } = this.props;
+
+    const query = queryString.parse(this.props.location.search)
+
+    const initMapLatLng = {
+      lat: parseFloat(query.lat),
+      lng: parseFloat(query.lng)
+    }
 
     const resultsCount = listings.length;
     
@@ -78,9 +101,11 @@ class SearchResultContainer extends Component {
           </h3>
           <SearchResultsList {...this.props} />
           <SearchResultsMap 
-            listings={listings} 
-            query={this.state} 
-            setQuery={this.setQuery} 
+            listings={listings}
+            updateFilter={updateFilter}
+            query={this.state}
+            filter={filter}
+            initMapLatLng={initMapLatLng}
             
           />
         </section>
@@ -94,11 +119,14 @@ const msp = state => ({
   searching: state.ui.searching,
   listings: Object.values(state.entities.listings),
   amenities: state.entities.amenities,
-  home_types: state.entities.home_types
+  home_types: state.entities.home_types,
+  filter: state.filters
 })
 
 const mdp = dispatch => ({
   queryListings: (query) => dispatch(queryListings(query)),
+  updateFilter: (filter,value) => dispatch(updateFilter(filter,value)),
+  setFilter: (filter) => dispatch(setFilter(filter))
 })
 
 export default withRouter(connect(msp,mdp)(SearchResultContainer));
