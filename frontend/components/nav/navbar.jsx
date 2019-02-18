@@ -38,24 +38,10 @@ class NavBar extends Component {
       openGuestSelect: false,
       focusedInput: 'startDate',
       calendarFocused: null,
-      startDate: query && query.start_date ? moment(query.start_date) : moment().format('YYYY-MM-DD'),
-      endDate: query && query.end_date ? moment(query.end_date) : moment().add(2, 'days').format('YYYY-MM-DD'),
-      // startDate: '',
-      // endDate: ''
+      startDate: query && query.start_date ? moment(query.start_date) : moment(),
+      endDate: query && query.end_date ? moment(query.end_date) : moment().add(2, 'days'),
     }
   }
-
-  // componentDidMount() {
-  //   const { location } = this.props
-  //   if(location.pathname == "/search") {
-  //     const query = queryString.parse(location.search);
-  //     this.setState({
-  //       numGuests: query.max_guests,
-  //       startDate: moment(query.start_date),
-  //       endDate: moment(query.end_date),
-  //     })
-  //   }
-  // }
 
   componentDidUpdate(prevProps, prevState) {
     const { location } = this.props

@@ -18,14 +18,13 @@ class SearchResultContainer extends Component {
     this.bounds = {}
   }
 
-  getBounds = (bounds) => {
-    // debugger
+  setBounds = (bounds) => {
     this.bounds = bounds;
     this.setFilterFromURL()
   }
 
   setFilterFromURL = () => {
-    const { setFilter, queryListings } = this.props;
+    const { setFilter } = this.props;
     const query = queryString.parse(this.props.location.search)
 
     const {
@@ -35,39 +34,33 @@ class SearchResultContainer extends Component {
       end_date, 
       max_guests 
     } = query;
-
+    
     if(_.isEmpty(query)) return this.props.history.push('/');
     
     if(_.isEmpty(this.bounds)) return;
 
-    queryListings({
+    setFilter({
       bounds: this.bounds,
-      lat: parseFloat(lat),
-      lng: parseFloat(lng),
-      start_date: start_date, 
-      end_date: end_date, 
-      max_guests: max_guests
-    })
-    // setFilter({
-    //   bounds: this.bounds,
-    //   lat: parseFloat(query.lat),
-    //   lng: parseFloat(query.lng),
-    //   start_date: query.start_date, 
-    //   end_date: query.end_date, 
-    //   max_guests: query.max_guests
-    // });
+      lat: parseFloat(query.lat),
+      lng: parseFloat(query.lng),
+      start_date: query.start_date, 
+      end_date: query.end_date, 
+      max_guests: query.max_guests
+    });
+
     const urlString = queryString.stringify({
-      lat,
       lng,
+      lat,
       start_date,
       end_date,
       max_guests
     })
-    window.location = '/#/search?' + urlString;
+    
+    window.location = `/#/search?${urlString}`;
   }
  
   componentDidMount() {
-    // this.setFilterFromURL()
+    this.setFilterFromURL()
   }
 
   componentDidUpdate(prevProps) {
@@ -96,7 +89,7 @@ class SearchResultContainer extends Component {
           </h3>
           <SearchResultsList {...this.props} />
           <SearchResultsMap 
-            getBounds={this.getBounds}
+            setBounds={this.setBounds}
             listings={listings}
             updateFilter={updateFilter}
             setFilter={setFilter}

@@ -29,42 +29,39 @@ class SearchResultsMap extends Component {
   componentDidUpdate(prevProps) {
     const { listings, filter } = this.props;
 
-    console.log(_.isEmpty(listings));
-
-    if(_.isUndefined(listings) || _.isEmpty(listings)) {
-      return this.MarkerManager.emptyMarkers();
-    } 
-    console.log(listings);
     this.MarkerManager.updateMarkers(listings)
-    // if( !_.isEqual(prevProps.listings, listings) ) {
-      
-    // } 
-
+    
     if( prevProps.filter.lat !== filter.lat || 
       prevProps.filter.lng !== filter.lng ) {
       this.map.setCenter({lat:filter.lat, lng:filter.lng})   
     }
   }
 
+  calculateBounds = (gmBounds) => {
+    let bounds = {
+        'northEast': {
+          lat: 0,
+          lng: 0
+        },
+        'southWest': {
+          lat: 0,
+          lng: 0
+        }
+      }
+
+      bounds['northEast']['lat'] = gmBounds.ma.l
+      bounds['northEast']['lng'] = gmBounds.ga.j
+      bounds['southWest']['lat'] = gmBounds.ma.j
+      bounds['southWest']['lng'] = gmBounds.ga.l 
+
+      return bounds; 
+  }
+
   registerListeners = () => {
-    let { setFilter, updateFilter, getBounds } = this.props;
+    let { setBounds } = this.props;
     google.maps.event.addListener(this.map, 'idle', () => {
-      
-      const { north, south, east, west } = this.map.getBounds().toJSON();
-      const bounds = {
-        northEast: { lat:north, lng: east },
-        southWest: { lat: south, lng: west } };
-      
-      getBounds(bounds);
-      // updateFilter('bounds', bounds);
-      // const mapCenter = this.map.getCenter();
-      // debugger;
-      
-      // setFilter({
-      //   bounds, 
-      //   lat: mapCenter.lat(),
-      //   lng: mapCenter.lng()
-      // })
+      const bounds = this.calculateBounds(this.map.getBounds());
+      setBounds(bounds);
     });
 
     google.maps.event.addListener(this.map, 'click', (event) => {

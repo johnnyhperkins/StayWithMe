@@ -29,8 +29,13 @@ class Listing extends Component {
   }
 
   checkBlockedDays = (day) => {
+    const { listing } = this.props;
     const { booked_dates } = this.props.listing;
-    return !!booked_dates.filter(date_range => moment(day).isBetween(date_range.start_date, date_range.end_date)).length
+    return !!booked_dates.filter(booking => 
+      moment(day).isBetween(booking.start_date, booking.end_date) && 
+      booking.status == "APPROVED").length || 
+      moment(day).isBefore(listing.start_date) ||
+      moment(day).isAfter(listing.end_date)
   }
 
   componentDidMount() {
@@ -63,10 +68,10 @@ class Listing extends Component {
       blueCircle.setMap(this.map);
 
       //set availability cal state
-      this.setState({
-        startDate: moment(listing.start_date),
-        endDate: moment(listing.end_date),
-      })
+      // this.setState({
+      //   startDate: moment(listing.start_date),
+      //   endDate: moment(listing.end_date),
+      // })
 
     }); 
   }  

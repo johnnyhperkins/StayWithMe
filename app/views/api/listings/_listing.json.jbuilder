@@ -38,7 +38,7 @@ if listing.bookings
   json.booking_ids listing.bookings.ids
   if !listing.bookings.empty? 
     json.booked_dates do
-      json.array! listing.bookings, :start_date, :end_date
+      json.array! listing.bookings, :start_date, :end_date, :status
     end
   else
     json.booked_dates []
