@@ -38,13 +38,28 @@ class Listing < ApplicationRecord
       .where("lng > ?", north_e_lng)
   end
   
-  def within_dates?(start_date, end_date)
-    self.listing_availabilities.each do |la| 
-      # debugger
-      return true if la.start_date <= start_date && end_date <= la.end_date
-    end
-    false
+  def self.query(query)
+    bounds = query[:bounds] ? query[:bounds] : false
+    start_date = query[:start_date]
+    end_date = query[:end_date]
+    max_guests = query[:max_guests] ? query[:max_guests] : 0
+    price = query[:price] ? query[:price] : 0
+
+    self.in_bounds(bounds)
+      .where('max_guests >= ?', max_guests)
+      .where('price >= ?', price)
+      .joins(:listing_availabilities)
+      .where('start_date <= ?', start_date)
+      .where('end_date >= ?', end_date)
   end
+
+  # def within_dates?(start_date, end_date)
+  #   self.listing_availabilities.each do |la| 
+  #     # debugger
+  #     return true if la.start_date <= start_date && end_date <= la.end_date
+  #   end
+  #   false
+  # end
 
   def get_availability_range
     date_range = {start_date: '', end_date: ''}

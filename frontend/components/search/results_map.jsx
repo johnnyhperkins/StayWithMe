@@ -25,6 +25,7 @@ class SearchResultsMap extends Component {
   }
 
   componentDidUpdate(prevProps) {
+    debugger
     const { query, listings } = this.props;
     if(_.isUndefined(listings) || _.isEmpty(listings)) {
         this.MarkerManager.emptyMarkers();

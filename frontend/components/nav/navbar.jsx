@@ -24,7 +24,7 @@ class NavBar extends Component {
   constructor(props) {
     super(props);
     const query = props.location.pathname == "/search" ? queryString.parse(this.props.location.search) : null;
-    debugger
+//     debugger
     this.state = {
       address: '',
       lat: query && query.lat ? parseFloat(query.lat) : 0,

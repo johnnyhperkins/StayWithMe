@@ -50,6 +50,7 @@ class Api::ListingsController < ApplicationController
   def index
     return @listings = Listing.all.limit(sample_listings) if sample_listings
     @listings = Listing.query(query_params)
+
   end
 
   def destroy
@@ -77,39 +78,3 @@ class Api::ListingsController < ApplicationController
 
 end
 
-
-
-# def index
-#   return @listings = Listing.all.limit(sample_listings) if sample_listings
-#   @listings = Listing.query(query_params)
-#   default_map_bounds = {bounds: {northEast: {lat: 40.82386146979773,lng: -74.01118555112726},southWest: {lat: 40.74223405008065,lng: -73.93131204887277}}}
-#   if query_params
-#     bounds = params[:query][:bounds]
-#     start_date = params[:query][:start_date]
-#     end_date = params[:query][:end_date]
-#     max_guests = params[:query][:max_guests]
-#     filtered_listings = []
-#     debugger
-#     if bounds
-#       map_listings = Listing.in_bounds(bounds)
-
-#       if start_date && end_date && !map_listings.empty?
-
-#         map_listings.each do |listing|
-#           if ( listing.within_dates?(start_date, end_date) )
-#             # debugger
-#             filtered_listings << listing 
-#           end
-#         end
-
-#         return @listings = filtered_listings
-#       end  
-#     end
-#     @listings = map_listings
-#   end
-
-#   if sample_listings
-#     @listings = Listing.all.limit(sample_listings)
-#   end
-
-# end
