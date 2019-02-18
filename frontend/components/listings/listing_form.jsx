@@ -340,8 +340,8 @@ class ListingForm extends Component {
                       endDate, 
                       listing: {
                         ...this.state.listing,
-                        start_date: startDate && moment(startDate).format('YYYY-MM-DD'),
-                        end_date: endDate && moment(endDate).format('YYYY-MM-DD'), 
+                        start_date: startDate && moment(startDate).format(),
+                        end_date: endDate && moment(endDate).format(), 
                       }
                     })  
                   } 
@@ -361,7 +361,7 @@ class ListingForm extends Component {
           <section className="flex-container--no-justify submit-container">
             <button 
               onClick={this.handleSubmit} 
-              className="button--submit inline-block grid--33" >
+              className="button--submit inline-block grid--33 margin-right24" >
               {this.props.savingListing ? 'Saving...' : formType}
             </button>
 

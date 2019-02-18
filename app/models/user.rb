@@ -17,11 +17,10 @@ class User < ApplicationRecord
   validates :password, length: { minimum: 6 }, allow_nil: true
   after_initialize :ensure_token
   
-  has_many :listings
-  has_many :bookings
-  has_many :reviews
-  has_one_attached :photo
-
+  has_many :listings, dependent: :destroy
+  has_many :bookings, dependent: :destroy
+  has_many :reviews, dependent: :destroy
+  has_one_attached :photo, dependent: :destroy
 
   attr_reader :password
 

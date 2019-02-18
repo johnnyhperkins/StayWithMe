@@ -29,9 +29,11 @@ class SearchResultsMap extends Component {
   componentDidUpdate(prevProps) {
     const { listings, filter } = this.props;
 
+    console.log(_.isEmpty(listings));
+
     if(_.isUndefined(listings) || _.isEmpty(listings)) {
-      this.MarkerManager.emptyMarkers();
-    }
+      return this.MarkerManager.emptyMarkers();
+    } 
     console.log(listings);
     this.MarkerManager.updateMarkers(listings)
     // if( !_.isEqual(prevProps.listings, listings) ) {
@@ -45,15 +47,16 @@ class SearchResultsMap extends Component {
   }
 
   registerListeners = () => {
-    let { setFilter, updateFilter } = this.props;
+    let { setFilter, updateFilter, getBounds } = this.props;
     google.maps.event.addListener(this.map, 'idle', () => {
       
       const { north, south, east, west } = this.map.getBounds().toJSON();
       const bounds = {
         northEast: { lat:north, lng: east },
         southWest: { lat: south, lng: west } };
-
-      updateFilter('bounds', bounds);
+      
+      getBounds(bounds);
+      // updateFilter('bounds', bounds);
       // const mapCenter = this.map.getCenter();
       // debugger;
       

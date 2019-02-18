@@ -22,10 +22,10 @@ class Listing < ApplicationRecord
   validates :user_id, :title, :address, :lat, :lng, :price,:home_type_id, :description, :max_guests, presence: true
 
   belongs_to :user
-  has_many :reviews
-  has_many :listing_availabilities
-  has_many :bookings
-  has_many_attached :photos
+  has_many :reviews, dependent: :destroy
+  has_many :listing_availabilities, dependent: :destroy
+  has_many :bookings, dependent: :destroy
+  has_many_attached :photos, dependent: :destroy
 
   def self.in_bounds(bounds)
     south_w_lat = bounds[:southWest][:lat].to_f
@@ -42,21 +42,25 @@ class Listing < ApplicationRecord
     bounds = query[:bounds] ? query[:bounds] : false
     start_date = query[:start_date]
     end_date = query[:end_date]
-    max_guests = query[:max_guests] ? query[:max_guests] : 0
+    max_guests = query[:max_guests] ? query[:max_guests].to_i : 0
     price = query[:price] ? query[:price] : 0
+    
+    return Listing.in_bounds(bounds)
     if bounds
-      self.in_bounds(bounds)
-        .where('max_guests >= ?', max_guests)
-        .where('price >= ?', price)
+      Listing.in_bounds(bounds)
         .joins(:listing_availabilities)
         .where('start_date <= ?', start_date)
         .where('end_date >= ?', end_date)
+        # .where('max_guests >= ?', max_guests)
+        # .where('price >= ?', price)
+        
     else
-      self.where('max_guests >= ?', max_guests)
-        .where('price >= ?', price)
-        .joins(:listing_availabilities)
+      Listing.joins(:listing_availabilities)
         .where('start_date <= ?', start_date)
         .where('end_date >= ?', end_date)
+
+        # .where('max_guests >= ?', max_guests)
+        # .where('price >= ?', price)
     end
   end
 

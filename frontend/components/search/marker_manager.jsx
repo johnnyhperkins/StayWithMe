@@ -8,7 +8,7 @@ export default class MarkerManager {
     this.handleClick = handleClick;
   }
   updateMarkers(listings) {
-    
+//     debugger
     const listingsObj = {};
     listings.forEach(listing => listingsObj[listing.id] = listing);
 

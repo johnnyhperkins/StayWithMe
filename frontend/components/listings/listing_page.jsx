@@ -89,6 +89,8 @@ class Listing extends Component {
       amenity_ids, 
       home_type_id, 
       description,
+      start_date,
+      end_date,
       id,
       max_guests,
       user_id,
@@ -99,10 +101,10 @@ class Listing extends Component {
       ownerName
     } = this.props.listing;
 
-    const {
-      startDate,
-      endDate
-    } = this.state;
+    // const {
+    //   startDate,
+    //   endDate
+    // } = this.state;
 
     const thumbIdx = 1;
     return (
@@ -130,7 +132,10 @@ class Listing extends Component {
             <div>
               {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 key={ht.id} className="text--maroon">{ht.name}</h6>)}
               <h2>{title} {this.props.userId == user_id && 
-                <Link to={`/listings/${id}/edit`} >(<span className="text--teal">Edit Listing</span>)</Link>}
+                <Link to={`/listings/${id}/edit`}>
+                  (<span className="text--teal">Edit Listing</span>)
+                </Link>
+                }
               </h2>
               <p>{address}</p>
               <p>Max Guests: {max_guests}</p>
@@ -164,15 +169,14 @@ class Listing extends Component {
 
           <h5>Availability</h5>
           <DayPickerRangeController
-            startDate={startDate}
-            endDate={endDate}
+            startDate={moment(start_date)}
+            endDate={moment(end_date)}
             numberOfMonths={2}
             noBorder
             isDayBlocked={day => this.checkBlockedDays(day)}
             isOutsideRange={day => isInclusivelyAfterDay(today, day)}
             onPrevMonthClick={DayPickerRangeController.onPrevMonthClick}
             onNextMonthClick={DayPickerRangeController.onNextMonthClick}
-            onDatesChange={({ startDate, endDate }) => this.setState({ startDate, endDate })}
             focusedInput={null} 
             onFocusChange={focusedInput => this.setState({ focusedInput })}
           />

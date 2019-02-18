@@ -38,10 +38,10 @@ class NavBar extends Component {
       openGuestSelect: false,
       focusedInput: 'startDate',
       calendarFocused: null,
-      // startDate: query && query.start_date ? moment(query.start_date) : moment().format('YYYY-MM-DD'),
-      // endDate: query && query.end_date ? moment(query.end_date) : moment().add(2, 'days').format('YYYY-MM-DD'),
-      startDate: '',
-      endDate: ''
+      startDate: query && query.start_date ? moment(query.start_date) : moment().format('YYYY-MM-DD'),
+      endDate: query && query.end_date ? moment(query.end_date) : moment().add(2, 'days').format('YYYY-MM-DD'),
+      // startDate: '',
+      // endDate: ''
     }
   }
 
