@@ -2,11 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import MarkerManager from './marker_manager';
-
-// const mapOptions = {
-//   center: { lat: filter.lat, lng: filter.lng }, 
-//   zoom: 13
-// };
+import { setFilter } from '../../actions/filters';
 
 class SearchResultsMap extends Component {
   constructor(props) {
@@ -30,32 +26,40 @@ class SearchResultsMap extends Component {
     }
   }
 
-  componentDidUpdate() {
-    const { listings } = this.props;
-    if(listings) {
+  componentDidUpdate(prevProps) {
+    const { listings, filter } = this.props;
+
+    if(_.isUndefined(listings) || _.isEmpty(listings)) {
+      this.MarkerManager.emptyMarkers();
+    }
+    if( !_.isEqual(prevProps.listings, listings) ) {
       this.MarkerManager.updateMarkers(listings)
+    } 
+    if( prevProps.filter.lat !== filter.lat || 
+      prevProps.filter.lng !== filter.lng ) {
+      this.map.setCenter({lat:filter.lat, lng:filter.lng})   
     }
   
   }
 
   calculateBounds = (gmBounds) => {
     let bounds = {
-        'northEast': {
-          lat: 0,
-          lng: 0
-        },
-        'southWest': {
-          lat: 0,
-          lng: 0
-        }
+      'northEast': {
+        lat: 0,
+        lng: 0
+      },
+      'southWest': {
+        lat: 0,
+        lng: 0
       }
+    }
 
-      bounds['northEast']['lat'] = gmBounds.ma.l
-      bounds['northEast']['lng'] = gmBounds.ga.j
-      bounds['southWest']['lat'] = gmBounds.ma.j
-      bounds['southWest']['lng'] = gmBounds.ga.l 
+    bounds['northEast']['lat'] = gmBounds.ma.l
+    bounds['northEast']['lng'] = gmBounds.ga.j
+    bounds['southWest']['lat'] = gmBounds.ma.j
+    bounds['southWest']['lng'] = gmBounds.ga.l 
 
-      return bounds; 
+    return bounds; 
   }
 
   registerListeners = () => {
@@ -66,8 +70,14 @@ class SearchResultsMap extends Component {
       
       //add something to update map center on search
       const bounds = this.calculateBounds(this.map.getBounds());
+      const mapCenter = this.map.getCenter();
       updateFilter('bounds', bounds);
-      // const mapCenter = this.map.getCenter();
+      setFilter({
+        bounds, 
+        lat: mapCenter.lat(),
+        lng: mapCenter.lng()
+      })
+      
       // setQuery(bounds, mapCenter)
       
     });
