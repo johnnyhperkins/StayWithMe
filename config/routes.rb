@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     get '/users/:user_id/reviews', to: 'reviews#index'
     get '/users/:user_id/bookings', to: 'bookings#index'
     post '/users/search', to: 'users#user_exists'
+    post '/users/fetch', to: 'users#show'
     resource :session, only: [:create, :new, :destroy]
 
     resources :listings, only: [:create, :destroy, :show, :update, :index]

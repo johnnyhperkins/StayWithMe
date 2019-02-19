@@ -21,7 +21,7 @@ const ListingBookingItem = ({booking, updateBookingStatus}) => {
         <hr className="hr-24"/>
         <div className="flex-container--no-justify">
           <div className="booking-thumb-wrapper">
-            <Link to={`/users/${user_id}`}>
+            <Link to={`/users/${user_id}/profile`}>
               <div className="booking-thumb" style={{backgroundImage: `url(${bookerPhotoUrl})`}}></div>
             </Link>
             <p className="tiny">{bookerName}</p>

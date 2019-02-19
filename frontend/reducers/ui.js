@@ -12,6 +12,7 @@ import { RECEIVE_LISTING, RECEIVE_LISTINGS } from '../actions/listings';
 import { RECEIVE_BOOKING, RECEIVE_BOOKINGS } from '../actions/bookings';
 import { RECEIVE_SESSION_ERRORS } from '../actions/sessions'
 import { RECEIVE_REVIEWS } from '../actions/reviews';
+import { RECEIVE_USER } from '../actions/users';
 
 
 const defaultState = {
@@ -23,6 +24,7 @@ const defaultState = {
   messages: [],
   sessionModalOpen: false,
   sessionModalType: null,
+  userLoading: true
 }
 
 const uiReducer = (state = defaultState, action) => {
@@ -41,6 +43,12 @@ const uiReducer = (state = defaultState, action) => {
           listingLoading: false,
           searching: false,
           savingListing:false 
+        }) 
+    
+    case RECEIVE_USER:
+      return merge({}, 
+        state, { 
+          userLoading: false,
         }) 
     
     case RECEIVE_BOOKINGS:

@@ -8,3 +8,12 @@ export const update = (userFormData) => {
     error: (err) => console.log(err)
   })
 }
+
+export const fetchUser = (id) => {
+  return $.ajax({
+    url: `/api/users/fetch`,
+    method: "POST",
+    data: {id},
+    error: (err) => console.log(err)
+  })
+}

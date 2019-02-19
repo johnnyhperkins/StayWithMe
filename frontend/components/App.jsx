@@ -10,6 +10,7 @@ import NavBar from './nav/navbar';
 import Dashboard from './users/dashboard';
 import SearchResultContainer from './search/results_container';
 import {AuthRoute, ProtectedRoute} from '../util/route_utils';
+import PublicProfile from '../components/users/public_profile';
 import Footer from './footer';
 
 //if user is logged out and on the home page, display one
@@ -28,6 +29,7 @@ const App = connect(state => ({
         <AuthRoute exact path="/login" component={LoginFormContainer} />
         <ProtectedRoute exact path="/listings/new" component={NewListingContainer} />
         <Route exact path="/listings/:id" component={Listing} />
+        <Route exact path="/users/:id/profile" component={PublicProfile} />
         
         <ProtectedRoute exact path="/listings/new" component={NewListingContainer} />
         <ProtectedRoute exact path="/listings/:id/edit" component={EditListingContainer} />

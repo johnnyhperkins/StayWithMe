@@ -203,7 +203,7 @@ class ListingSidebar extends Component {
             <hr className="hr-8"/>
           </div>
         }
-        <button className="button--submit" onClick={this.handleBooking}>Book</button>
+        <button className="button--submit" onClick={this.handleBooking}>Request to Book</button>
         { !_.isEmpty(booking_errors) && (
           <>
           <ul className="session-errors">

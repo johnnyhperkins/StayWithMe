@@ -4,20 +4,15 @@ export const RECEIVE_REVIEWS = 'RECEIVE_REVIEWS';
 
 export const RECEIVE_REVIEW_ERRORS = 'RECEIVE_REVIEW_ERRORS';
 
-//Reviews
 export const createReview = review => dispatch => {
   return ApiReviewsUtil.createReview(review).then(review => {
-    
     return dispatch(receiveReview(review));
   },
   (e) => dispatch(receiveReviewErrors(e.responseJSON)))
 };
 
-
-//TO DO: need to refactor later 
 export const fetchListingReviews = (listingId) => dispatch => {
-  return ApiReviewsUtil.fetchListingReviews(listingId).then(reviews => {
-    
+  return ApiReviewsUtil.fetchListingReviews(listingId).then(reviews => {    
     return dispatch(receiveReviews(reviews));
   },
   (e) => dispatch(receiveReviewErrors(e.responseJSON)))

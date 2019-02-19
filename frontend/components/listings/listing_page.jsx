@@ -124,7 +124,9 @@ class Listing extends Component {
             </div>
 
             <div className="profile-thumb-wrapper">
-              <div className="profile-thumb" style={{backgroundImage: `url(${ownerPhotoUrl})`}}></div>
+              <Link to={`/users/${user_id}/profile`}>
+                <div className="profile-thumb" style={{backgroundImage: `url(${ownerPhotoUrl})`}}></div>
+              </Link>
               <p className="tiny">{ownerName}</p>
             </div>
           </div>

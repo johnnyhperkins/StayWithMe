@@ -7,7 +7,6 @@ import { receiveSessionErrors } from '../../actions/sessions';
 import { receiveMessages } from '../../actions/ui';
 import { updateUser } from '../../actions/users';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import isEmpty from 'lodash/isEmpty';
 import objectToFormData from 'object-to-formdata';
 import {BlankUserProfile} from '../../static_assets/user-solid';
@@ -33,11 +32,11 @@ class EditProfileForm extends Component {
   }
 
   clearErrorsAndMessages = () => {
-        window.setTimeout(() => {
-          this.props.receiveSessionErrors([]);
-          this.props.receiveMessages([]);
-        }, 5000);   
-    }
+    window.setTimeout(() => {
+      this.props.receiveSessionErrors([]);
+      this.props.receiveMessages([]);
+    }, 5000);
+  }
 
   componentWillUnmount() {
       receiveSessionErrors([]);
@@ -110,15 +109,13 @@ class EditProfileForm extends Component {
       <>
       <section className="grid--75 margin-left24">
         <div className="grid--75__header flex-container">
-          <p>Required</p>
+          <p>Edit Profile</p>
           {!isEmpty(messages) && messages.map((m, idx) => <h6 className="text--green message" key={idx} >{m}</h6>)}
         </div>
+        
         <div className="content-container--profile">
-
-        
-        
-        <div className="profile-thumb-wrapper">
-        { imageUrl ? 
+          <div className="profile-thumb-wrapper">
+          { imageUrl ? 
           ( <>
               <div className="profile-thumb" style={{backgroundImage: `url(${imageUrl})`}} />
             </>
@@ -133,6 +130,7 @@ class EditProfileForm extends Component {
             />
             <label>edit</label>
           </div>
+
           <div className="profile-form-row">
             <label>Email</label>
               <input 
@@ -146,6 +144,7 @@ class EditProfileForm extends Component {
                 onBlur={this.checkExists}
                 />
           </div>
+
           <div className="profile-form-row">
             <label>Username</label>
               <input 
@@ -160,7 +159,6 @@ class EditProfileForm extends Component {
                 />
           </div>
           
-          
           <div className="profile-form-row">
             <label>Change Your Password</label>
               <input 
@@ -172,6 +170,7 @@ class EditProfileForm extends Component {
                 onChange={(e) => this.setState({password: e.target.value})}
                 />
           </div>
+
           { !isEmpty(errors) && (
                   <>
                   <ul className="session-errors">
