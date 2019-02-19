@@ -49,7 +49,11 @@
   font-size: $font-xs;
 }
 
-.hr-24, .hr-16 {
+.small {
+  font-size: $font-s;
+}
+
+.hr-24, .hr-16, .hr-8 {
   border-top: 1px solid $off-white;
   border-bottom:none;
   margin: 2.4rem 0;
@@ -62,6 +66,10 @@
 
 .hr-16 {
   margin: 1.6rem 0;
+}
+
+.hr-8 {
+  margin: 0.8rem 0;
 }
 
 .center {

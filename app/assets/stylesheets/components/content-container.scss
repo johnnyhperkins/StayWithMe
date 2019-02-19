@@ -188,3 +188,16 @@ footer p, footer a {
 .toggle-panel {
     margin-bottom: $m-size;
 }
+
+.booking-thumb-wrapper {
+    .tiny {
+        text-align:center;
+    }
+    .booking-thumb {
+        min-width: 100px;
+        min-height:100px;
+        background-size:cover;
+        border-radius: 50%;
+        border: 2px solid $off-white;
+    }
+}

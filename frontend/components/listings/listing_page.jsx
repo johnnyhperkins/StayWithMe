@@ -67,12 +67,6 @@ class Listing extends Component {
       });
       blueCircle.setMap(this.map);
 
-      //set availability cal state
-      // this.setState({
-      //   startDate: moment(listing.start_date),
-      //   endDate: moment(listing.end_date),
-      // })
-
     }); 
   }  
 
@@ -105,11 +99,6 @@ class Listing extends Component {
       ownerPhotoUrl,
       ownerName
     } = this.props.listing;
-
-    // const {
-    //   startDate,
-    //   endDate
-    // } = this.state;
 
     const thumbIdx = 1;
     return (
@@ -232,7 +221,7 @@ class Listing extends Component {
         }
         </section>
         <StickyBox offsetTop={80}>
-          <ListingSidebar listing={listing} />
+          <ListingSidebar listing={listing} checkBlockedDays={this.checkBlockedDays} />
         </StickyBox>
       </section>
         

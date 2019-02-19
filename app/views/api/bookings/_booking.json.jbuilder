@@ -8,3 +8,4 @@ if booking.user.photo.attached?
   json.bookerPhotoUrl url_for(booking.user.photo)
 end
 
+json.listingPrice booking.listing.price

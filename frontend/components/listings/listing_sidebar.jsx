@@ -17,15 +17,19 @@ const today = moment();
 class ListingSidebar extends Component {
   constructor(props) {
     super(props);
+
+    const { start_date, end_date, max_guests } = this.props.filter;
+    
     this.state = {
-      startDate:null,
-      endDate:null,
+      startDate: start_date ? moment(start_date) : null,
+      endDate: end_date ? moment(end_date) : null,
       calendarFocused: null,
       openGuestSelect: false,
-      numGuests: 1,
+      numGuests: max_guests ? max_guests : 1,
       focusedInput: null,
-      start_date: '',
-      end_date: ''
+      start_date: start_date ? start_date : '',
+      end_date: end_date ? end_date : '',
+      nights: (start_date && end_date) ? this.countNights(moment(start_date), moment(end_date)) : 0 
     }
   }
 
@@ -37,10 +41,7 @@ class ListingSidebar extends Component {
     document.removeEventListener('mousedown', this.handleClickOutsideGuestSelector)
   }
 
-  onFocusChange = (focusedInput) => {
-    console.log(focusedInput);
-    this.setState({ focusedInput });
-  }
+  onFocusChange = (focusedInput) => this.setState({ focusedInput })
 
   handleClickOutsideGuestSelector = (event) => {
     if (this.GuestSelectorRef && !this.GuestSelectorRef.contains(event.target)) {
@@ -66,12 +67,27 @@ class ListingSidebar extends Component {
     }
   }
 
+  updateNights = (startDate, endDate) => {
+    this.setState({
+      nights: this.countNights(startDate, endDate)
+    })
+  }
+ 
+  countNights = (startDate, endDate) => {
+    return endDate.diff(startDate, 'days');
+  }
+
   onDatesChange = ({ startDate, endDate }) => {
     this.setState({
       startDate, 
       endDate, 
       start_date: startDate && moment(startDate).format('YYYY-MM-DD HH:mm:00'),
-      end_date: endDate && moment(endDate).format('YYYY-MM-DD HH:mm:00'), 
+      end_date: endDate && moment(endDate).format('YYYY-MM-DD HH:mm:00')
+    }, () => {
+      const { startDate, endDate } = this.state;
+      if(startDate && endDate) {
+        return this.updateNights(startDate, endDate);
+      }
     })  
   }
 
@@ -115,7 +131,8 @@ class ListingSidebar extends Component {
   render() {
     const { 
       listing,
-      booking_errors
+      booking_errors,
+      checkBlockedDays
     } = this.props;
     
     const { 
@@ -123,7 +140,8 @@ class ListingSidebar extends Component {
       focusedInput,
       openGuestSelect,
       startDate,
-      endDate
+      endDate,
+      nights
     } = this.state;
 
     return (
@@ -136,6 +154,7 @@ class ListingSidebar extends Component {
           startDate={startDate}
           startDateId="your_unique_start_date_id" 
           endDate={endDate}
+          isDayBlocked={day => checkBlockedDays(day)}
           endDateId="your_unique_end_date_id" 
           startDatePlaceholderText="Check In"
           endDatePlaceholderText="Check Out"
@@ -175,6 +194,15 @@ class ListingSidebar extends Component {
             </div>
           </div>}
         </div>
+        {nights > 0 && 
+          <div className="pricing-container">
+            <div className="flex-container">
+              <p className="small text--light-black">{`$${listing.price} x ${nights} nights`}</p>
+              <p className="small text--light-black">{`$${nights * listing.price}`}</p>
+            </div>
+            <hr className="hr-8"/>
+          </div>
+        }
         <button className="button--submit" onClick={this.handleBooking}>Book</button>
         { !_.isEmpty(booking_errors) && (
           <>
@@ -192,6 +220,7 @@ class ListingSidebar extends Component {
 const msp = state => ({
   userId: state.session.id,
   booking_errors: state.errors.booking,
+  filter: state.filters
 })
 
 const mdp = dispatch => ({

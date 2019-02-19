@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import MarkerManager from './marker_manager';
-import { setFilter } from '../../actions/filters';
 
 class SearchResultsMap extends Component {
   constructor(props) {
@@ -10,7 +9,7 @@ class SearchResultsMap extends Component {
   }
 
   componentDidMount() {
-    const { initMapLatLng, filter } = this.props 
+    const { initMapLatLng } = this.props 
     if(initMapLatLng) {
       const mapDOMNode = document.getElementById('search-results-map')
       const mapOptions = {
@@ -59,13 +58,13 @@ class SearchResultsMap extends Component {
 
   registerListeners = () => {
     let { setBounds } = this.props;
+
     google.maps.event.addListener(this.map, 'idle', () => {
       const bounds = this.calculateBounds(this.map.getBounds());
       setBounds(bounds);
     });
 
     google.maps.event.addListener(this.map, 'click', (event) => {
-      const coords = getCoordsObj(event.latLng);
       this.handleClick(coords);
     });
   }
@@ -74,16 +73,7 @@ class SearchResultsMap extends Component {
     this.props.history.push(`listings/${listing.id}`);
   }
 
-  handleClick(coords) {
-    //TO DO: fix this to preserve other url query vars
-    this.props.history.push({
-      pathname: '/search',
-      search: `lat=${coords.lat}&lng=${coords.lng}`
-    });
-  }
-
   render() {
-    
     return (
       <div id="search-results-map" ref={map => this.mapNode = map}></div>
     )
