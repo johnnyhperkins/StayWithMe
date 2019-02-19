@@ -15,6 +15,7 @@ import ReviewForm from '../reviews/review_form';
 import ListingSidebar from './listing_sidebar';
 
 import { AirCon } from '../../static_assets/amenity_icons';
+import ListingImageHeader from './listing_image_header';
 
 const today = moment();
 
@@ -100,26 +101,13 @@ class Listing extends Component {
       ownerName
     } = this.props.listing;
 
-    const thumbIdx = 1;
     return (
-      <>
-      <section className="image-header-container flush-top flex-container">
-        { photos ? photos.filter((_,idx) => idx === thumbIdx)
-            .map((url, idx) => <div className="left-half hero-image grid--50" key={idx} style={{backgroundImage: `url(${url})`}}></div>) :
-            <div className="left-half hero-image--dummy grid--50"></div> }
-        <div className="right-half grid--50">
-          { photos ? photos.filter((_,idx) => idx !== thumbIdx)
-            .map((url, idx) => {
-              if(idx < 4) {
-                return (
-                  <div className="square-image grid--50" key={idx} style={{backgroundImage: `url(${url})`}}>
-                  </div>
-                )
-              }
-            })
-          : null}
-        </div>
-      </section>
+      <>{ photos ?
+        <ListingImageHeader photos={photos} /> 
+        :
+        <div className="left-half hero-image--dummy grid--50"></div>
+      }
+      
       <section className="content-container--interior-page flex-container">
         <section className="listing-details-container grid--75">
           <div className="listing-details__header">

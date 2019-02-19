@@ -47,6 +47,40 @@
     margin: 0 0 $l-size 0;
 }
 
+.modal-photo {
+    max-height: 70vh;
+    margin: 0 auto;
+}
+
+.image-slider-modal {
+    background: transparent;
+
+    .button--close,
+    .fa {
+        color: #fff;
+    }
+
+    .button--next {
+        position: absolute;
+        top: 50%;
+        right: 20%; 
+    }
+
+    .button--prev {
+        position: absolute;
+        top: 50%;
+        left: 20%; 
+    }
+
+    .button--next, 
+    .button--prev {
+        cursor:pointer;
+        display:block;
+        background:transparent;
+        border:none;
+    }
+}
+
 @media(min-width: 992px) {
     .modal {
         min-width: 57rem;
