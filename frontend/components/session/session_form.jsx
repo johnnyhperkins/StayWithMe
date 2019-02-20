@@ -84,7 +84,8 @@ class SessionForm extends Component {
         className="button--link">Google</button>
       </p> */}
       
-      <p className="center hr-with-text">Or</p>
+      <h3 className="center hr-with-text">{formType}</h3>
+      <hr className="hr-24--no-line"/>
       
       <form onSubmit={this.handleSubmit} autoComplete="new-password">
         

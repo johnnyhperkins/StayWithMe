@@ -136,11 +136,11 @@ class SearchFilterBar extends Component {
         </div>
       }
 
+    {/* TO DO: Update this to be filters for price and amenities
+
       <button className="button button--inline button--outlined">Amenities</button>
 
       <button className="button button--inline button--outlined">Price</button>
-
-    {/* TO DO: Update this to be filters for price and amenities
       { (this.props.location.pathname && 
       this.props.location.pathname != "/") &&
       <div className="filters">

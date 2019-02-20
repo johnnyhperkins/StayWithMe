@@ -64,9 +64,6 @@ class SearchResultsMap extends Component {
       setBounds(bounds);
     });
 
-    google.maps.event.addListener(this.map, 'click', (event) => {
-      this.handleClick(coords);
-    });
   }
 
   handleMarkerClick(listing) {

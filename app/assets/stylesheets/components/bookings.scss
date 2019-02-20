@@ -1,13 +1,13 @@
 .booking-item-wrapper {
   display:flex;
   min-height: 200px;
-  max-height: 200px;
   margin-bottom: 2.4rem;
   .mini-slider {
     width:35%;
     border-radius: 3px;
     overflow:hidden;
     margin-right: $m-size;
+    max-height: 200px;
     .listing-thumb {
       max-width: 100%;
       height: auto;

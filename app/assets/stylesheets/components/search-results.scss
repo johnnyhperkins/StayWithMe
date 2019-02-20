@@ -17,10 +17,7 @@
   display:flex;
   min-height: 200px;
   max-height: 200px;
-  margin-bottom:2.4rem;
-  :hover {
-    box-shadow: rgba(0,0,0,0.2) 0 0 4px;
-  }
+  margin-bottom:2.4rem;  
   .results-slider {
     width:31%;
     border-radius: 3px;
@@ -79,6 +76,10 @@
       }
     }
   }
+}
+
+.listing-result-wrapper:hover {
+  box-shadow: rgba(0,0,0,0.2) 0 0 4px;
 }
 
 .filter-bar {
