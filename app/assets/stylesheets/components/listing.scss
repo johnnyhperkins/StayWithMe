@@ -19,8 +19,11 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-
+    h2 {
+      margin-bottom: 1.4rem;
+    }
     .profile-thumb-wrapper {
+      margin-left: $m-size;
       .profile-thumb {  
         min-width: 60px;
         min-height: 60px;
@@ -56,9 +59,11 @@
 .amenities {
   display:flex;
   justify-content: flex-start;
+  flex-wrap: wrap;
   .amenity {
     display: flex;
-    justify-content: flex-start
+    justify-content: flex-start;
+    margin-bottom: 25px;
   }
   .svg-amenity-container {
     margin-right: 7px;
