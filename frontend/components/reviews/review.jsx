@@ -10,8 +10,8 @@ const Review = ({review}) => {
           <div className="flex-container--no-justify margin-bottom16">
             <div className="profile-thumb" style={{backgroundImage: `url(${review.photoUrl})`}}></div>
             <div className="margin-left16">
-              <p>{review.username}</p>
-              <p className="small">{moment(review.created_at).format('MMMM')}</p>
+              <h5>{review.username}</h5>
+              <p className="small">{moment(review.created_at).format('MMMM YYYY')}</p>
             </div>
           </div>
           <div className="review-body">

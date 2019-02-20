@@ -153,7 +153,7 @@
     margin-top: .8rem;
   }
   .tiny.bold {
-    font-weight: 400;
+    font-weight: 500;
   }
 }
 
@@ -248,4 +248,10 @@
 
 .reviews-container {
   margin: 2.4rem 0;
+}
+
+.listing-details-container .rating-container h5 {
+  margin-bottom: 0;
+  text-transform: capitalize;
+
 }
