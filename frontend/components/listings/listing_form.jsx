@@ -45,8 +45,13 @@ class ListingForm extends Component {
       calendarFocused: null,
       endDate: null,
       startDate: null,
-      selectedPhotoFiles: [] //PHOTO FILES
-      
+      selectedPhotoFiles: [], //PHOTO FILES
+      titleError: null,
+      addressError: null,
+      priceError: null,
+      descriptionError: null,
+      guestsError: null,
+      photosError: null,
     }
   } 
 
@@ -67,6 +72,12 @@ class ListingForm extends Component {
         }
       );
     } 
+  }
+
+  componentDidUpdate(prevProps) {
+    if(prevProps.errors.length !== this.props.errors.length ) {
+      window.scrollTo(0, 0);
+    }
   }
 
   cancel = () => {
@@ -110,6 +121,7 @@ class ListingForm extends Component {
       }
     )
   }
+
   handleSubmit = () => {
     const { listing, selectedPhotoFiles } = this.state;
     delete listing['photos'];
@@ -126,12 +138,13 @@ class ListingForm extends Component {
     })
   }
    
-
   handleChangeAddress = address => {
-    this.setState({ listing: {
-          ...this.state.listing,
-          address
-        } });
+    this.setState({ 
+      listing: {
+        ...this.state.listing,
+        address
+      } 
+    });
   };
 
   handleSelectAddress = address => {
@@ -147,6 +160,17 @@ class ListingForm extends Component {
       .catch(error => console.error('Error', error));
   };
 
+  // checkForError = (input) => {
+  //   const { errors } = this.props;
+  //   if(!errors.length) return null
+  //   errors.forEach(e => {
+  //     let error = e.split(" ")[0].toLowerCase();
+  //     debugger;
+  //     if(error == input) return e
+  //   })
+  //   return null;
+  // }
+
   render() {
     const { listingLoading, listing } = this.props;
     if(listingLoading) {
@@ -155,7 +179,7 @@ class ListingForm extends Component {
     let { 
       startDate,
       endDate,
-      focusedInput,
+      focusedInput
     } = this.state;
 
     const { 
@@ -182,6 +206,7 @@ class ListingForm extends Component {
     if(amenity_ids.length) {
       defaultAmentities = formattedAmenities.filter(a => amenity_ids.includes(a.value))
     }
+
     const startDateString = startDate && moment(startDate).format('ddd, MMM Do');
     const endDateString = endDate && moment(endDate).format('ddd, MMM Do');
 
@@ -190,7 +215,15 @@ class ListingForm extends Component {
         <section className="content-container grid--50">
           <h2>{formType == "Edit Listing" ? "Edit your listing" : 'Lets get started listing your place.'}</h2>
           <div className="content-container--profile listing-form">
-          {/* {!isEmpty(messages) && messages.map((m, idx) => <p key={idx} >{m}</p>)} */}
+          { !isEmpty(errors) && (
+                <>
+                <ul className="session-errors">
+                  {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+                </ul>
+                <hr className="hr-24--no-line" />
+                </>
+                ) 
+            }
                 <label>Title
                   <input 
                     className="text-input"
@@ -262,14 +295,13 @@ class ListingForm extends Component {
                 <label>Select Amenities
                   <div className="basic-multi-select-wrapper">
                   <Select
-                      defaultValue={defaultAmentities}
-                      isMulti
-                      options={formattedAmenities}
-                      className="basic-multi-select"
-                      classNamePrefix="select"
-                      // onInputChange={this.handleAmenities}
-                      onChange={this.handleAmenities}
-                    />
+                    isMulti
+                    options={formattedAmenities}
+                    className="basic-multi-select"
+                    classNamePrefix="select"
+                    value={defaultAmentities}
+                    onChange={this.handleAmenities}
+                  />
                   </div>        
                 </label>
                 <label>Describe your listing
@@ -349,14 +381,7 @@ class ListingForm extends Component {
                   onFocusChange={this.onFocusChange} 
                 />
             
-            { !isEmpty(errors) && (
-                <>
-                <ul className="session-errors">
-                  {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                </ul>
-                </>
-                ) 
-            }
+           
           </div>
           <section className="flex-container--no-justify submit-container">
             <button 
