@@ -14,7 +14,8 @@ const usersReducer = (state = defaultState, action) => {
       let user = action.user;
       return merge({}, 
         state, { [user.id]: user }
-      ) 
+      )
+
     case LOGOUT_CURRENT_USER: 
       return {}
     default:

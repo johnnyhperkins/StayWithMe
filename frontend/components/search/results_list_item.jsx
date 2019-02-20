@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom';
 import SmallRatings from '../misc/small_ratings';
 import MiniSlider from '../misc/mini_slider';
 
-const SearchResultItem = ({listing, home_types, amenities}) => {
+const SearchResultItem = ({listing, home_types, amenities, openListing}) => {
     const {title, amenity_ids, home_type_id, photos, price, max_guests} = listing
     return (
       <>
-      <div className="listing-result-wrapper">
+      <div className="listing-result-wrapper cursor-pointer" onClick={() => openListing(listing.id)}>
           <MiniSlider listing_id={listing.id} photos={photos} className="results-slider" />
         <div className="listing-details">
           <div className="top--left">
@@ -23,9 +23,9 @@ const SearchResultItem = ({listing, home_types, amenities}) => {
                   })}
               </ul>
             </div>
-            <div className="top--right">
+            {/* <div className="top--right">
               <i className="heart text--maroon fa fa-heart"></i>
-            </div>
+            </div> */}
             <div className="bottom--left">
               <SmallRatings listing={listing} />
             </div>

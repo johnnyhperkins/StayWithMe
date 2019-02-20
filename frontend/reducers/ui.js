@@ -3,7 +3,6 @@ import merge from 'lodash/merge';
 import {  
   RECEIVE_MESSAGES, 
   RECEIVE_SEARCH_QUERY,
-  UPDATE_BOUNDS, 
   SAVING_LISTING,
   TOGGLE_LOGIN_MODAL,
   FETCHING_LISTING
@@ -22,7 +21,11 @@ const defaultState = {
   searching: true,
   savingListing: false,
   reviewsLoading: true,
-  messages: [],
+  messages: {
+    bookings: [],
+    profile: [],
+    session: []
+  },
   sessionModalOpen: false,
   sessionModalType: null,
   userLoading: true
@@ -32,55 +35,41 @@ const uiReducer = (state = defaultState, action) => {
   Object.freeze(state)
   switch (action.type) {
     case SAVING_LISTING:
-      return merge({}, 
-        state, { 
-          savingListing: true 
-        }) 
+      return merge({}, state, { 
+        savingListing: true 
+      }) 
 
     case RECEIVE_LISTINGS:
     case RECEIVE_LISTING:
-      return merge({}, 
-        state, { 
-          listingLoading: false,
-          searching: false,
-          savingListing:false 
-        }) 
+      return merge({}, state, { 
+        listingLoading: false,
+        searching: false,
+        savingListing:false 
+      }) 
     
     case FETCHING_LISTING: 
-      return merge({}, 
-        state, { 
-          listingLoading: true,
-        }) 
+      return merge({}, state, { 
+        listingLoading: true,
+      }) 
 
     case RECEIVE_USER:
-      return merge({}, 
-        state, { 
-          userLoading: false,
-        }) 
+      return merge({}, state, { 
+        userLoading: false,
+      }) 
     
     case RECEIVE_BOOKINGS:
     case RECEIVE_BOOKING:
-      return merge({}, 
-        state, { 
-          bookingLoading: false,
-        }) 
+      return merge({}, state, { 
+        bookingLoading: false,
+      }) 
 
     case TOGGLE_LOGIN_MODAL:
-        return merge({}, 
-          state, {
-            sessionModalOpen: action.bool,
-            sessionModalType: action.modal
-        })
-
-    case UPDATE_BOUNDS:
-      return merge({}, 
-        state, { 
-          bounds: action.bounds,
-          // searching: true ?
-        })
+      return merge({}, state, {
+        sessionModalOpen: action.bool,
+        sessionModalType: action.modal
+      })
 
     case RECEIVE_SEARCH_QUERY:
-      console.log(action.query);
       return merge({}, state, {
         searching: !action.query,
         query: action.query,
@@ -93,15 +82,20 @@ const uiReducer = (state = defaultState, action) => {
     
     case RECEIVE_MESSAGES:
       // debugger;
-      return merge({}, 
-        state, { 
-          messages: action.messages 
-        })
+      return merge({}, state, { 
+        messages: {
+          ...state.messages,
+          [action.category]: action.messages
+        } 
+      })
 
     case RECEIVE_SESSION_ERRORS:
       // debugger;
       return merge({}, state, {
-        messages: []
+        messages: {
+          ...state.messages,
+          session: [] 
+        }
       })
 
     default:

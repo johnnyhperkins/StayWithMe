@@ -102,7 +102,7 @@ class ListingSidebar extends Component {
     } = this.props; 
     
     if(!userId) {
-      receiveMessages(["Please log in to make a booking."])
+      receiveMessages(["Please log in to make a booking."], 'session')
       return toggleLoginModal('login', true)
     }
 
@@ -122,9 +122,10 @@ class ListingSidebar extends Component {
       start_date,
       end_date
     }
-
+    
     return createBooking(booking).then(() => {
-      this.props.history.push(`/users/${userId}`)
+      receiveMessages([`You successfully requested to book ${listing.title}`], 'bookings')
+      this.props.history.push(`/users/${userId}/bookings`)
     });
   }
 
@@ -225,7 +226,7 @@ const msp = state => ({
 
 const mdp = dispatch => ({
   createBooking: (booking) => dispatch(createBooking(booking)),
-  receiveMessages: (messages) => dispatch(receiveMessages(messages)),
+  receiveMessages: (messages, category) => dispatch(receiveMessages(messages, category)),
   receiveBookingErrors: (errors) => dispatch(receiveBookingErrors(errors)),
   toggleLoginModal: (modal, bool) => dispatch(toggleLoginModal(modal,bool))
 })

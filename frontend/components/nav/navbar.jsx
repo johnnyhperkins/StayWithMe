@@ -32,7 +32,7 @@ class NavBar extends Component {
       lng: query && query.lng ? parseFloat(query.lng) : 0,
       start_date: query && query.start_date ? query.start_date : moment().format('YYYY-MM-DD'),
       end_date: query && query.end_date ? query.end_date : moment().add(2, 'days').format('YYYY-MM-DD'),
-      numGuests: query && query.max_guests ? parseInt(query.max_guests) : 0,
+      numGuests: query && query.max_guests ? parseInt(query.max_guests) : 1,
       openDatePicker: false,
       openGuestSelect: false,
       focusedInput: 'startDate',

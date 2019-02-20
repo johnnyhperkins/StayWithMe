@@ -119,10 +119,9 @@ class Listing extends Component {
       Dryer
     }
 
-    const canLeaveReview = Boolean(_.find(user.listing_booking_ids, {'listing_id': id}));
+    const canLeaveReview = Boolean(_.find(user.listing_booking_ids, {'listing_id': id, 'status': 'APPROVED'}));
     const hasLeftReview = Boolean(_.find(reviews, {'user_id': user.id}));
-    console.log(canLeaveReview);
-    console.log(hasLeftReview);
+    
     return (
       <>{ photos ?
         <ListingImageHeader photos={photos} /> 

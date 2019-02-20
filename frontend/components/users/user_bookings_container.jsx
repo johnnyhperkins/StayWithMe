@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import isEmpty from 'lodash/isEmpty';
+
+import { receiveMessages } from '../../actions/ui';
 import { destroyBooking, fetchUserBookings } from '../../actions/bookings';
 import { fetchUserListings } from '../../actions/listings';
 import UserBookings from './user_bookings';
@@ -25,6 +28,11 @@ class UserBookingsContainer extends Component {
     } 
   }
 
+  componentWillUnmount() {
+    const { receiveMessages } = this.props;
+    receiveMessages([''], 'bookings');
+}
+
   togglePanel = (e) => {
     const { myBookingsOpen, myListingsBookingsOpen } = this.state;
 
@@ -43,7 +51,9 @@ class UserBookingsContainer extends Component {
       user,
       listings,
       fetchUserBookings,
-      fetchUserListings
+      fetchUserListings,
+      receiveMessages,
+      messages
     } = this.props;
 
     const {
@@ -55,8 +65,9 @@ class UserBookingsContainer extends Component {
    
     return (
       <section className="grid--75 margin-left24">
-        <div className="grid--75__header">
+        <div className="grid--75__header flex-container">
           <p>Bookings</p>
+          {!isEmpty(messages) && messages.map((m, idx) => <h6 className="text--green message" key={idx} >{m}</h6>)}
         </div>
         <div className="content-container--profile user-bookings-container">
           <div className="toggle-panel">
@@ -80,7 +91,8 @@ class UserBookingsContainer extends Component {
           <hr className="hr-24"/>
           { myBookingsOpen &&
             <UserBookings 
-              user={user} 
+              user={user}
+              receiveMessages={receiveMessages}
               fetchUserBookings={fetchUserBookings} 
               destroyBooking={destroyBooking} /> 
           }
@@ -103,13 +115,15 @@ const msp = (state) => ({
   listings: state.entities.listings,
   listingLoading: state.ui.listingLoading,
   bookings: Object.values(state.entities.bookings),
-  bookingLoading: state.ui.bookingLoading
+  bookingLoading: state.ui.bookingLoading,
+  messages: state.ui.messages.bookings
 });
 
 const mdp = dispatch => ({
   fetchUserListings: (id) => dispatch(fetchUserListings(id)),
   destroyBooking: (id) => dispatch(destroyBooking(id)),
-  fetchUserBookings: (id) => dispatch(fetchUserBookings(id))
+  fetchUserBookings: (id) => dispatch(fetchUserBookings(id)),
+  receiveMessages: (messages, category) => dispatch(receiveMessages(messages, category))
 })
 
 export default connect(msp, mdp)(UserBookingsContainer)

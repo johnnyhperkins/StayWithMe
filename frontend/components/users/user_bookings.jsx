@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import BookingItem from './booking_item';
 import Loading from '../misc/loading';
+import { receiveMessages } from '../../actions/ui';
 
 class UserBookings extends React.Component {
   constructor(props) {
@@ -13,16 +14,21 @@ class UserBookings extends React.Component {
       user,
       fetchUserBookings 
     } = this.props;
-    // debugger;
+
     if(user.booking_ids.length) {
       fetchUserBookings(user.id)
     }
   }
 
+  destroyBooking = (id) => {
+    return this.props.destroyBooking(id).then(() => {
+      this.props.receiveMessages(["Your booking was successfully cancelled."], 'bookings')
+    })
+  }
+
   render() {
     const { 
       bookings, 
-      destroyBooking, 
       bookingLoading,
       user
     } = this.props;
@@ -36,7 +42,7 @@ class UserBookings extends React.Component {
     return (
       bookings.length ? 
         <div className="bookings-panel">
-          { bookings.map(booking => <BookingItem key={booking.id} booking={booking} destroyBooking={destroyBooking} />) }
+          { bookings.map(booking => <BookingItem key={booking.id} booking={booking} destroyBooking={this.destroyBooking} />) }
         </div>
         :
         <h4>You have not made any bookings</h4>

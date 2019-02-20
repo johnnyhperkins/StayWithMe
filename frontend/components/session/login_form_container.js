@@ -28,11 +28,12 @@ const msp = (state, ownProps) => {
   }
 
   return {
-  errors: state.errors.session,
-  formType,
-  user,
-  messages: state.ui.messages
-}}
+    errors: state.errors.session,
+    formType,
+    user,
+    messages: state.ui.messages.session
+  }
+}
 
 const mdp = (dispatch, ownProps) => {
   let action;
@@ -47,7 +48,7 @@ const mdp = (dispatch, ownProps) => {
     action: user => dispatch(action(user)),
     receiveSessionErrors: (errors) => dispatch(receiveSessionErrors(errors)),
     toggleLoginModal: (modal,bool) => dispatch(toggleLoginModal(modal,bool)),
-    receiveMessages: (messages) => dispatch(receiveMessages(messages))
+    receiveMessages: (messages, category) => dispatch(receiveMessages(messages, category))
   }
 }
 

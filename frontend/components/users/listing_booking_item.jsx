@@ -37,7 +37,10 @@ const ListingBookingItem = ({booking, updateBookingStatus}) => {
             }
             <h5>Details</h5>
             <p>{moment(start_date).format('MMMM Do')} - {moment(end_date).format('MMMM Do, YYYY')}</p>
-            <p>You made ${cost} on this booking.</p>
+            
+            { status == "APPROVED" && <p>You made ${cost} on this booking.</p> }
+            { status == "PENDING" && <p>You could make ${cost} on this booking.</p> }
+
             { status == "APPROVED" && <p>This reservation has been {status.toLowerCase()}</p> }
             { status == "PENDING" && 
             <>

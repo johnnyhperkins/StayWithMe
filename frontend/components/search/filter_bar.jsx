@@ -60,7 +60,7 @@ class SearchFilterBar extends Component {
   }
 
   removeFilter = (filter) => {
-    console.log('remove', filter);
+    // console.log('remove', filter);
   }
 
   render() { 

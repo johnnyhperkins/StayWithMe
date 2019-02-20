@@ -17,6 +17,6 @@ end
 if user.bookings
   json.booking_ids user.bookings.ids
   json.listing_booking_ids do
-    json.array! user.bookings, :listing_id
+    json.array! user.bookings, :listing_id, :id, :status
   end
 end

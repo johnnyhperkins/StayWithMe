@@ -20,7 +20,7 @@ class SessionForm extends Component {
   }
 
   componentWillUnmount() {
-    this.props.receiveMessages(['']);
+    this.props.receiveMessages([''], 'session');
     this.props.receiveSessionErrors([]);
     
   }
@@ -80,9 +80,9 @@ class SessionForm extends Component {
     const { errors, messages, formType } = this.props;
     return (
       <>
-      <p className="center">{formType} with <button onClick={this.facebookAuth} className="button--link">Facebook</button> or <button onClick={this.googleAuth} 
+      {/* <p className="center">{formType} with <button onClick={this.facebookAuth} className="button--link">Facebook</button> or <button onClick={this.googleAuth} 
         className="button--link">Google</button>
-      </p>
+      </p> */}
       
       <p className="center hr-with-text">Or</p>
       

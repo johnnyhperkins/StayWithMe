@@ -27,25 +27,26 @@ class EditProfileForm extends Component {
     const { errors, messages, receiveMessages, receiveSessionErrors } = this.props;
     if(errors.length || messages.length) {
       receiveSessionErrors([]);
-      receiveMessages([]);
+      receiveMessages([], 'profile');
     }
   }
 
   clearErrorsAndMessages = () => {
     window.setTimeout(() => {
       this.props.receiveSessionErrors([]);
-      this.props.receiveMessages([]);
+      this.props.receiveMessages([], 'profile');
     }, 5000);
   }
 
   componentWillUnmount() {
+      const { receiveMessages, receiveSessionErrors } = this.props;
       receiveSessionErrors([]);
-      receiveMessages([]);
+      receiveMessages([''], 'profile');
   }
 
   handleSubmit = () => {
     const { email, username, id } = this.state.user;
-    const { updateUser, receiveMessages } = this.props;
+    const { updateUser } = this.props;
     const updatedUserObject = {
       id,
       email,
@@ -193,12 +194,12 @@ class EditProfileForm extends Component {
 const mdp = (dispatch) => ({  
   updateUser: user => dispatch(updateUser(user)),
   receiveSessionErrors: errors => dispatch(receiveSessionErrors(errors)),
-  receiveMessages: messages => dispatch(receiveMessages(messages))
+  receiveMessages: (messages, category) => dispatch(receiveMessages(messages, category))
 })
 
 const msp = (state) => ({
   errors: state.errors.session,
-  messages: state.ui.messages
+  messages: state.ui.messages.profile
 })
 
 export default connect(msp,mdp)(EditProfileForm)

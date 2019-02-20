@@ -6,7 +6,7 @@ export const RECEIVE_USER = "RECEIVE_USER";
 
 export const updateUser = (user) => dispatch => {
   return ApiUsersUtil.update(user).then(res => {
-    dispatch(receiveMessages(["Profile has been successfully updated"]));
+    dispatch(receiveMessages(["Profile has been successfully updated"], 'profile'));
     return dispatch(receiveCurrentUser(res));
   },
   (e) => {

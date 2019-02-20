@@ -29,9 +29,9 @@ const BookingItem = ({booking, destroyBooking}) => {
           <p>Total cost: ${cost}</p>
           {status == "PENDING" && <p>Your host has received your request.</p>} 
           {status == "DENIED" && <p>Unfortunately the host has denied your request to stay here.</p>}
-          {status === "APPROVED" && <p>Congratulations! The host has approved your booking.</p>}
+          {status == "APPROVED" && <p>Congratulations! The host has approved your booking.</p>}
           <hr className="hr-24--no-line" />
-          <h6 className="text--maroon" onClick={() => destroyBooking(id)}>Cancel Booking</h6>
+          {status == "PENDING" && <h6 className="text--maroon cursor-pointer" onClick={() => destroyBooking(id)}>Cancel Booking</h6>}
         </div>   
       </div>
       <hr className="hr-24"/>

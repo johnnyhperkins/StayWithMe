@@ -15,14 +15,12 @@ const filters = (state = defaultState, action) => {
       return merge({}, 
         state, { 
           [action.filter]: action.value,
-          // searching: true ?
         })
     
     case SET_FILTER:
       return merge({}, state, action.filter)
 
     case RECEIVE_SEARCH_QUERY:
-      console.log(action.query);
       return merge({}, state, {
         query: action.query,
       })

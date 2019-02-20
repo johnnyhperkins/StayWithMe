@@ -7,6 +7,8 @@ import BookingItem from './booking_item';
 import { fetchUserBookings, destroyBooking } from '../../actions/bookings';
 import Loading from '../misc/loading';
 
+const today = moment();
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -17,11 +19,25 @@ class Profile extends Component {
   }
 
   render() {
-    const { user, bookingLoading, bookings, destroyBooking } = this.props;
+    const { 
+      user, 
+      bookingLoading, 
+      bookings, 
+      destroyBooking 
+    } = this.props;
 
     if(bookingLoading) {
       return <Loading />
     }
+
+    let pastBookings;
+
+    if(bookings.length) {
+      pastBookings = bookings.filter(booking => moment(today).isAfter(booking.end_date));
+    } else {
+      pastBookings = [];
+    }
+    
 
     return (
       <section className="grid--75 margin-left24">
@@ -52,10 +68,10 @@ class Profile extends Component {
         
         {/* BOOKINGS */}
 
-        {bookings.length ?
+        {pastBookings.length ?
           <div className="user-bookings-container">
-            <h3>Bookings</h3>
-              {bookings.map(booking => <BookingItem key={booking.id} booking={booking} destroyBooking={destroyBooking} />)}
+            <h3>Past Bookings</h3>
+              {pastBookings.map(booking => <BookingItem key={booking.id} booking={booking} destroyBooking={destroyBooking} />)}
           </div>
           :
           <h3>You have not made any bookings</h3>
