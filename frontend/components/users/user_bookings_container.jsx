@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { destroyBooking, fetchUserBookings } from '../../actions/bookings';
 import { fetchUserListings } from '../../actions/listings';
 import UserBookings from './user_bookings';
@@ -19,15 +18,11 @@ class UserBookingsContainer extends Component {
     const { 
       user, 
       fetchUserListings,
-      fetchUserBookings 
     } = this.props;
     
     if(user.listing_ids.length) {
       fetchUserListings(user.id)
     } 
-    if(user.booking_ids.length) {
-      fetchUserBookings(user.id)
-    }
   }
 
   togglePanel = (e) => {
@@ -47,7 +42,8 @@ class UserBookingsContainer extends Component {
       destroyBooking, 
       user,
       listings,
-      bookings
+      fetchUserBookings,
+      fetchUserListings
     } = this.props;
 
     const {
@@ -55,13 +51,8 @@ class UserBookingsContainer extends Component {
       myListingsBookingsOpen
     } = this.state;
 
-    const hasBookings = !!user.booking_ids.length;
     const hasListings = !!user.listing_ids.length;
-    let userBookings = [];
-
-    if(hasBookings) {
-      userBookings = bookings.filter(booking => user.booking_ids.includes(booking.id));
-    }
+   
     return (
       <section className="grid--75 margin-left24">
         <div className="grid--75__header">
@@ -75,6 +66,7 @@ class UserBookingsContainer extends Component {
               className={myBookingsOpen ? "button--toggle-panel active" : "button--toggle-panel"}>
               My Bookings
             </span>
+
             { hasListings && 
             <span 
               onClick={this.togglePanel} 
@@ -83,14 +75,22 @@ class UserBookingsContainer extends Component {
               My Listings' Bookings
             </span>
             }
+
           </div>
           <hr className="hr-24"/>
           { myBookingsOpen &&
-            <UserBookings user={user} bookings={userBookings} destroyBooking={destroyBooking} /> 
+            <UserBookings 
+              user={user} 
+              fetchUserBookings={fetchUserBookings} 
+              destroyBooking={destroyBooking} /> 
           }
 
           { (myListingsBookingsOpen && hasListings) &&
-            <UserListingsBookings user={user} listings={listings} destroyBooking={destroyBooking} /> 
+            <UserListingsBookings 
+              user={user} 
+              listings={listings} 
+              fetchUserListings={fetchUserListings}
+              destroyBooking={destroyBooking} /> 
           }
           
         </div>

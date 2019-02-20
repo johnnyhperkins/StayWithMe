@@ -32,6 +32,9 @@ class ListingBookings extends Component {
     return (
       <>
       <ListingListItem key={listing.id} listing={listing} home_types={home_types} destroyListing={false} />
+      <hr className="hr-24"/>
+      <h4>Bookings for {listing.title}</h4>
+      <hr className="hr-24--no-line"/>
       { bookings.length ?
           bookings.map(booking => 
           <ul>
@@ -45,7 +48,7 @@ class ListingBookings extends Component {
         :
           <h3>This listing doesn't have any bookings</h3>
         }
-      <hr className="hr-24"/>
+      
       </>
     );
   }

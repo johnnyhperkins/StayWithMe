@@ -14,7 +14,15 @@ import Review from '../reviews/review';
 import ReviewForm from '../reviews/review_form';
 import ListingSidebar from './listing_sidebar';
 
-import { AirCon } from '../../static_assets/amenity_icons';
+import { 
+  AirCon,
+  Iron,
+  Wifi,
+  Kitchen,
+  TV,
+  Washer,
+  Dryer
+ } from '../../static_assets/amenity_icons';
 import ListingImageHeader from './listing_image_header';
 
 const today = moment();
@@ -47,13 +55,12 @@ class Listing extends Component {
 
     fetchListingReviews(this.props.match.params.id);
 
-    fetchListing(this.props.match.params.id).then(({listing}) => {
-      
-      //init map
+    return fetchListing(this.props.match.params.id).then(({listing}) => {
       const mapOptions = {
         center: { lat: listing.lat, lng: listing.lng },
         zoom: 16
       };
+
       const mapDOMNode = document.getElementById('map')
       this.map = new google.maps.Map(mapDOMNode, mapOptions);
       const blueCircle = new google.maps.Circle({
@@ -69,7 +76,7 @@ class Listing extends Component {
       blueCircle.setMap(this.map);
 
     }); 
-  }  
+  }
 
   render() {
     const { 
@@ -77,12 +84,13 @@ class Listing extends Component {
       amenities, 
       home_types, 
       listing,
-      reviews } = this.props;
+      reviews,
+      user } = this.props;
     
-    if(listingLoading) {
+    if(listingLoading || _.isUndefined(listing)) {
       return <Loading />
     }
-    
+
     const { 
       title, 
       address, 
@@ -99,8 +107,22 @@ class Listing extends Component {
       review_ids,
       ownerPhotoUrl,
       ownerName
-    } = this.props.listing;
+    } = listing;
 
+    const amenityList = {
+      AirCon,
+      Iron,
+      Wifi,
+      Kitchen,
+      TV,
+      Washer,
+      Dryer
+    }
+
+    const canLeaveReview = Boolean(_.find(user.listing_booking_ids, {'listing_id': id}));
+    const hasLeftReview = Boolean(_.find(reviews, {'user_id': user.id}));
+    console.log(canLeaveReview);
+    console.log(hasLeftReview);
     return (
       <>{ photos ?
         <ListingImageHeader photos={photos} /> 
@@ -113,14 +135,15 @@ class Listing extends Component {
           <div className="listing-details__header">
             <div>
               {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 key={ht.id} className="text--maroon">{ht.name}</h6>)}
-              <h2>{title} {this.props.userId == user_id && 
+              <h2>{title} {user.id == user_id && 
                 <Link to={`/listings/${id}/edit`}>
                   (<span className="text--teal">Edit Listing</span>)
                 </Link>
                 }
               </h2>
               <p>{address}</p>
-              <p>Max Guests: {max_guests}</p>
+              <hr className="hr-24--no-line" />
+              <p>{max_guests} guests</p>
             </div>
 
             <div className="profile-thumb-wrapper">
@@ -135,17 +158,15 @@ class Listing extends Component {
           
           <p>{description}</p>
 
-          
           <hr className="hr-24"/>
           {/* AMENITIES */}
 
+          <h5>Amenities</h5>
           <div className="amenities">
-            <h5>Amenities</h5>
-            <ul>
-            {Object.values(amenities).filter(a => amenity_ids.includes(a.id)).map(amenity => {
-              return <li key={amenity.id}>{amenity.name}</li>
-            })}
-            </ul>
+          {Object.values(amenities).filter(a => amenity_ids.includes(a.id)).map(amenity => {
+            const Amenity = amenityList[amenity.icon];
+            return <div className="grid--50 amenity" key={amenity.id}><Amenity /> {amenity.name}</div>
+          })}
           </div>
 
           <hr className="hr-24"/>
@@ -166,14 +187,6 @@ class Listing extends Component {
           />
 
           <hr className="hr-24"/>
-          {/* LOCATION */}
-          
-          <div className="map-wrapper">
-            <h5>Location</h5>
-            <div id="map" ref={map => this.mapNode = map}></div>
-          </div>
-
-          <hr className="hr-24--no-line"/>
           {/* REVIEWS */}
 
           <div className="flex-container--no-justify rating-container">
@@ -196,19 +209,26 @@ class Listing extends Component {
           
           </div>
 
-          {/* <hr className="hr-24"/> */}
-          {/* LEAVE REVIEWS */}
-          {this.props.listing.user_id != this.props.userId ? (
-          <>
           <section className="reviews-container">
             {!isEmpty(reviews) ? Object.values(reviews).map(review => <Review key={review.id} review={review} />) : null}
           </section>
-          <ReviewForm listing_id={id} />
-          </>
-          ) :
-          null
 
-        }
+          {/* LEAVE REVIEWS */}
+          { (this.props.listing.user_id != user.id && 
+            canLeaveReview && 
+            !hasLeftReview ) ? (
+          <ReviewForm listing_id={id} />
+          ) :
+          null }
+
+          <hr className="hr-24"/>
+          <hr className="hr-24--no-line"/>
+          {/* LOCATION */}
+          
+          <div className="map-wrapper">
+            <h3>The neighborhood</h3>
+            <div id="map" ref={map => this.mapNode = map}></div>
+          </div>
         </section>
         <StickyBox offsetTop={80}>
           <ListingSidebar listing={listing} checkBlockedDays={this.checkBlockedDays} />
@@ -221,7 +241,7 @@ class Listing extends Component {
 }
 
 const msp = (state, props) => ({
-  userId: state.session.id,
+  user: state.session,
   listing: state.entities.listings[props.match.params.id],
   listingLoading: state.ui.listingLoading,
   amenities: state.entities.amenities,

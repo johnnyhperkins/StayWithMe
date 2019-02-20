@@ -1,6 +1,3 @@
-// Convert the listings array that was received as an argument into an object(we want constant time lookup by id)
-// For each marker in this.markers, if the marker does not have a corresponding listing in our constant time listing lookup object, then remove the marker from the map and this.markers
-
 export default class MarkerManager {
   constructor(map, handleClick) {
     this.map = map;
@@ -8,7 +5,6 @@ export default class MarkerManager {
     this.handleClick = handleClick;
   }
   updateMarkers(listings) {
-//     debugger
     const listingsObj = {};
     listings.forEach(listing => listingsObj[listing.id] = listing);
 

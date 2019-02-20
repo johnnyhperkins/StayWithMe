@@ -1,38 +1,40 @@
+import * as Icons from '../static_assets/amenity_icons';
+
 const defaultState = {
   1: {
     id: 1,
     name: 'A/C',
-    icon: ''
+    icon: 'AirCon'
   },
   2: {
     id: 2,
-    name: 'Heat',
-    icon: ''
+    name: 'Wifi',
+    icon: 'Wifi'
   },
   3: {
     id: 3,
     name: 'Kitchen',
-    icon: ''
+    icon: 'Kitchen'
   },
   4: {
     id: 4,
-    name: 'TV',
-    icon: ''
+    name: 'Cable TV',
+    icon: 'TV'
   },
   5: {
     id: 5,
     name: 'Iron',
-    icon: ''
+    icon: 'Iron'
   },
   6: {
     id: 6,
-    name: 'Fireplace',
-    icon: ''
+    name: 'Washer',
+    icon: 'Washer'
   },
   7: {
     id: 7,
-    name: 'Hair dryer',
-    icon: ''
+    name: 'Dryer',
+    icon: 'Dryer'
   },
 }
 

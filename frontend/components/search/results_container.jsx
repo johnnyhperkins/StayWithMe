@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { withRouter, Redirect } from 'react-router-dom';
 import queryString from 'query-string';
 import _ from 'lodash';
-import moment from 'moment';
 
 import { updateFilter, setFilter } from '../../actions/filters';
 

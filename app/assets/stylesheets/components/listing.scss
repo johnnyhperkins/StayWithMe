@@ -53,10 +53,17 @@
   }
 }
 
-.amenities ul {
+.amenities {
   display:flex;
-  li {
-    margin-right: 2.4rem;
+  justify-content: flex-start;
+  .amenity {
+    display: flex;
+    justify-content: flex-start
+  }
+  .svg-amenity-container {
+    margin-right: 7px;
+    position:relative;
+    top: 3px;
   }
 }
 
@@ -70,6 +77,8 @@
     min-height: 60px;
     width: 60px;
     height: 60px;
+    background-size: cover;
+    border-radius: 50%;
   }
   .fa {
     width: 20px;
@@ -178,7 +187,7 @@
 
 .square-image:hover,
 .hero-image:hover {
-  transform: scale(1.2);
+  transform: scale(1.05);
   opacity: 1 !important;
 }
 

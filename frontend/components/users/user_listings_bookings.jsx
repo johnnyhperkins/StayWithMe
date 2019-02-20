@@ -15,7 +15,7 @@ class UserListingsBookings extends Component {
     if(!_.isEmpty(listings)) {
       const allBookingIds = Object.values(listings).map(listing => listing.booking_ids).flat();
       this.props.fetchBookingsByIds(allBookingIds);
-    } 
+    }
   }
 
   render() {

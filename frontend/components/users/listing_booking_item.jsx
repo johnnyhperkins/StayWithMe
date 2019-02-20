@@ -12,13 +12,15 @@ const ListingBookingItem = ({booking, updateBookingStatus}) => {
      listing_id,
      start_date, 
      end_date, 
-     listing_title 
+     listing_title,
+     listingPrice
     } = booking
 
+    const cost = moment(end_date).diff(moment(start_date), 'days') * listingPrice;
+    
     return (
       <>
       <li> 
-        <hr className="hr-24"/>
         <div className="flex-container--no-justify">
           <div className="booking-thumb-wrapper">
             <Link to={`/users/${user_id}/profile`}>
@@ -27,16 +29,16 @@ const ListingBookingItem = ({booking, updateBookingStatus}) => {
             <p className="tiny">{bookerName}</p>
           </div>
           <div className="booking-details margin-left24">
-            <h5><Link to={`/listings/${listing_id}`}>{listing_title}</Link></h5>
             { status == "APPROVED" &&
               <p>{bookerName} is staying at your place!</p>
             } 
             { status == "PENDING" &&
               <p>{bookerName} is requesting to stay at your place!</p>
             }
-            <p>Check in: {moment(start_date).format('MMM DD YYYY')}</p>
-            <p>Check out: {moment(end_date).format('MMM DD YYYY')}</p>
-            <p>Status: {status[0] + status.slice(1).toLowerCase()}</p>
+            <h5>Details</h5>
+            <p>{moment(start_date).format('MMMM Do')} - {moment(end_date).format('MMMM Do, YYYY')}</p>
+            <p>You made ${cost} on this booking.</p>
+            { status == "APPROVED" && <p>This reservation has been {status.toLowerCase()}</p> }
             { status == "PENDING" && 
             <>
             <button className="button--teal-inline grid--33" onClick={() => updateBookingStatus(booking, 'APPROVED')}>Approve</button>
@@ -45,6 +47,7 @@ const ListingBookingItem = ({booking, updateBookingStatus}) => {
             }
           </div>
         </div>
+        <hr className="hr-24"/>
       </li>
       </>
     );

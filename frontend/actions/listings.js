@@ -3,7 +3,7 @@ export const RECEIVE_LISTING = 'RECEIVE_LISTING';
 export const RECEIVE_LISTINGS = 'RECEIVE_LISTINGS';
 export const REMOVE_LISTING = 'REMOVE_LISTING';
 
-import { savingListing } from './ui'
+import { savingListing, fetchingListing } from './ui'
 
 export const RECEIVE_LISTING_ERRORS = 'RECEIVE_LISTING_ERRORS';
 
@@ -31,6 +31,7 @@ export const fetchUserListings = id => dispatch => {
 };
 
 export const fetchListing = id => dispatch => {
+  dispatch(fetchingListing());
   return ApiListingsUtil.fetchListing(id).then(listing => {
     return dispatch(receiveListing(listing));
   },

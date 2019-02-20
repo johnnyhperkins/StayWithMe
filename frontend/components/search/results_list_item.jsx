@@ -8,7 +8,7 @@ const SearchResultItem = ({listing, home_types, amenities}) => {
     return (
       <>
       <div className="listing-result-wrapper">
-          <MiniSlider listing_id={listing.id} photos={photos} />
+          <MiniSlider listing_id={listing.id} photos={photos} className="results-slider" />
         <div className="listing-details">
           <div className="top--left">
               {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 className="text--light-gray" key={ht.id}>{ht.name}</h6>)}

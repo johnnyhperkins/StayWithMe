@@ -1,24 +1,48 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import HomeLoggedOut from './home_logged_out';
 import { queryListings } from '../../actions/listings';
 import FeaturedListing from './featured_listing';
+import moment from 'moment';
+import queryString from 'query-string';
 
 class Home extends Component {
   componentDidMount() {
     this.props.queryListings({sample: 3})
   }
+
+  displaySampleResults = () => {
+    const lat = 40.7830603,
+      lng= -73.97124880000001,
+      max_guests = 1,
+      start_date = moment().format('YYYY-MM-DD'),
+      end_date = moment().add(5, 'days').format('YYYY-MM-DD');
+
+    const urlString = queryString.stringify({
+      lat,
+      lng,
+      start_date,
+      end_date,
+      max_guests
+    })
+
+    this.props.history.push({
+      pathname: '/search', 
+      search: `?${urlString}`
+    });
+  }
+
   render() {
     const { loggedIn, listings, home_types } = this.props;
     return (
       <>
       {!loggedIn && <HomeLoggedOut />}
       {/* TO DO: when clicked on this, focus the sear bar */}
-      <section className={loggedIn ? "content-container" : "content-container content-container--logged-out"}>
+      <section className={loggedIn ? "content-container home" : "content-container content-container--logged-out"}>
         <h3>Explore StayWithMe</h3>
-        <div className="flex-container--no-justify explore-wrapper">
-          <div className="explore-container flex-container--no-justify">
+        <div className="flex-container--no-justify explore-wrapper cursor-pointer">
+          <div className="explore-container flex-container--no-justify" onClick={this.displaySampleResults}>
             <img src='https://s3.us-east-2.amazonaws.com/stay-with-me/homes-thumb.jpg' />
             <h4>Homes</h4>
           </div>
@@ -51,4 +75,4 @@ const mdp = dispatch => ({
   queryListings: (query) => dispatch(queryListings(query))
 })
 
-export default connect(msp,mdp)(Home);
+export default withRouter(connect(msp,mdp)(Home));

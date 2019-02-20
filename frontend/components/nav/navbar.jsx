@@ -20,13 +20,12 @@ import {
 import { logout } from '../../actions/sessions';
 import SearchFilterBar from '../search/filter_bar';
 
-import { updateFilter, setFilter } from '../../actions/filters';
+import { setFilter } from '../../actions/filters';
 
 class NavBar extends Component {
   constructor(props) {
     super(props);
     const query = props.location.pathname == "/search" ? queryString.parse(this.props.location.search) : null;
-//     debugger
     this.state = {
       address: '',
       lat: query && query.lat ? parseFloat(query.lat) : 0,

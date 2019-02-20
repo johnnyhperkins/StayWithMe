@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import MiniSlider from '../misc/mini_slider';
 
 const BookingItem = ({booking, destroyBooking}) => {
    const {
@@ -10,20 +11,26 @@ const BookingItem = ({booking, destroyBooking}) => {
      start_date, 
      end_date, 
      listing_title,
-     listingPrice
+     listingPrice,
+     listingPhotosUrls
     } = booking
 
     const cost = moment(end_date).diff(moment(start_date), 'days') * listingPrice;
 
     return (
       <>
-      <div className="flex-container--no-justify"> 
+      <div className="booking-item-wrapper"> 
+        <MiniSlider listing_id={listing_id} photos={listingPhotosUrls} className="mini-slider" />
         <div className="booking-body">
-          <h5><Link to={`/listings/${listing_id}`}>{listing_title}</Link></h5>
-          <p>Check in: {moment(start_date).format('MMM DD YYYY')}</p>
-          <p>Check out: {moment(end_date).format('MMM DD YYYY')}</p>
+          <h3><Link to={`/listings/${listing_id}`}>{listing_title}</Link></h3>
+          <hr className="hr-24--no-line" />
+          <h5>Details</h5>
+          <p>{moment(start_date).format('MMMM Do')} - {moment(end_date).format('MMMM Do, YYYY')}</p>
           <p>Total cost: ${cost}</p>
-          <p>Status: {status}</p>
+          {status == "PENDING" && <p>Your host has received your request.</p>} 
+          {status == "DENIED" && <p>Unfortunately the host has denied your request to stay here.</p>}
+          {status === "APPROVED" && <p>Congratulations! The host has approved your booking.</p>}
+          <hr className="hr-24--no-line" />
           <h6 className="text--maroon" onClick={() => destroyBooking(id)}>Cancel Booking</h6>
         </div>   
       </div>

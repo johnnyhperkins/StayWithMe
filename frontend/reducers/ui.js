@@ -5,7 +5,8 @@ import {
   RECEIVE_SEARCH_QUERY,
   UPDATE_BOUNDS, 
   SAVING_LISTING,
-  TOGGLE_LOGIN_MODAL
+  TOGGLE_LOGIN_MODAL,
+  FETCHING_LISTING
 } from '../actions/ui';
 
 import { RECEIVE_LISTING, RECEIVE_LISTINGS } from '../actions/listings';
@@ -45,6 +46,12 @@ const uiReducer = (state = defaultState, action) => {
           savingListing:false 
         }) 
     
+    case FETCHING_LISTING: 
+      return merge({}, 
+        state, { 
+          listingLoading: true,
+        }) 
+
     case RECEIVE_USER:
       return merge({}, 
         state, { 

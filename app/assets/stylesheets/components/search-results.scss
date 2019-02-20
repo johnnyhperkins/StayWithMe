@@ -25,10 +25,13 @@
       bottom: 5px;
     }
   }
+  
+  .slick-slider {
+    overflow:hidden;
+  }
   .listing-thumb {
-    width:300px;
-    max-height:200px;
-    border-radius: 3px;
+    max-width: 100%;
+    height: auto;
   }
   .listing-details {
     border-top: 1px solid $off-white;
@@ -39,7 +42,7 @@
     .top--left,
     .top--right,
     .bottom--left,
-    .bottom--right, {
+    .bottom--right {
       position: absolute
     }
     .top--left {
