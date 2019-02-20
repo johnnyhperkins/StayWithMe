@@ -7,9 +7,9 @@ const SearchResultItem = ({listing, home_types, amenities, openListing}) => {
     const {title, amenity_ids, home_type_id, photos, price, max_guests} = listing
     return (
       <>
-      <div className="listing-result-wrapper cursor-pointer" onClick={() => openListing(listing.id)}>
+      <div className="listing-result-wrapper cursor-pointer">
           <MiniSlider listing_id={listing.id} photos={photos} className="results-slider" />
-        <div className="listing-details">
+        <div className="listing-details" onClick={() => openListing(listing.id)}>
           <div className="top--left">
               {Object.values(home_types).filter(ht => ht.id == home_type_id).map(ht => <h6 className="text--light-gray" key={ht.id}>{ht.name}</h6>)}
               <h4><Link key={listing.id} to={`listings/${listing.id}`}>{title}</Link></h4>
