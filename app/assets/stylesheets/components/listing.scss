@@ -73,15 +73,19 @@
 }
 
 .rating-container {
+  .flex-container--no-justify {
+    align-content: flex-start;
+    align-items: flex-start;
+  }
   .read-only-rating,
   .rating-selector {
     margin-left:2.4rem;
   }
   .profile-thumb {
-    min-width: 60px;
-    min-height: 60px;
-    width: 60px;
-    height: 60px;
+    min-width: 48px;
+    min-height: 48px;
+    width: 48px;
+    height: 48px;
     background-size: cover;
     border-radius: 50%;
   }

@@ -1,4 +1,4 @@
-json.extract! review, :id, :user_id, :listing_id, :rating, :review_body
+json.extract! review, :id, :user_id, :listing_id, :rating, :review_body, :created_at
 
 
 if review.listing

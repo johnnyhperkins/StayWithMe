@@ -1,23 +1,27 @@
 import React from 'react';
-import Rating from 'react-rating';
+// import Rating from 'react-rating';
+import moment from 'moment';
 
 const Review = ({review}) => {
     return (
       <div className="review">
         <hr className="hr-24"/>
-        <div className="flex-container--no-justify rating-container">
-          <div>
+        <div className="rating-container">
+          <div className="flex-container--no-justify margin-bottom16">
             <div className="profile-thumb" style={{backgroundImage: `url(${review.photoUrl})`}}></div>
-            <p className="tiny center">{review.username}</p>
+            <div className="margin-left16">
+              <p>{review.username}</p>
+              <p className="small">{moment(review.created_at).format('MMMM')}</p>
+            </div>
           </div>
-          <div className="review-body margin-left24">
-            <Rating 
+          <div className="review-body">
+            {/* <Rating 
               className="read-only-rating no-margin"
               readonly
               emptySymbol="fa fa-star-o fa-2x"
               fullSymbol="fa fa-star fa-2x"
               initialRating={review.rating}
-            />
+            /> */}
             <p>{review.review_body}</p>
           </div>   
         </div> 

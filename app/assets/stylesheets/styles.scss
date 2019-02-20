@@ -1,22 +1,50 @@
 @font-face {
-  font-family: 'Circular';
+  font-family: 'Cereal';
+  font-style: initial;
+  font-weight: 200;
+  src: font-url('./fonts/cereal/cereal-200.ttf') format('truetype');
+  }
+
+@font-face {
+  font-family: 'Cereal';
   font-style: initial;
   font-weight: 300;
-  src: local('Circular Std Book'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-Book.woff') format('woff');
+  src: font-url('./fonts/cereal/cereal-300.ttf') format('truetype');
   }
-  
+
+@font-face {
+  font-family: 'Cereal';
+  font-style: initial;
+  font-weight: 500;
+  src: font-url('./fonts/cereal/cereal-500.ttf') format('truetype');
+  }
+
+@font-face {
+  font-family: 'Cereal';
+  font-style: initial;
+  font-weight: 700;
+  src: font-url('./fonts/cereal/cereal-700.ttf') format('truetype');
+  }
+
+@font-face {
+  font-family: 'Cereal';
+  font-style: initial;
+  font-weight: 800;
+  src: font-url('./fonts/cereal/cereal-800.ttf') format('truetype');
+  }
+
   @font-face {
+    font-family: 'Cereal';
+    font-style: initial;
+    font-weight: 900;
+    src: font-url('./fonts/cereal/cereal-500.ttf') format('truetype');
+    }
+  
+@font-face {
   font-family: 'Circular';
   font-style: italic;
   font-weight: 300;
   src: local('Circular Std Book Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-BookItalic.woff') format('woff');
-  }
-  
-  @font-face {
-  font-family: 'Circular';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Circular Std Medium'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-Medium.woff') format('woff');
   }
   
   @font-face {
@@ -26,44 +54,12 @@
   src: local('Circular Std Medium Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-MediumItalic.woff') format('woff');
   }
   
-  
-  @font-face {
-  font-family: 'Circular';
-  font-style: normal;
-  font-weight: 500;
-  src: local('Circular Std Bold'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-Bold.woff') format('woff');
-  }
-  
-  
-  @font-face {
-  font-family: 'Circular';
-  font-style: italic;
-  font-weight: 500;
-  src: local('Circular Std Bold Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-BoldItalic.woff') format('woff');
-  }
-  
-  
-  @font-face {
-  font-family: 'Circular';
-  font-style: normal;
-  font-weight: 600;
-  src: local('Circular Std Black'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-Black.woff') format('woff');
-  }
-  
-  
   @font-face {
   font-family: 'Circular';
   font-style: italic;
   font-weight: 600;
   src: local('Circular Std Black Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-BlackItalic.woff') format('woff');
   }
-
-  @font-face {
-    font-family: 'Font';
-    font-style: italic;
-    font-weight: 600;
-    src: local('Circular Std Black Italic'), font-url('./fonts/circular-std-book-cufonfonts-webfont/CircularStd-BlackItalic.woff') format('woff');
-    }
 
     @font-face {
       font-family: 'Font Awesome 5 Free';
@@ -95,6 +91,5 @@
 @import './components/bookings';
 @import './fonts/fa/css/svg-with-js.min';
 @import './fonts/fa/css/regular';
-// @import './fonts/fa/css/all';
 @import './fonts/fa/css/fontawesome.min';
 @import './fonts/fa/css/solid';
