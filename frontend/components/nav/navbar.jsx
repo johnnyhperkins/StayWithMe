@@ -13,10 +13,7 @@ import LoginFormContainer from '../session/login_form_container';
 import Logo from '../../static_assets/logo';
 import SearchIcon from '../../static_assets/search_icon';
 import Menu from './menu';
-import { 
-  receiveSearchQuery, 
-  toggleLoginModal 
-} from '../../actions/ui';
+import { toggleLoginModal } from '../../actions/ui';
 import { logout } from '../../actions/sessions';
 import SearchFilterBar from '../search/filter_bar';
 
@@ -40,6 +37,7 @@ class NavBar extends Component {
       calendarFocused: null,
       startDate: query && query.start_date ? moment(query.start_date) : moment(),
       endDate: query && query.end_date ? moment(query.end_date) : moment().add(2, 'days'),
+      price: 0
     }
   }
 
@@ -76,10 +74,6 @@ class NavBar extends Component {
       .catch(error => console.error('Error', error));
   };
 
-  handlePriceFilter = () => {
-
-  }
-
   search = () => {
     const {
       address,
@@ -87,7 +81,8 @@ class NavBar extends Component {
       lng,
       start_date, 
       end_date, 
-      numGuests 
+      numGuests,
+      price 
     } = this.state;
 
     const { setFilter } = this.props;
@@ -101,19 +96,22 @@ class NavBar extends Component {
         lng,
         start_date, 
         end_date, 
+        price,
         max_guests: numGuests
       });
       
       this.setState({
         openDatePicker: false,
-        openGuestSelect: false
+        openGuestSelect: false,
+        openPriceSlider: false
       }, () => {
         const urlString = queryString.stringify({
           lat,
           lng,
           start_date,
           end_date,
-          max_guests: numGuests
+          max_guests: numGuests,
+          price
         })
         return window.location = '/#/search?' + urlString;
       })
@@ -124,12 +122,18 @@ class NavBar extends Component {
       this.setState({openDatePicker: !this.state.openDatePicker})
     }
   }
+
+  handlePriceChange = (price) => {
+    this.setState({
+      price
+    })
+  }
  
   handleNumGuestChange = (add) => {
     let { numGuests } = this.state;
 
     return () => {
-      if( numGuests >= 0 ) {
+      if( numGuests >= 0 && numGuests < 20) {
         if(add) {
           this.setState({numGuests: ++numGuests})
         } else if(numGuests > 1) {
@@ -142,14 +146,24 @@ class NavBar extends Component {
   handleOpenGuestSelect = () => {
     this.setState({
       openGuestSelect: !this.state.openGuestSelect, 
-      openDatePicker:false
+      openDatePicker: false,
+      openPriceSlider: false
+    })
+  }
+
+  handleOpenPriceFilter = () => {
+    this.setState({
+      openGuestSelect: false, 
+      openDatePicker: false,
+      openPriceSlider: !this.state.openPriceSlider,
     })
   }
 
   handleOpenDatePicker = () => {
     this.setState({
       openDatePicker: !this.state.openDatePicker, 
-      openGuestSelect: false
+      openGuestSelect: false,
+      openPriceSlider: false
     })
   }
 
@@ -260,11 +274,12 @@ class NavBar extends Component {
         // make a function that conditionally passes certain props based on location?
         <SearchFilterBar
           {...this.state}
-          handlePriceFilter={this.handlePriceFilter}
+          handleOpenPriceFilter={this.handleOpenPriceFilter}
+          handlePriceChange={this.handlePriceChange}
           handleOpenGuestSelect={this.handleOpenGuestSelect}
           handleOpenDatePicker={this.handleOpenDatePicker}
-          onFocusChange={this.onFocusChange}
           handleNumGuestChange={this.handleNumGuestChange}
+          onFocusChange={this.onFocusChange}
           onDatesChange={this.onDatesChange}
           search={this.search}
         />
@@ -304,7 +319,6 @@ const msp = (state) => ({
 const mdp = (dispatch) => ({
   logout: () => dispatch(logout()),
   changeFormType: (formType) => dispatch(changeFormType(formType)),
-  receiveSearchQuery: (query) => dispatch(receiveSearchQuery(query)),
   toggleLoginModal: (modal,bool) => dispatch(toggleLoginModal(modal,bool)),
   setFilter: (filter) => dispatch(setFilter(filter))
 })

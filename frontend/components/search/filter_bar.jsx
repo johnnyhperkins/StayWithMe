@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import Slider from 'react-rangeslider'
 import 'react-dates/initialize';
 
 import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
@@ -16,11 +17,13 @@ class SearchFilterBar extends Component {
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutsideDatePicker);
     document.addEventListener('mousedown', this.handleClickOutsideGuestSelector);
+    document.addEventListener('mousedown', this.handleClickOutsidePriceFilter);
   }
 
   componentWillUnmount() {
     document.removeEventListener('mousedown', this.handleClickOutsideDatePicker);
-    document.removeEventListener('mousedown', this.handleClickOutsideGuestSelector)
+    document.removeEventListener('mousedown', this.handleClickOutsideGuestSelector);
+    document.removeEventListener('mousedown', this.handleClickOutsidePriceFilter);
   }
 
   handleClickOutsideDatePicker = (event) => {
@@ -31,6 +34,16 @@ class SearchFilterBar extends Component {
 
   setDatePickerRef = (node) => {
     this.DatePickerRef = node;
+  }
+
+  handleClickOutsidePriceFilter = (event) => {
+    if (this.PriceFilterRef && !this.PriceFilterRef.contains(event.target)) {
+      this.props.handleOpenPriceFilter();
+    }
+  }
+
+  setPriceFilterRef = (node) => {
+    this.PriceFilterRef = node;
   }
   
   handleClickOutsideGuestSelector = (event) => {
@@ -50,10 +63,12 @@ class SearchFilterBar extends Component {
 
   applyFilterClasses = (field) => {
     switch (field) {
+      case "PRICE":
+        return this.props.price > 0 ? 'button button--inline button--outlined filter-active' : 'button button--inline button--outlined';
       case "NUM_GUESTS":
-        return this.props.numGuests > 0 ? 'button button--inline button--outlined filter-active' : 'button button--inline button--outlined'  
+        return this.props.numGuests > 0 ? 'button button--inline button--outlined filter-active' : 'button button--inline button--outlined'; 
       case "DATES":
-        return (this.props.startDate && this.props.endDate) ? 'button button--inline button--outlined filter-active' : 'button button--inline button--outlined'
+        return (this.props.startDate && this.props.endDate) ? 'button button--inline button--outlined filter-active' : 'button button--inline button--outlined';
       default:
         break;
     } 
@@ -64,9 +79,7 @@ class SearchFilterBar extends Component {
   }
 
   render() { 
-
     const { 
-      search,
       numGuests,
       openGuestSelect,
       openDatePicker,
@@ -74,12 +87,15 @@ class SearchFilterBar extends Component {
       handleNumGuestChange,
       handleOpenGuestSelect,
       handleOpenDatePicker,
-      handlePriceFilter,
+      handleOpenPriceFilter,
+      handlePriceChange,
       onDatesChange,
       onFocusChange,
       focusedInput,
       startDate,
-      endDate
+      endDate,
+      price,
+      search,
     } = this.props;
 
     return (
@@ -137,14 +153,31 @@ class SearchFilterBar extends Component {
           </div>
         </div>
       }
-      
-      <button onClick={handlePriceFilter} className="button button--inline button--outlined">Price</button>
 
-      { openPriceSlider && 
-        <div className="price-slider">
+      { this.props.location.pathname == "/search" &&
+        <button 
+          onClick={handleOpenPriceFilter} 
+          className={this.applyFilterClasses("PRICE")} >
+        {price > 0 ? `Max $${price}` : 'Price'}</button>
+      }
 
+      { openPriceSlider &&
+        <div 
+          className="price-slider"
+          ref={this.setPriceFilterRef}>
+          <p className="small">${price}</p>
+          <Slider
+            value={price}
+            tooltip={false}
+            onChange={handlePriceChange}
+            max={1000}
+            labels={{
+              0: 'Min',
+              1000: 'Max'
+            }}
+          />
+          <span className="apply-search" onClick={search}>Apply</span>
         </div>
-
       }
 
 

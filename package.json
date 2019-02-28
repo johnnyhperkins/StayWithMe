@@ -16,6 +16,7 @@
     "react-dom": "^16.7.0",
     "react-modal": "^3.8.1",
     "react-places-autocomplete": "^7.2.0",
+    "react-rangeslider": "^2.2.0",
     "react-rating": "^1.6.2",
     "react-redux": "^6.0.0",
     "react-router-dom": "^4.3.1",
