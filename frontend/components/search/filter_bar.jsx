@@ -70,9 +70,11 @@ class SearchFilterBar extends Component {
       numGuests,
       openGuestSelect,
       openDatePicker,
+      openPriceSlider,
       handleNumGuestChange,
       handleOpenGuestSelect,
       handleOpenDatePicker,
+      handlePriceFilter,
       onDatesChange,
       onFocusChange,
       focusedInput,
@@ -135,12 +137,22 @@ class SearchFilterBar extends Component {
           </div>
         </div>
       }
+      
+      <button onClick={handlePriceFilter} className="button button--inline button--outlined">Price</button>
+
+      { openPriceSlider && 
+        <div className="price-slider">
+
+        </div>
+
+      }
+
 
     {/* TO DO: Update this to be filters for price and amenities
 
       <button className="button button--inline button--outlined">Amenities</button>
 
-      <button className="button button--inline button--outlined">Price</button>
+      
       { (this.props.location.pathname && 
       this.props.location.pathname != "/") &&
       <div className="filters">

@@ -38,7 +38,6 @@ class Home extends Component {
     return (
       <>
       {!loggedIn && <HomeLoggedOut />}
-      {/* TO DO: when clicked on this, focus the sear bar */}
       <section className={loggedIn ? "content-container home" : "content-container content-container--logged-out"}>
         <h3>Explore StayWithMe</h3>
         <div className="flex-container--no-justify explore-wrapper cursor-pointer">

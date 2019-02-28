@@ -76,7 +76,6 @@ class Api::BookingsController < ApplicationController
     elsif params[:listing_id]
       @bookings = Booking.where(listing_id: params[:listing_id].to_i)
     elsif params[:ids]
-      # debugger
       ids = params[:ids].map(&:to_i)
       @bookings = Booking.where(id: ids)
     else

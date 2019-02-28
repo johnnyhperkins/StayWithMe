@@ -25,7 +25,7 @@ class Booking < ApplicationRecord
     # TO DO: pad the new listing availabilites by adding a day to them on either side of the booking dates
     listing_availability = self.listing.listing_availabilities
       .where('start_date <= :start_date AND end_date >= :end_date',
-                 start_date: self.start_date, end_date: self.end_date).first
+              start_date: self.start_date, end_date: self.end_date).first
     
     if (self.start_date == listing_availability.start_date && 
         self.end_date == listing_availability.end_date)

@@ -49,7 +49,6 @@ class Api::ListingsController < ApplicationController
 
   def index
     return @listings = Listing.all.limit(sample_listings) if sample_listings
-    # debugger
     @listings = Listing.query(query_params)
     if @listings
       return @listings

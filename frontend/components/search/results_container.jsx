@@ -70,7 +70,13 @@ class SearchResultContainer extends Component {
   }
 
   render() {
-    const { listings, updateFilter, searching, filter } = this.props;
+    const { 
+      listings,
+      home_types, 
+      updateFilter, 
+      searching, 
+      filter 
+    } = this.props;
 
     const query = queryString.parse(this.props.location.search)
 
@@ -94,6 +100,7 @@ class SearchResultContainer extends Component {
             setFilter={setFilter}
             filter={filter}
             initMapLatLng={initMapLatLng}
+            home_types={home_types}
           />
         </section>
       </>

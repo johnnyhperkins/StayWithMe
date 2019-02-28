@@ -40,10 +40,14 @@ class Listing extends Component {
   checkBlockedDays = (day) => {
     const { listing } = this.props;
     const { booked_dates } = this.props.listing;
+    day = moment(day).format('YYYY-MM-DD');    
+    
     return !!booked_dates.filter(booking => 
-      moment(day).isBetween(booking.start_date, booking.end_date) && 
+      moment(day).isBetween( 
+        moment(booking.start_date).subtract(1, 'd'),
+        booking.end_date, null, '()') && 
       booking.status == "APPROVED").length || 
-      moment(day).isBefore(listing.start_date) ||
+      moment(day).isBefore(moment(listing.start_date).subtract(1, 'd')) ||
       moment(day).isAfter(listing.end_date)
   }
 
@@ -174,7 +178,7 @@ class Listing extends Component {
           <h5>Availability</h5>
           <DayPickerRangeController
             startDate={moment(start_date)}
-            endDate={moment(end_date)}
+            endDate={moment(end_date).add(1, 'd')}
             numberOfMonths={2}
             noBorder
             isDayBlocked={day => this.checkBlockedDays(day)}

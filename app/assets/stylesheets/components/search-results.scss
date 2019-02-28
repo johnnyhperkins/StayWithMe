@@ -13,6 +13,78 @@
   font-size: 2.8rem
 }
 
+.gm-style .gm-style-iw-c {
+  padding: 18px;
+  border-radius: 3px;
+}
+
+.gm-ui-hover-effect {
+  display:none!important;
+}
+
+.slick-next {
+  right: 20px;
+  color:#fff;
+  z-index: 4;
+}
+
+.slick-prev {
+  left: 20px;
+  color:#fff;
+  z-index: 4;
+}
+
+.marker-window {
+  .results-slider {
+    width: 300px;
+    height: 200px;
+  }
+
+  .marker-window__details {
+    padding-top: 12px;
+  }
+
+  .marker-window__details h5 {
+    overflow-wrap: break-word !important;
+    font-weight: 800;
+    line-height: 1.375em;
+    color: rgb(72, 72, 72) ;
+    margin: 0px !important;
+  }
+
+  .slick-slider {
+    overflow:hidden;
+    background: #d8d8d8;
+    .slick-next {
+      right: 20px;
+      color:#fff;
+      z-index: 1;
+    }
+    .slick-prev {
+      left: 20px;
+      color:#fff;
+      z-index: 1;
+    }
+  }
+
+  .listing-thumb {
+    max-width: 100%;
+    max-height:200px;
+    min-width: auto;
+    margin: 0 auto;
+    height: auto;
+    // width: 100%;
+    // height: 100%;
+    // position: absolute !important;
+  }
+  .iw-image-wrapper {
+    position:relative;
+    width: 100%;
+    min-height: 190px;
+    background: #D8D8D8;
+  }
+}
+
 .listing-result-wrapper {
   display:flex;
   min-height: 200px;
@@ -28,9 +100,23 @@
   
   .slick-slider {
     overflow:hidden;
+    background: #d8d8d8;
+    .slick-next {
+      right: 20px;
+      // color:#fff;
+      z-index: 1;
+    }
+    .slick-prev {
+      left: 20px;
+      color:#fff;
+      z-index: 1;
+    }
   }
   .listing-thumb {
     max-width: 100%;
+    max-height:200px;
+    min-width: auto;
+    margin: 0 auto;
     height: auto;
   }
   .listing-details {
@@ -89,7 +175,7 @@
   width: 100%;
   top: 8rem;
   background: #fff;
-  z-index: 1;
+  z-index: 2;
   .button {
     font-size: $font-s;
     font-weight: 200;

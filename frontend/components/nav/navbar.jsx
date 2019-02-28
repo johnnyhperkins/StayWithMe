@@ -34,6 +34,7 @@ class NavBar extends Component {
       end_date: query && query.end_date ? query.end_date : moment().add(2, 'days').format('YYYY-MM-DD'),
       numGuests: query && query.max_guests ? parseInt(query.max_guests) : 1,
       openDatePicker: false,
+      openPriceSlider: false,
       openGuestSelect: false,
       focusedInput: 'startDate',
       calendarFocused: null,
@@ -74,6 +75,10 @@ class NavBar extends Component {
       }))
       .catch(error => console.error('Error', error));
   };
+
+  handlePriceFilter = () => {
+
+  }
 
   search = () => {
     const {
@@ -255,14 +260,12 @@ class NavBar extends Component {
         // make a function that conditionally passes certain props based on location?
         <SearchFilterBar
           {...this.state}
-
+          handlePriceFilter={this.handlePriceFilter}
           handleOpenGuestSelect={this.handleOpenGuestSelect}
           handleOpenDatePicker={this.handleOpenDatePicker}
           onFocusChange={this.onFocusChange}
-
           handleNumGuestChange={this.handleNumGuestChange}
           onDatesChange={this.onDatesChange}
-
           search={this.search}
         />
       }

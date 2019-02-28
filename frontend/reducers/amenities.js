@@ -1,5 +1,3 @@
-import * as Icons from '../static_assets/amenity_icons';
-
 const defaultState = {
   1: {
     id: 1,

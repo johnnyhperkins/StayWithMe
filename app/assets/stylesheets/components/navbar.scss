@@ -147,6 +147,7 @@
   }
   .range-controller-wrapper {
     position: absolute;
+    z-index: 5;
     top: 53px;
     border-radius: 4px;
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.09);

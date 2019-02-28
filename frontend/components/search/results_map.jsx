@@ -9,16 +9,19 @@ class SearchResultsMap extends Component {
   }
 
   componentDidMount() {
-    const { initMapLatLng } = this.props 
+    const { initMapLatLng, home_types } = this.props 
     if(initMapLatLng) {
-      const mapDOMNode = document.getElementById('search-results-map')
+      const mapDOMNode = document.getElementById('search-results-map');
+
       const mapOptions = {
         center: { lat: initMapLatLng.lat, lng: initMapLatLng.lng }, 
         zoom: 13
       };
       
       this.map = new google.maps.Map(mapDOMNode, mapOptions);
-      this.MarkerManager = new MarkerManager(this.map, this.handleMarkerClick.bind(this));
+      this.mapX = this.map.offsetLeft;
+      this.mapY = this.map.offsetTop;
+      this.MarkerManager = new MarkerManager(this.map, home_types);
       
       this.registerListeners();
       this.MarkerManager.updateMarkers(this.props.listings)
@@ -64,15 +67,17 @@ class SearchResultsMap extends Component {
       setBounds(bounds);
     });
 
-  }
+    google.maps.event.addListener(this.map, "click", () => {
+      this.MarkerManager.closeInfoWindow();
+    });
 
-  handleMarkerClick(listing) {
-    this.props.history.push(`listings/${listing.id}`);
   }
 
   render() {
     return (
+      <>
       <div id="search-results-map" ref={map => this.mapNode = map}></div>
+      </>      
     )
   }
 }
