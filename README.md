@@ -43,21 +43,22 @@ def approve!
 
     elsif self.start_date == listing_availability.start_date
       listing_availability.start_date = self.end_date
-      listing_availability.save!
 
     elsif self.end_date == listing_availability.end_date
       listing_availability.end_date = self.start_date
-      listing_availability.save!
+      
     # ... or if a new one had to be created
     else
       ListingAvailability.create(
         listing_id: self.listing_id,
         start_date: self.end_date,
         end_date: listing_availability.end_date)
-      listing_availability.end_date = self.start_date
-      listing_availability.save!
+      listing_availability.end_date = self.start_date      
     end
+
+    listing_availability.save!
   end
+  
 ```
  ... update the listing's availability calendar on the front-end...
  
