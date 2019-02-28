@@ -5,8 +5,6 @@ const InfoWindowSlider = ({listing_id, photos, className, onClick}) => {
     const settings = {
       dots: false,
       arrows: false,
-      // infinite: true,
-      // speed: 500,
       slidesToShow: 1,
       slidesToScroll: 1,
       className,
@@ -20,14 +18,10 @@ const InfoWindowSlider = ({listing_id, photos, className, onClick}) => {
             </a>
           )
         })
-        : null //put in a default blank pic?
+        : null 
         }
       </Slider>
     );
 };
 
 export default InfoWindowSlider;
-
-/* <div className="iw-image-wrapper" > 
-  <div className="listing-thumb" key={idx} style={{'backgroundImage': `url(${photo})`}} /> 
-</div>*/

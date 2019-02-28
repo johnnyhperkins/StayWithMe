@@ -173,13 +173,13 @@ class EditProfileForm extends Component {
           </div>
 
           { !isEmpty(errors) && (
-                  <>
-                  <ul className="session-errors">
-                    {errors.map((error, idx) => <li key={idx}>{error}</li>)}
-                  </ul>
-                  </>
-                  ) 
-              }
+              <>
+              <ul className="session-errors">
+                {errors.map((error, idx) => <li key={idx}>{error}</li>)}
+              </ul>
+              </>
+              ) 
+          }
         </div>
         <section>
           <button onClick={this.handleSubmit} className="button--submit inline-block" >Save</button>

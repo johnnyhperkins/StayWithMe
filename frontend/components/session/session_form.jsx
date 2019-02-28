@@ -31,18 +31,23 @@ class SessionForm extends Component {
 
     const { receiveSessionErrors} = this.props;
     const { username, email } = this.state.user;
+
     return userExists({username, email}).then(res => {
       let updateErrors = ["Sorry, that username is already taken", "Sorry, that email is already taken"]
+
       if(!res.username) {
         updateErrors = updateErrors.filter(e => e !== "Sorry, that username is already taken")
       } 
+
       if(!res.email) {
         updateErrors = updateErrors.filter(e => e !== "Sorry, that email is already taken")
       }
+      
       receiveSessionErrors(updateErrors);
 
     })
   }
+
   facebookAuth = () => {
     // console.log('Facebook auth');
   }

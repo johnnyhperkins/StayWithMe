@@ -42,7 +42,7 @@ class Listing extends Component {
     const { booked_dates } = this.props.listing;
     day = moment(day).format('YYYY-MM-DD');    
     
-    return !!booked_dates.filter(booking => 
+    return booked_dates.filter(booking => 
       moment(day).isBetween( 
         moment(booking.start_date).subtract(1, 'd'),
         booking.end_date, null, '()') && 

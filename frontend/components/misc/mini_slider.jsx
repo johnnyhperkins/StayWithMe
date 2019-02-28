@@ -20,7 +20,7 @@ const MiniSlider = ({listing_id, photos, className}) => {
             </Link>
           )
         })
-        : null //put in a default blank pic?
+        : null 
         }
       </Slider>
     );

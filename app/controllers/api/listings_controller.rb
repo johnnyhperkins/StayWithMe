@@ -21,7 +21,7 @@ class Api::ListingsController < ApplicationController
     @listing = current_user.listings.find(params[:id]);
     if @listing
       if @listing.update_attributes(listing_params);
-        # TO DO: fix ability for user to edit listing availability
+        # TO DO: fix ability for user to edit listing availability without overwriting bookings
         if params[:listing][:start_date] || params[:listing][:end_date]
           @listing.listing_availabilities.destroy_all if @listing.listing_availabilities
           @listing.listing_availabilities.create(

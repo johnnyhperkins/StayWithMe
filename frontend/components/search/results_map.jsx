@@ -19,8 +19,6 @@ class SearchResultsMap extends Component {
       };
       
       this.map = new google.maps.Map(mapDOMNode, mapOptions);
-      this.mapX = this.map.offsetLeft;
-      this.mapY = this.map.offsetTop;
       this.MarkerManager = new MarkerManager(this.map, home_types);
       
       this.registerListeners();

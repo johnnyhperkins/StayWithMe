@@ -34,9 +34,11 @@ class Booking < ApplicationRecord
     elsif self.start_date == listing_availability.start_date
       listing_availability.start_date = self.end_date
       listing_availability.save!
+
     elsif self.end_date == listing_availability.end_date
       listing_availability.end_date = self.start_date
       listing_availability.save!
+      
     else
       ListingAvailability.create(
         listing_id: self.listing_id,

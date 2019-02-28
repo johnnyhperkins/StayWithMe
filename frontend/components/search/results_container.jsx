@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import _ from 'lodash';
 
 import { updateFilter, setFilter } from '../../actions/filters';
 
-import { queryListings } from '../../actions/listings'
 import SearchResultsMap from './results_map';
 import SearchResultsList from './results_list';
 
@@ -62,19 +61,11 @@ class SearchResultContainer extends Component {
     this.setFilterFromURL()
   }
 
-  componentDidUpdate(prevProps) {
-    const { filter } = this.props;
-    if(prevProps.location.search != this.props.location.search) {
-      // this.setFilterFromURL()
-    }
-  }
-
   render() {
     const { 
       listings,
       home_types, 
       updateFilter, 
-      searching, 
       filter 
     } = this.props;
 
@@ -109,7 +100,6 @@ class SearchResultContainer extends Component {
 }
 
 const msp = state => ({
-  searching: state.ui.searching,
   listings: Object.values(state.entities.listings),
   amenities: state.entities.amenities,
   home_types: state.entities.home_types,
@@ -118,8 +108,7 @@ const msp = state => ({
 
 const mdp = dispatch => ({
   updateFilter: (filter,value) => dispatch(updateFilter(filter,value)),
-  setFilter: (filter) => dispatch(setFilter(filter)),
-  queryListings: (query) => dispatch(queryListings(query))
+  setFilter: (filter) => dispatch(setFilter(filter))
 })
 
 export default withRouter(connect(msp,mdp)(SearchResultContainer));
