@@ -66,7 +66,7 @@ export default class MarkerManager {
       position: myLatLng,
       map: this.map,
       title: listing.description,
-      listing: listing,
+      listing,
       label: {
         text: `$${listing.price}`,
         fontWeight: 'bold',

@@ -68,8 +68,7 @@ def approve!
 //  In listing_page.jsx, using and momentjs and airbnb's own (incredibly powerful) react-dates module which has an isDayBlocked property that takes a function:
 
 checkBlockedDays = (day) => {
-  const { listing } = this.props;
-  const { booked_dates } = this.props.listing;
+  const { listing, listing: { booked_dates } } = this.props;
   day = moment(day).format('YYYY-MM-DD'); 
   
   return booked_dates.filter(booking => 

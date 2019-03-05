@@ -38,8 +38,7 @@ class Listing extends Component {
   }
 
   checkBlockedDays = (day) => {
-    const { listing } = this.props;
-    const { booked_dates } = this.props.listing;
+    const { listing, listing: { booked_dates } } = this.props;
     day = moment(day).format('YYYY-MM-DD');    
     
     return booked_dates.filter(booking => 
