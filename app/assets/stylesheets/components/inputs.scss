@@ -106,7 +106,7 @@ textarea {
     border:0;    
 }
 
-.search-inputs label p {
+.search-inputs-label {
     text-transform:uppercase;
     margin:0 0 2px 0;
     font-size: $font-xs;
@@ -115,6 +115,7 @@ textarea {
 .search-inputs .search-input-wrapper {
     border-right:1px solid #ebebeb;
     padding-left: 20px;
+    border-bottom: 2px solid transparent
 }
 
 .search-inputs {
@@ -127,6 +128,7 @@ textarea {
     display:table-cell;
     vertical-align: middle;
     width:30%;
+    border-bottom: 2px solid transparent
 }
 
 .guest-input-wrapper {
@@ -138,10 +140,10 @@ textarea {
 .guest-select-container {
     position: absolute;
     background: #fff;
-    top: 79px;
+    top: 78px;
     left: 0;
     padding: 20px;
-    box-shadow: 0 10px 36px rgba(0,0,0,0.65);
+    box-shadow: 0 23px 36px rgba(0,0,0,0.65);
     border-radius: 0 0 5px 5px;
     width: 100%;
 }

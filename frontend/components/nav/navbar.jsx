@@ -4,10 +4,7 @@ import { Link, withRouter } from 'react-router-dom';
 import Modal from 'react-modal';
 import moment from 'moment';
 import queryString from 'query-string';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 import LoginFormContainer from '../session/login_form_container';
 import Logo from '../../static_assets/logo';
@@ -18,6 +15,7 @@ import { logout } from '../../actions/sessions';
 import SearchFilterBar from '../search/filter_bar';
 
 import { setFilter } from '../../actions/filters';
+import PlacesAutocompleteComponent from '../misc/places_autocomplete_component';
 
 class NavBar extends Component {
   constructor(props) {
@@ -71,7 +69,6 @@ class NavBar extends Component {
       }, () => {
         this.search()
       }))
-      .catch(error => console.error('Error', error));
   };
 
   search = () => {
@@ -203,6 +200,11 @@ class NavBar extends Component {
     } = this.props;
     
     const { address } = this.state;
+    const inputProps = {
+      placeholder: 'Try "Manhattan"',
+      className: 'location-search-input search-input',
+      ref: (input) => this.addressInput = input
+    }
     
     const classes = loggedIn || this.props.location.pathname != "/" ? 'fixed-top-nav flex-container' : 'top-nav logged-out flex-container';
     return (
@@ -217,44 +219,13 @@ class NavBar extends Component {
             {(loggedIn || this.props.location.pathname != "/") && 
               <>
                 <SearchIcon options={{'height':'18px','width':'18px', 'fill':'#333'}} />
-                <PlacesAutocomplete
-                  value={address}
-                  onChange={this.handleChangeAddress}
-                  onSelect={this.handleSelectAddress}
-                >
-                  {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                    <div className="autocomplete-dropdown-container">
-                      <input
-                        {...getInputProps({
-                          placeholder: 'Try "Manhattan"',
-                          className: 'location-search-input search-input',
-                          ref: (input) => this.addressInput = input
-                        })}
-                      />
-                      <div className="autocomplete-dropdown">
-                        {loading && <div className="suggestion-item">Loading...</div>}
-                        {suggestions.map(suggestion => {
-                          const className = suggestion.active
-                            ? 'suggestion-item--active'
-                            : 'suggestion-item';
-                            const style = suggestion.active
-                            ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                            : { backgroundColor: '#ffffff', cursor: 'pointer' };
-                          return (
-                            <div
-                              {...getSuggestionItemProps(suggestion, {
-                                className,
-                                style
-                              })}
-                            >
-                              <span><i className="fas fa-map-marker-alt"></i> {suggestion.description}</span>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  )}
-                </PlacesAutocomplete>
+                <PlacesAutocompleteComponent 
+                  address={address} 
+                  handleChangeAddress={this.handleChangeAddress} 
+                  handleSelectAddress={this.handleSelectAddress} 
+                  inputProps={inputProps}
+                  dropdownClass="autocomplete-dropdown"
+                />
               </>
             }
           </div>

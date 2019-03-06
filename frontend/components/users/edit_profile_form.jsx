@@ -1,6 +1,3 @@
-// TO DO:
-// fade out errors
-
 import React, { Component } from 'react';
 import { userExists } from '../../util/session_api';
 import { receiveSessionErrors } from '../../actions/sessions';
@@ -61,8 +58,6 @@ class EditProfileForm extends Component {
     
     return updateUser(formData).then(() => {
       this.setState({password: ''})
-    }, (e) => {
-      console.log(e);
     });
   }
 

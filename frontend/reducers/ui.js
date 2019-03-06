@@ -3,7 +3,6 @@ import merge from 'lodash/merge';
 import {  
   RECEIVE_MESSAGES, 
   RECEIVE_SEARCH_QUERY,
-  SAVING_LISTING,
   TOGGLE_LOGIN_MODAL,
   FETCHING_LISTING
 } from '../actions/ui';
@@ -14,12 +13,10 @@ import { RECEIVE_SESSION_ERRORS } from '../actions/sessions'
 import { RECEIVE_REVIEWS } from '../actions/reviews';
 import { RECEIVE_USER } from '../actions/users';
 
-
 const defaultState = {
   listingLoading: true,
   bookingLoading: true,
   searching: true,
-  savingListing: false,
   reviewsLoading: true,
   messages: {
     bookings: [],
@@ -34,17 +31,12 @@ const defaultState = {
 const uiReducer = (state = defaultState, action) => {
   Object.freeze(state)
   switch (action.type) {
-    case SAVING_LISTING:
-      return merge({}, state, { 
-        savingListing: true 
-      }) 
 
     case RECEIVE_LISTINGS:
     case RECEIVE_LISTING:
       return merge({}, state, { 
         listingLoading: false,
         searching: false,
-        savingListing:false 
       }) 
     
     case FETCHING_LISTING: 
@@ -81,7 +73,6 @@ const uiReducer = (state = defaultState, action) => {
       })
     
     case RECEIVE_MESSAGES:
-      // debugger;
       return merge({}, state, { 
         messages: {
           ...state.messages,
@@ -90,7 +81,6 @@ const uiReducer = (state = defaultState, action) => {
       })
 
     case RECEIVE_SESSION_ERRORS:
-      // debugger;
       return merge({}, state, {
         messages: {
           ...state.messages,

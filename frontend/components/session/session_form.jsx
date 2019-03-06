@@ -48,14 +48,6 @@ class SessionForm extends Component {
     })
   }
 
-  facebookAuth = () => {
-    // console.log('Facebook auth');
-  }
-
-  googleAuth = () => {
-    // console.log('Google Auth');
-  }
-
   displayErrors = (errors) => {
      return (
       <ul className="session-errors">

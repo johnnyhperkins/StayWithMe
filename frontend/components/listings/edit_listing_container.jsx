@@ -8,7 +8,7 @@ import ListingForm from './listing_form';
 
 const msp = (state, props) => {
   return {
-    listing: state.entities.listings[props.match.params],
+    listing: state.entities.listings[props.match.params.id],
     messages: state.ui.messages,
     home_types: Object.values(state.entities.home_types),
     amenities: Object.values(state.entities.amenities),
@@ -16,7 +16,6 @@ const msp = (state, props) => {
     user_id: state.session.id,
     formType: "Edit Listing",
     listingLoading: state.ui.listingLoading,
-    savingListing: state.ui.savingListing
   }
 }
 

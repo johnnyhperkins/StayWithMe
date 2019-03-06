@@ -13,7 +13,7 @@ StayWithMe is an AirBnB inspired site with a number of fully functional features
 * See list of user's reviews, bookings made for other listings, bookings that have been made for user's listings, and interface to approve or deny bookings
 
 ## Search
-* Search for listings on an interactive map where results are populated in real time as the map moves and can be filtered by date, number of guests, price & amenities (amenities coming soon).
+* Search for listings on an interactive map where results are populated in real time as the map moves and can be filtered by date, number of guests, & price.
   
 ## Listings/Bookings
 * Listing page allows user to request to book the listing, leave reviews (only if user has an approved booking), see others' reviews, listing description, amenities, etc.

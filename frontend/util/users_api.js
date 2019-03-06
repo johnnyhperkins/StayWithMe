@@ -5,7 +5,6 @@ export const update = (userFormData) => {
     data: userFormData,
     contentType: false,
     processData: false,
-    error: (err) => console.log(err)
   })
 }
 
@@ -14,6 +13,5 @@ export const fetchUser = (id) => {
     url: `/api/users/fetch`,
     method: "POST",
     data: {id},
-    error: (err) => console.log(err)
   })
 }

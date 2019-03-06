@@ -6,7 +6,7 @@ import {
 
 import { RECEIVE_REVIEW } from '../actions/reviews'; 
 
-import merge from 'lodash/merge';
+import { merge, extend } from 'lodash'
 
 export const listings = (state = {}, action) => {
   Object.freeze(state);
@@ -15,7 +15,7 @@ export const listings = (state = {}, action) => {
       return !!action.listings ? action.listings : {}
     
     case RECEIVE_LISTING:
-      return merge({}, 
+      return extend({}, 
         state, 
         {
           [action.listing.id]: action.listing

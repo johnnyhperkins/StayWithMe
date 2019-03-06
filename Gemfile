@@ -56,6 +56,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'pry-rails'
   gem 'annotate'
+  gem 'rb-readline'
 
   gem 'guard', require: false
   gem 'guard-livereload', require: false

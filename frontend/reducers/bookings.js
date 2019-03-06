@@ -4,20 +4,16 @@ import {
   REMOVE_BOOKING
 } from '../actions/bookings';
 
-import merge from 'lodash/merge';
+import { merge, extend } from 'lodash'
 
 export const bookings = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
     case RECEIVE_BOOKINGS:
       return !!action.bookings ? action.bookings : {}
-      // return merge({}, 
-      //   state, 
-      //   action.bookings
-      // )
 
     case RECEIVE_BOOKING:
-      return merge({}, 
+      return extend({}, 
         state, 
         {
           [action.booking.id]: action.booking

@@ -5,7 +5,6 @@ export const createReview = (review) => {
     url: '/api/reviews',
     method: "POST",
     data: { review },
-    error: (err) => console.log(err)
   })
 };
 
@@ -13,7 +12,6 @@ export const fetchReview = (id) => {
   return $.ajax({
     url: `/api/reviews/${id}`,
     method: "GET",
-    error: (err) => console.log(err)
   })
 };
 
@@ -21,7 +19,6 @@ export const fetchListingReviews = (listingId) => {
   return $.ajax({
     url: `/api/listings/${listingId}/reviews`,
     method: "POST",
-    error: (err) => console.log(err)
   })
 };
 
@@ -29,7 +26,6 @@ export const fetchUserReviews = (id) => {
   return $.ajax({
     url: `/api/users/${id}/reviews`,
     method: "GET",
-    error: (err) => console.log(err)
   })
 };
 
@@ -45,6 +41,5 @@ export const updateReview = (review) => {
     url: `/api/reviews/${review.get('review[id]')}`,
     method: "PATCH",
     data: review,
-    error: (err) => console.log(err)
   })
 };

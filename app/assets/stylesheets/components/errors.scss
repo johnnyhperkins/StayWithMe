@@ -8,3 +8,11 @@
   font-weight:200;
   color: $red;
 }
+
+.field-error { 
+  border-bottom: 2px solid $red!important;
+}
+
+.listing-form .field-error {
+  border: 1px solid $red!important;
+}

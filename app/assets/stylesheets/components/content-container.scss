@@ -130,6 +130,7 @@ footer p, footer a {
 .suggestion-item--active { 
     background-color: '#fafafa'; 
 }
+
 .suggestion-item--active,
 .suggestion-item {
     padding: 13px 20px;
@@ -151,11 +152,14 @@ footer p, footer a {
     padding-bottom: 30px;
 }
 
-
+.suggestion-list-item {
+    display:flex;
+    align-items: center;
+}
 
 .autocomplete-dropdown {
     background-color:#fff;
-    border: 1px solid $off-white;
+    border: none;
     border-radius: 0 0 4px 4px;
     box-shadow: 0 15px 46px -10px rgba(26, 26, 29, 0.3);
     overflow: hidden;
@@ -165,9 +169,13 @@ footer p, footer a {
     position:absolute;
 }
 
+.autocomplete-dropdown.is-open {
+    border: 1px solid $off-white;
+}
+
 .autocomplete-dropdown.autocomplete-dropdown--splash {
     top: 40px;
-    width: 340px;
+    width: 400px;
     left: -20px;
     font-size: 14px;
 }

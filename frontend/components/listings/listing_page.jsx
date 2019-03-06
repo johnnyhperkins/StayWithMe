@@ -55,7 +55,7 @@ class Listing extends Component {
       fetchListing,
       fetchListingReviews, 
     } = this.props;
-
+    
     fetchListingReviews(this.props.match.params.id);
 
     return fetchListing(this.props.match.params.id).then(({listing}) => {

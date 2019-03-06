@@ -56,26 +56,23 @@ class SearchFilterBar extends Component {
     this.GuestSelectorRef = node;
   }
 
-  renderFilters = () => {
-    // const { start_date, end_date, max_guests } = this.props;
-    //TO DO: get array of filters and conditionally render them
-  }
-
   applyFilterClasses = (field) => {
     switch (field) {
       case "PRICE":
-        return this.props.price > 0 ? 'button button--inline button--outlined filter-active' : 'button button--inline button--outlined';
+        return this.props.price > 0 ? 
+          'button button--inline button--outlined filter-active' : 
+          'button button--inline button--outlined';
       case "NUM_GUESTS":
-        return this.props.numGuests > 0 ? 'button button--inline button--outlined filter-active' : 'button button--inline button--outlined'; 
+        return this.props.numGuests > 0 ? 
+          'button button--inline button--outlined filter-active' : 
+          'button button--inline button--outlined'; 
       case "DATES":
-        return (this.props.startDate && this.props.endDate) ? 'button button--inline button--outlined filter-active' : 'button button--inline button--outlined';
+        return (this.props.startDate && this.props.endDate) ? 
+          'button button--inline button--outlined filter-active' : 
+          'button button--inline button--outlined';
       default:
         break;
     } 
-  }
-
-  removeFilter = (filter) => {
-    // console.log('remove', filter);
   }
 
   render() { 
@@ -105,7 +102,8 @@ class SearchFilterBar extends Component {
           onClick={handleOpenDatePicker}>
           {startDate ? ( 
             endDate ? 
-              `${moment(startDate).format('MMM DD')} - ${moment(endDate).format('MMM DD')}` : moment(startDate).format('MMM DD')
+              `${moment(startDate).format('MMM DD')} - ${moment(endDate).format('MMM DD')}` : 
+              moment(startDate).format('MMM DD')
               ) : 'Dates'
           }
         </button>
@@ -145,9 +143,15 @@ class SearchFilterBar extends Component {
           ref={this.setGuestSelectorRef}>
           <div className="pos-relative flex-container">
             <p>Adults</p>
-            <button className={`button add-subtract sub ${numGuests <= 1 ? 'disabled' :''}`} onClick={handleNumGuestChange(false)}></button>
+            <button 
+              className={`button add-subtract sub ${numGuests <= 1 ? 'disabled' :''}`} 
+              onClick={handleNumGuestChange(false)}></button>
+            
             <span className="guest-count">{numGuests}</span>
-            <button className="button add-subtract add" onClick={handleNumGuestChange(true)}></button>
+            
+            <button 
+              className="button add-subtract add" 
+              onClick={handleNumGuestChange(true)}></button>
 
             <span className="apply-search" onClick={search}>Apply</span>
           </div>
@@ -180,27 +184,6 @@ class SearchFilterBar extends Component {
         </div>
       }
 
-
-    {/* TO DO: Update this to be filters for price and amenities
-
-      <button className="button button--inline button--outlined">Amenities</button>
-
-      
-      { (this.props.location.pathname && 
-      this.props.location.pathname != "/") &&
-      <div className="filters">
-        {(start_date && end_date) && 
-          <button className="button button--inline button--outlined">
-          From: {moment(start_date).format('ddd, MMM Do')} - {moment(end_date).format('ddd, MMM Do')} <span onClick={() => this.removeFilter('DATES')} className="remove-filter">&times;</span>
-          </button>
-        }
-        { this.state.numGuests ? 
-          <button className="button button--inline button--outlined">
-          Guests: {numGuests} <span onClick={() => this.removeFilter('MAX_GUESTS')} className="remove-filter">&times;</span></button>
-          : null
-        }
-    </div>
-    } */}
     </section>
   );
   }

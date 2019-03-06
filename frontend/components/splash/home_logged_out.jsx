@@ -3,15 +3,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import 'react-dates/initialize';
 import { isInclusivelyAfterDay, DayPickerRangeController } from 'react-dates';
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+import { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import moment from 'moment';
 import queryString from 'query-string';
 
 import {receiveSearchQuery } from '../../actions/ui';
 import SearchIcon from '../../static_assets/search_icon';
+import PlacesAutocompleteComponent from '../misc/places_autocomplete_component';
 
 
 const today = moment();
@@ -23,14 +21,15 @@ class HomeLoggedOut extends Component {
       address: '',
       lng: 0,
       lat: 0,
-      startDate: null,
-      endDate: null,
+      startDate: undefined,
+      endDate: undefined,
       numGuests: 1,
       focusedInput: 'startDate',
       calendarFocused: null,
       openDatePicker: false,
       openGuestSelect: false,
       errors: '',
+      fieldErrors: {}
     } 
   }
 
@@ -63,31 +62,57 @@ class HomeLoggedOut extends Component {
   setGuestSelectorRef = (node) => {
     this.GuestSelectorRef = node;
   }
+
+  checkForEmptyFields = () => {
+    const fields = ['address', 'startDate', 'endDate', 'numGuests'];
+    const fieldErrors = {}
+
+    fields.forEach(field => {
+      this.state[field] ? fieldErrors[field] = false : fieldErrors[field] = true;
+    })
+    
+    return {
+      fieldErrors,
+      hasErrors: Boolean(Object.values(fieldErrors).filter(bool => bool == true).length)
+    }
+  }
   
   search = () => {
-    const { 
-      lat, 
-      lng, 
-      startDate, 
-      endDate, 
-      numGuests 
-    } = this.state;
+    const { hasErrors, fieldErrors } = this.checkForEmptyFields();
+    if(hasErrors) {
+      this.setState({fieldErrors}, () => {
+        if(fieldErrors.address) {
+          this.addressInput.focus()
+        } else if(fieldErrors.startDate) {
+          this.setState({openDatePicker: true})
+        }
+      })
+    } else {
+      const { 
+        lat, 
+        lng, 
+        startDate, 
+        endDate, 
+        numGuests 
+      } = this.state;
 
-    const start_date = moment(startDate).format('YYYY-MM-DD');
-    const end_date = moment(endDate).format('YYYY-MM-DD');
+      const start_date = moment(startDate).format('YYYY-MM-DD');
+      const end_date = moment(endDate).format('YYYY-MM-DD');
 
-    const urlString = queryString.stringify({
-      lat,
-      lng,
-      start_date,
-      end_date,
-      max_guests: numGuests
-    })
+      const urlString = queryString.stringify({
+        lat,
+        lng,
+        start_date,
+        end_date,
+        max_guests: numGuests
+      })
 
-    this.props.history.push({
-      pathname: '/search', 
-      search: `?${urlString}`
-    });
+      this.props.history.push({
+        pathname: '/search', 
+        search: `?${urlString}`
+      });
+    }
+    
   }
 
   handleChangeAddress = address => this.setState({ address })
@@ -99,8 +124,17 @@ class HomeLoggedOut extends Component {
         lng:parseFloat(latLng.lng),
         lat:parseFloat(latLng.lat),
         address
+      }, () => {
+        if(!this.state.startDate) {
+          this.setState({
+            openDatePicker: true,
+            fieldErrors: {
+              ...this.state.fieldErrors,
+              address: false
+            }
+          })
+        }
       }))
-      .catch(error => console.error('Error', error));
   };
 
   onFocusChange = (focusedInput) => {
@@ -110,16 +144,25 @@ class HomeLoggedOut extends Component {
     }, () => {
       if(!!startDate && !!this.state.endDate) {
         if(startDate < this.state.endDate) {
-          this.setState({openDatePicker:false, errors:''}, () => this.guestSelect.focus())
+          this.setState({
+            openDatePicker:false, 
+            fieldErrors: {
+              ...this.state.fieldErrors,
+              startDate: false,
+              endDate: false
+            }}, 
+            () => this.guestSelect.focus()
+          )
         } 
       }
     });
   }
 
-  handleNumGuestChange(add) {
+  handleNumGuestChange = (add) => {
     let { numGuests } = this.state;
+
     return () => {
-      if( numGuests > 0 ) {
+      if( numGuests >= 0 && numGuests < 20) {
         if(add) {
           this.setState({numGuests: ++numGuests})
         } else if(numGuests > 1) {
@@ -134,9 +177,24 @@ class HomeLoggedOut extends Component {
   }
   
   render() {
-    const { startDate, endDate, numGuests, openGuestSelect, address, errors } = this.state;
+    const { 
+      startDate, 
+      endDate, 
+      numGuests, 
+      openGuestSelect, 
+      address,
+      fieldErrors, 
+      errors 
+    } = this.state;
+
     const startDateString = startDate && startDate.format('ddd, MMM Do');
     const endDateString = endDate && endDate.format('ddd, MMM Do');
+
+    const inputProps = {
+      placeholder: 'Try "Manhattan"',
+      className: 'location-search-input search-input',
+      ref: (input) => this.addressInput = input,
+    }
 
     return (
       <section className="home-splash-container">
@@ -144,53 +202,25 @@ class HomeLoggedOut extends Component {
           <h1 className="text--white">Plan your next trip</h1>
           <div className="search-container flex-container">
             <div className="search-inputs">
-              <div className="search-input-wrapper">
+              <div className={`search-input-wrapper ${fieldErrors.address && 'field-error'}`}>
                 <label>
-                  <p>City, Address, Landmark</p>
-                  <PlacesAutocomplete
-                    value={address}
-                    onChange={this.handleChangeAddress}
-                    onSelect={this.handleSelectAddress}
-                  >
-                    {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-                      <div className="autocomplete-dropdown-container">
-                        <input
-                          {...getInputProps({
-                            placeholder: 'Try "Manhattan"',
-                            className: 'location-search-input search-input',
-                          })}
-                        />
-                        <div className="autocomplete-dropdown autocomplete-dropdown--splash">
-                          {loading && <div className="suggestion-item">Loading...</div>}
-                          {suggestions.map(suggestion => {
-                            const className = suggestion.active
-                              ? 'suggestion-item--active'
-                              : 'suggestion-item';
-                              const style = suggestion.active
-                              ? { backgroundColor: "#fafafa", "cursor": "pointer" }
-                              : { backgroundColor: "#ffffff", "cursor": "pointer" };
-                            return (
-                              <div
-                                {...getSuggestionItemProps(suggestion, {
-                                  className,
-                                  style
-                                })}
-                              >
-                                <span><i className="fas fa-map-marker-alt"></i> {suggestion.description}</span>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    )}
-                  </PlacesAutocomplete>
+                  <p className="search-inputs-label">City, Address, Landmark</p>
+                  <PlacesAutocompleteComponent 
+                    address={address} 
+                    handleChangeAddress={this.handleChangeAddress} 
+                    handleSelectAddress={this.handleSelectAddress} 
+                    inputProps={inputProps}
+                    dropdownClass={`autocomplete-dropdown autocomplete-dropdown--splash ${address ? 'dropdown-open' : ''}`}
+                  />
                 </label>
               </div>
-              <div className="date-input-wrapper" ref={this.setDatePickerRef}>
+              <div 
+                className={`date-input-wrapper ${(fieldErrors.startDate || fieldErrors.endDate) && 'field-error'}`} 
+                ref={this.setDatePickerRef}>
                 <div className="date-picker-table">
                   <div className="date-picker-table-cell">
                     <label>
-                      <p>Check In</p>
+                      <p className="search-inputs-label">Check In</p>
                       <input 
                         onClick={this.handleOpenDatePicker} 
                         type="text" 
@@ -202,7 +232,7 @@ class HomeLoggedOut extends Component {
                   </div>
                   <div className="date-picker-table-cell">
                     <label>
-                      <p>Check Out</p>
+                      <p className="search-inputs-label">Check Out</p>
                       <input 
                         type="text" 
                         name="end date" 
@@ -232,7 +262,6 @@ class HomeLoggedOut extends Component {
                         focusedInput={this.state.focusedInput} 
                         onFocusChange={this.onFocusChange} 
                       />
-
                     </div>
                   }
                 </div>
@@ -242,7 +271,7 @@ class HomeLoggedOut extends Component {
                 ref={this.setGuestSelectorRef}>
 
                 <label>
-                  <p>Guests</p>
+                  <p className="search-inputs-label">Guests</p>
                   <input 
                     type="text" 
                     placeholder="1 guest" 
