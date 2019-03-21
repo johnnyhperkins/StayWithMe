@@ -33,14 +33,19 @@ class SessionForm extends Component {
     const { username, email } = this.state.user;
 
     return userExists({username, email}).then(res => {
-      let updateErrors = ["Sorry, that username is already taken", "Sorry, that email is already taken"]
+      let updateErrors = [
+        "Sorry, that username is already taken", 
+        "Sorry, that email is already taken"
+      ]
 
       if(!res.username) {
-        updateErrors = updateErrors.filter(e => e !== "Sorry, that username is already taken")
+        updateErrors = updateErrors.filter(e => 
+          e !== "Sorry, that username is already taken")
       } 
 
       if(!res.email) {
-        updateErrors = updateErrors.filter(e => e !== "Sorry, that email is already taken")
+        updateErrors = updateErrors.filter(e => 
+          e !== "Sorry, that email is already taken")
       }
       
       receiveSessionErrors(updateErrors);
@@ -67,7 +72,8 @@ class SessionForm extends Component {
 
   demoLogin = () => {
     const {closeModal, action} = this.props;
-    return action({username:"Demo Account", password:"12312312"}).then( () => {
+    return action({username:"Demo Account", password:"12312312"})
+      .then( () => {
       closeModal();
     });
   }
@@ -130,13 +136,22 @@ class SessionForm extends Component {
       </form>
       <div className="modal--footer">
         {formType === "Log In" && 
-          <button className="button--submit background--teal" onClick={this.demoLogin}>Use Demo Account</button>}
+          <button 
+            className="button--submit background--teal" 
+            onClick={this.demoLogin}>Use Demo Account</button>}
         {formType === "Sign Up" ? 
-          <p>Already have a StayWithMe account? <button className="button--link" 
-                                                        onClick={() => this.props.toggleLoginModal('login', true)}>Log In</button>
+          <p>Already have a StayWithMe account? 
+          <button className="button--link" 
+            onClick={() => this.props.toggleLoginModal('login', true)}>
+              Log In
+          </button>
           </p> 
           : 
-          <button className="button--link" onClick={() => this.props.toggleLoginModal('signup', true)}>Create new account</button>
+          <button 
+            className="button--link" 
+            onClick={() => this.props.toggleLoginModal('signup', true)}>
+              Create new account
+          </button>
         }
       </div>
       </>

@@ -33,12 +33,14 @@ belongs_to :listing
 
 def approve!
     
-    # first query the listing's listing_availabities to figure out which would need to be 'split up' or modified by the approval of the booking:
+    # first query the listing's listing_availabities to figure out which would need to 
+    # be 'split up' or modified by the approval of the booking:
     listing_availability = self.listing.listing_availabilities
       .where('start_date <= :start_date AND end_date >= :end_date',
               start_date: self.start_date, end_date: self.end_date).first
     
-    #perform multiple checks to see the listing availability needed to be completely deleted, altered at the beginning or end...
+    # perform multiple checks to see the listing availability needed to be completely 
+    # deleted, altered at the beginning or end...
     if (self.start_date == listing_availability.start_date && 
         self.end_date == listing_availability.end_date)
       return ListingAvailability.find(listing_availability.id).destroy
@@ -65,7 +67,8 @@ def approve!
  ... update the listing's availability calendar on the front-end...
  
  ```js
-//  In listing_page.jsx, using and momentjs and airbnb's own (incredibly powerful) react-dates module which has an isDayBlocked property that takes a function:
+//  In listing_page.jsx, using momentjs and airbnb's own react-dates module 
+//  which has an isDayBlocked property that takes a function:
 
 checkBlockedDays = (day) => {
   const { listing, listing: { booked_dates } } = this.props;
