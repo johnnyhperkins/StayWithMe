@@ -2,18 +2,26 @@
   display:flex;
   min-height: 200px;
   margin-bottom: 2.4rem;
+
   .mini-slider {
-    width:35%;
+    min-width:31%;
+    max-width:31%;
     border-radius: 3px;
     overflow:hidden;
     margin-right: $m-size;
     max-height: 200px;
+  
     .listing-thumb {
       max-width: 100%;
       height: auto;
     }
+  
     .slick-dots {
       bottom: 5px;
+    }
+
+    .booking-body {
+      flex-grow: 2;
     }
   }
 }
