@@ -1,180 +1,184 @@
 *:focus {
-    outline:none;
+  outline: none;
 }
 
 .text-input {
-    border:1px solid #cacccd;
-    height: 46px;
-    padding: $s-size;
-    font-size: $font-m;
-    font-weight: 300;
-    border-radius: 4px;
-    display:block;
-    margin-bottom:$m-size;
-    width: 100%;
-    
+  border: 1px solid #cacccd;
+  height: 46px;
+  padding: $s-size;
+  font-size: $font-m;
+  font-weight: 300;
+  border-radius: 4px;
+  display: block;
+  margin-bottom: $m-size;
+  width: 100%;
+
 }
 
 .inline {
-    margin-right: 24px;
+  margin-right: 24px;
 }
 
 .profile-thumb-wrapper {
-    input[type=file] {
-        width: 0.1px;
-        height: 0.1px;
-        opacity: 0;
-        overflow: hidden;
-        position: absolute;
-        width:100%;
-        cursor: pointer;
-    }
-    
-    input[type=file] + label {
-        font-size: $font-s;
-        color: $light-black;
-        display: block;
-        text-align: center;
-        cursor: pointer;
-    }
+  input[type=file] {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  input[type=file]+label {
+    font-size: $font-s;
+    color: $light-black;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+  }
 }
 
 
 input[type=text]:focus,
 input[type=password]:focus,
 textarea:focus {
-    outline: none;
+  outline: none;
 }
+
 form {
-    input[type=text]:focus,
-    input[type=password]:focus,
-    textarea:focus {
-        border: 1px solid $teal;
-    }
-    
+
+  input[type=text]:focus,
+  input[type=password]:focus,
+  textarea:focus {
+    border: 1px solid $teal;
+  }
+
 }
 
 .basic-multi-select-wrapper {
-    margin-bottom: 2.4rem;
+  margin-bottom: 2.4rem;
 }
 
 .select {
-    @extend .text-input;
+  @extend .text-input;
 }
 
 .checkbox-wrapper {
-    margin-bottom:2.4rem;
-    justify-content: flex-start;
-    label {
-        font-size:$font-xs;
-    }
+  margin-bottom: 2.4rem;
+  justify-content: flex-start;
+
+  label {
+    font-size: $font-xs;
+  }
 }
 
 .checkbox {
-    margin: 0 2.8rem 0 1.4rem;
-    font-size:25px;
+  margin: 0 2.8rem 0 1.4rem;
+  font-size: 25px;
 }
 
 textarea {
-    @extend .text-input;
-    height: 10rem;
+  @extend .text-input;
+  height: 10rem;
 }
 
 // Home Splash Container inputs
 
 .home-splash-container input {
-    border:none;
-    font-size: $font-l;
-    color: $light-gray
+  border: none;
+  font-size: $font-l;
+  color: $light-gray
 }
 
-.search-inputs, 
+.search-inputs,
 .search-icon-wrapper {
-    height:78px;
-    border-radius:5px;
+  height: 78px;
+  border-radius: 5px;
 }
 
 .search-inputs {
-    background: #fff;
-    display: flex;
-    align-items: center;
-    width:100%;
-    box-shadow: 0 10px 36px rgba(0,0,0,0.65) !important
+  background: #fff;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.65) !important;
+  z-index: 1;
 }
 
 .search-inputs input:focus {
-    border:0;    
+  border: 0;
 }
 
 .search-inputs-label {
-    text-transform:uppercase;
-    margin:0 0 2px 0;
-    font-size: $font-xs;
+  text-transform: uppercase;
+  margin: 0 0 2px 0;
+  font-size: $font-xs;
 }
 
 .search-inputs .search-input-wrapper {
-    border-right:1px solid #ebebeb;
-    padding-left: 20px;
-    border-bottom: 2px solid transparent
+  border-right: 1px solid #ebebeb;
+  padding-left: 20px;
+  border-bottom: 2px solid transparent
 }
 
 .search-inputs {
-    display:table;
+  display: table;
 }
 
 .date-input-wrapper,
 .search-inputs .search-input-wrapper,
 .guest-input-wrapper {
-    display:table-cell;
-    vertical-align: middle;
-    width:30%;
-    border-bottom: 2px solid transparent
+  display: table-cell;
+  vertical-align: middle;
+  width: 30%;
+  border-bottom: 2px solid transparent
 }
 
 .guest-input-wrapper {
-    padding-left: 20px;
-    border-left: 1px solid #ebebeb;
-    position:relative;
+  padding-left: 20px;
+  border-left: 1px solid #ebebeb;
+  position: relative;
 }
 
 .guest-select-container {
-    position: absolute;
-    background: #fff;
-    top: 78px;
-    left: 0;
-    padding: 20px;
-    box-shadow: 0 23px 36px rgba(0,0,0,0.65);
-    border-radius: 0 0 5px 5px;
-    width: 100%;
+  position: absolute;
+  background: #fff;
+  top: 78px;
+  left: 0;
+  padding: 20px;
+  box-shadow: 0 23px 36px rgba(0, 0, 0, 0.65);
+  border-radius: 0 0 5px 5px;
+  width: 100%;
 }
 
 .guest-count {
-    width: 30px;
-    text-align:center;
+  width: 30px;
+  text-align: center;
 }
 
 .date-input-wrapper {
-    width: 40%;
+  width: 40%;
 }
 
 .search-icon-wrapper {
-    background: $red;
-    padding: 23px;
-    margin-left: 12px;
-    width:76px;
-    box-shadow: 0 10px 36px rgba(0,0,0,0.65) !important
+  background: $red;
+  padding: 23px;
+  margin-left: 12px;
+  width: 76px;
+  box-shadow: 0 10px 36px rgba(0, 0, 0, 0.65) !important
 }
 
 // Profile page inputs
 
 .text-input.text-input--profile {
-    display:inline-block;
-    width: 55%;
-    border-radius: 1px;
-    padding: .7rem 1rem;
-    margin-left: 1.3rem;
-    font-size: $font-s;
-    margin-bottom: 0;
-    line-height:0;
-    height:auto;
+  display: inline-block;
+  width: 55%;
+  border-radius: 1px;
+  padding: .7rem 1rem;
+  margin-left: 1.3rem;
+  font-size: $font-s;
+  margin-bottom: 0;
+  line-height: 0;
+  height: auto;
 }

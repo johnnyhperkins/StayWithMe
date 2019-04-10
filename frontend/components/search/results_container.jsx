@@ -26,6 +26,7 @@ class SearchResultContainer extends Component {
     const query = queryString.parse(this.props.location.search)
 
     const {
+      address,
       lat,
       lng,
       start_date, 
@@ -38,12 +39,13 @@ class SearchResultContainer extends Component {
     if(_.isEmpty(this.bounds)) return;
 
     setFilter({
+      address,
       bounds: this.bounds,
       lat: parseFloat(query.lat),
       lng: parseFloat(query.lng),
-      start_date: query.start_date, 
-      end_date: query.end_date, 
-      max_guests: query.max_guests
+      start_date, 
+      end_date, 
+      max_guests
     });
 
     const urlString = queryString.stringify({
@@ -51,6 +53,7 @@ class SearchResultContainer extends Component {
       lat,
       start_date,
       end_date,
+      address,
       max_guests
     })
     

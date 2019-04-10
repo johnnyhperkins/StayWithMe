@@ -2,7 +2,6 @@ import merge from 'lodash/merge';
 
 import {  
   RECEIVE_MESSAGES, 
-  RECEIVE_SEARCH_QUERY,
   TOGGLE_LOGIN_MODAL,
   FETCHING_LISTING
 } from '../actions/ui';
@@ -59,12 +58,6 @@ const uiReducer = (state = defaultState, action) => {
       return merge({}, state, {
         sessionModalOpen: action.bool,
         sessionModalType: action.modal
-      })
-
-    case RECEIVE_SEARCH_QUERY:
-      return merge({}, state, {
-        searching: !action.query,
-        query: action.query,
       })
 
     case RECEIVE_REVIEWS:

@@ -43,7 +43,7 @@ class Listing < ApplicationRecord
     start_date = query[:start_date]
     end_date = query[:end_date]
     max_guests = query[:max_guests] ? query[:max_guests].to_i : 0
-    price = query[:price] ? query[:price] : 0
+    price = query[:price] && query[:price].to_i > 0 ? query[:price].to_i : 10000
   
     if bounds
       self.in_bounds(bounds)
@@ -51,14 +51,14 @@ class Listing < ApplicationRecord
         .where('start_date <= ?', start_date)
         .where('end_date >= ?', end_date)
         .where('max_guests >= ?', max_guests)
-        .where('price >= ?', price)
+        .where('price <= ?', price)
         
     else
       self.joins(:listing_availabilities)
         .where('start_date <= ?', start_date)
         .where('end_date >= ?', end_date)
         .where('max_guests >= ?', max_guests)
-        .where('price >= ?', price)
+        .where('price <= ?', price)
     end
   end
 

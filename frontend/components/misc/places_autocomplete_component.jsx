@@ -9,7 +9,7 @@ const PlacesAutocompleteComponent = ({
   inputProps,
   dropdownClass }) => {
     return (
-      <PlacesAutocomplete
+      <PlacesAutocomplete 
         value={address}
         onChange={handleChangeAddress}
         onSelect={handleSelectAddress}

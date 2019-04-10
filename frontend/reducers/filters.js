@@ -1,9 +1,5 @@
 import merge from 'lodash/merge';
 
-import {  
-  RECEIVE_SEARCH_QUERY,
-} from '../actions/ui';
-
 import { UPDATE_FILTER, SET_FILTER } from '../actions/filters'
 
 const defaultState = {}
@@ -19,11 +15,6 @@ const filters = (state = defaultState, action) => {
     
     case SET_FILTER:
       return merge({}, state, action.filter)
-
-    case RECEIVE_SEARCH_QUERY:
-      return merge({}, state, {
-        query: action.query,
-      })
 
     default:
       return state;
