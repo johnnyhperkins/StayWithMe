@@ -20,35 +20,48 @@ import PlacesAutocompleteComponent from '../misc/places_autocomplete_component'
 class NavBar extends Component {
 	constructor(props) {
 		super(props)
-		const query =
-			props.location.pathname == '/search'
-				? queryString.parse(this.props.location.search)
-				: null
+
 		this.state = {
-			address: query && query.address ? query.address : '',
-			lat: query && query.lat ? parseFloat(query.lat) : 0,
-			lng: query && query.lng ? parseFloat(query.lng) : 0,
-			start_date:
-				query && query.start_date
-					? query.start_date
-					: moment().format('YYYY-MM-DD'),
-			end_date:
-				query && query.end_date
-					? query.end_date
-					: moment().add(2, 'days').format('YYYY-MM-DD'),
-			numGuests: query && query.max_guests ? parseInt(query.max_guests) : 1,
+			address: '',
+			lat: 0,
+			lng: 0,
+			start_date: moment().format('YYYY-MM-DD'),
+			end_date: moment().add(2, 'days').format('YYYY-MM-DD'),
+			numGuests: 1,
 			openDatePicker: false,
 			openPriceSlider: false,
 			openGuestSelect: false,
 			focusedInput: 'startDate',
 			calendarFocused: null,
-			startDate:
-				query && query.start_date ? moment(query.start_date) : moment(),
-			endDate:
-				query && query.end_date
+			startDate: moment(),
+			endDate: moment().add(2, 'days'),
+			price: 0,
+		}
+	}
+
+	componentDidMount() {
+		const query =
+			this.props.location.pathname == '/search'
+				? queryString.parse(this.props.location.search)
+				: null
+		if (query) {
+			this.setState({
+				address: query.address ? query.address : '',
+				lat: query.lat ? parseFloat(query.lat) : 0,
+				lng: query.lng ? parseFloat(query.lng) : 0,
+				start_date: query.start_date
+					? query.start_date
+					: moment().format('YYYY-MM-DD'),
+				end_date: query.end_date
+					? query.end_date
+					: moment().add(2, 'days').format('YYYY-MM-DD'),
+				numGuests: query.max_guests ? parseInt(query.max_guests) : 1,
+				startDate: query.start_date ? moment(query.start_date) : moment(),
+				endDate: query.end_date
 					? moment(query.end_date)
 					: moment().add(2, 'days'),
-			price: 0,
+				price: query.price ? query.price : 0,
+			})
 		}
 	}
 
