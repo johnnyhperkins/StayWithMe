@@ -49,10 +49,10 @@ class SearchResultsMap extends Component {
         }
       }
 
-      bounds['northEast']['lat'] = gmBounds.ma.l
-      bounds['northEast']['lng'] = gmBounds.ga.j
-      bounds['southWest']['lat'] = gmBounds.ma.j
-      bounds['southWest']['lng'] = gmBounds.ga.l 
+      bounds['northEast']['lat'] = gmBounds.getNorthEast().lat()
+      bounds['northEast']['lng'] = gmBounds.getNorthEast().lng()
+      bounds['southWest']['lat'] = gmBounds.getSouthWest().lat()
+      bounds['southWest']['lng'] = gmBounds.getSouthWest().lng()
 
       return bounds; 
   }

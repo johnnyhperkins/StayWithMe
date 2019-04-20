@@ -38,11 +38,12 @@ class SearchResultContainer extends Component {
     
     if(_.isEmpty(this.bounds)) return;
 
+    console.log(query);
     setFilter({
       address,
       bounds: this.bounds,
-      lat: parseFloat(query.lat),
-      lng: parseFloat(query.lng),
+      lat: parseFloat(lat),
+      lng: parseFloat(lng),
       start_date, 
       end_date, 
       max_guests

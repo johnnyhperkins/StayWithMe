@@ -76,7 +76,6 @@ class NavBar extends Component {
 			lat,
 			lng,
 		} = filter
-		console.log(filter)
 		if (
 			!_.isEqual(prevProps.filter, filter) &&
 			location.pathname == '/search'
@@ -91,10 +90,6 @@ class NavBar extends Component {
 				price,
 				lat,
 				lng,
-			})
-		} else if (location.pathname !== '/search') {
-			this.setState({
-				address: '',
 			})
 		}
 	}
