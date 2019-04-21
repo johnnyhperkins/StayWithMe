@@ -28,14 +28,10 @@ class Listing < ApplicationRecord
   has_many_attached :photos, dependent: :destroy
 
   def self.in_bounds(bounds)
-    south_w_lat = bounds[:southWest][:lat].to_f
-    north_e_lat = bounds[:northEast][:lat].to_f
-    south_w_lng = bounds[:southWest][:lng].to_f
-    north_e_lng = bounds[:northEast][:lng].to_f
-    self.where("lat < ?", north_e_lat)
-      .where("lat > ?", south_w_lat)
-      .where("lng < ?", south_w_lng)
-      .where("lng > ?", north_e_lng)
+    self.where("lat < ?", bounds[:northEast][:lat])
+      .where("lat > ?", bounds[:southWest][:lat])
+      .where("lng > ?", bounds[:southWest][:lng])
+      .where("lng < ?", bounds[:northEast][:lng])
   end
   
   def self.query(query)
@@ -44,7 +40,7 @@ class Listing < ApplicationRecord
     end_date = query[:end_date]
     max_guests = query[:max_guests] ? query[:max_guests].to_i : 0
     price = query[:price] && query[:price].to_i > 0 ? query[:price].to_i : 10000
-  
+    
     if bounds
       self.in_bounds(bounds)
         .joins(:listing_availabilities)

@@ -37,31 +37,16 @@ class SearchResultsMap extends Component {
     }
   }
 
-  calculateBounds = (gmBounds) => {
-    let bounds = {
-        'northEast': {
-          lat: 0,
-          lng: 0
-        },
-        'southWest': {
-          lat: 0,
-          lng: 0
-        }
-      }
-
-      bounds['northEast']['lat'] = gmBounds.getNorthEast().lat()
-      bounds['northEast']['lng'] = gmBounds.getNorthEast().lng()
-      bounds['southWest']['lat'] = gmBounds.getSouthWest().lat()
-      bounds['southWest']['lng'] = gmBounds.getSouthWest().lng()
-
-      return bounds; 
-  }
-
   registerListeners = () => {
     let { setBounds } = this.props;
 
     google.maps.event.addListener(this.map, 'idle', () => {
-      const bounds = this.calculateBounds(this.map.getBounds());
+      const { north, south, east, west } = this.map.getBounds().toJSON();
+      const bounds = {
+        northEast: { lat: north, lng: east },
+        southWest: { lat: south, lng: west }
+      };
+      
       setBounds(bounds);
     });
 
